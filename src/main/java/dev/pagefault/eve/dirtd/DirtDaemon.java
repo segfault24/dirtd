@@ -5,12 +5,16 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
 
 import dev.pagefault.eve.dbtools.util.DbInfo;
 import dev.pagefault.eve.dbtools.util.DbPool;
 import dev.pagefault.eve.dbtools.util.Utils;
+import dev.pagefault.eve.dirtd.daemon.DaemonControllerService;
 import dev.pagefault.eve.dirtd.daemon.TaskControllerService;
 import dev.pagefault.eve.dirtd.daemon.TaskExecutor;
 import dev.pagefault.eve.dirtd.task.CorpContractsTask;
@@ -41,22 +45,32 @@ public class DirtDaemon {
 	private final TaskExecutor executor;
 	private final Server server;
 
-	public DirtDaemon(int port, boolean startWithPeriodicTasks) throws SQLException {
+	public DirtDaemon(int port, boolean startWithPeriodicTasks) {
 		this.startWithPeriodicTasks = startWithPeriodicTasks;
 		dbPool = new DbPool(new DbInfo());
 		executor = new TaskExecutor(dbPool);
-		server = ServerBuilder.forPort(port).addService(new TaskControllerService(executor)).build();
+		ServerBuilder<?> builder = ServerBuilder.forPort(port);
+		builder.addService(new TaskControllerService(executor));
+		builder.addService(new DaemonControllerService(dbPool, executor));
+		server = builder.build();
 	}
 
 	public void start() throws IOException, SQLException {
-		if (startWithPeriodicTasks) {
-			log.info("Initializing periodic tasks");
-			initPeriodicTasks();
-		}
+		Connection db = dbPool.acquire();
+		Level l = Level.valueOf(Utils.getProperty(db, DirtConstants.PROPERTY_LOG_LEVEL));
+		Configurator.setRootLevel(l);
+		dbPool.release(db);
+
+		log.info("=======================================");
+		log.info("==  dirtd task executor starting up  ==");
+		log.info("=======================================");
+		executor.init();
+
 		log.info("=====================================");
 		log.info("==  dirtd grpc server starting up  ==");
 		log.info("=====================================");
 		server.start();
+
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
 			public void run() {
@@ -68,11 +82,19 @@ public class DirtDaemon {
 				}
 			}
 		});
+
+		if (startWithPeriodicTasks) {
+			log.info("Initializing periodic tasks");
+			initPeriodicTasks();
+		}
 	}
-	
+
 	public void stop() throws InterruptedException {
 		if (server != null) {
 			server.shutdown().awaitTermination(30, TimeUnit.SECONDS);
+		}
+		if (executor != null) {
+			executor.stopAll();
 		}
 	}
 
@@ -89,54 +111,54 @@ public class DirtDaemon {
 		List<Integer> regions = Utils.parseIntList(Utils.getProperty(db, DirtConstants.PROPERTY_MARKET_ORDERS_REGIONS));
 		int period = Utils.getIntProperty(db, DirtConstants.PROPERTY_MARKET_ORDERS_PERIOD);
 		for (Integer regionId : regions) {
-			executor.addPeriodicTask(db, new MarketRegionOrdersTask(regionId), period);
+			executor.schedulePeriodicTask(db, new MarketRegionOrdersTask(regionId), period);
 		}
 
 		// auto-delete old market orders that might not be cleaned up elsewhere
-		executor.addPeriodicTask(db, new OrderReaperTask(), 30);
+		executor.schedulePeriodicTask(db, new OrderReaperTask(), 30);
 
 		// auto-regenerate derived tables periodically
-		executor.addPeriodicTask(db, new DerivedTableTask(), 120);
+		executor.schedulePeriodicTask(db, new DerivedTableTask(), 120);
 
 		// market history for specific regions
 		regions = Utils.parseIntList(Utils.getProperty(db, DirtConstants.PROPERTY_MARKET_HISTORY_REGIONS));
 		period = Utils.getIntProperty(db, DirtConstants.PROPERTY_MARKET_HISTORY_PERIOD);
 		for (int regionId : regions) {
-			executor.addPeriodicTask(db, new MarketHistoryTask(regionId), period);
+			executor.schedulePeriodicTask(db, new MarketHistoryTask(regionId), period);
 		}
 
 		// public structure info
 		period = Utils.getIntProperty(db, DirtConstants.PROPERTY_PUBLIC_STRUCTURES_PERIOD);
-		executor.addPeriodicTask(db, new PublicStructuresTask(), period);
+		executor.schedulePeriodicTask(db, new PublicStructuresTask(), period);
 
 		// insurance price info
 		period = Utils.getIntProperty(db, DirtConstants.PROPERTY_INSURANCE_PRICES_PERIOD);
-		executor.addPeriodicTask(db, new InsurancePricesTask(), period);
+		executor.schedulePeriodicTask(db, new InsurancePricesTask(), period);
 
 		// type & group info
 		period = Utils.getIntProperty(db, DirtConstants.PROPERTY_TYPE_INFO_PERIOD);
-		executor.addPeriodicTask(db, new InvTypesTask(), period);
-		executor.addPeriodicTask(db, new InvMarketGroupsTask(), period);
+		executor.schedulePeriodicTask(db, new InvTypesTask(), period);
+		executor.schedulePeriodicTask(db, new InvMarketGroupsTask(), period);
 
 		// monthly econ report
 		period = Utils.getIntProperty(db, DirtConstants.PROPERTY_MER_PERIOD);
-		executor.addPeriodicTask(db, new MERTask(), period);
+		executor.schedulePeriodicTask(db, new MERTask(), period);
 
 		// character wallet
 		period = Utils.getIntProperty(db, DirtConstants.PROPERTY_WALLET_PERIOD);
-		executor.addPeriodicTask(db, new MetaWalletTask(), period);
+		executor.schedulePeriodicTask(db, new MetaWalletTask(), period);
 
 		// character orders and contracts
 		period = Utils.getIntProperty(db, DirtConstants.PROPERTY_CHARACTER_MARKET_PERIOD);
-		executor.addPeriodicTask(db, new MetaCharacterMarketTask(), period);
+		executor.schedulePeriodicTask(db, new MetaCharacterMarketTask(), period);
 
 		// corporation contracts
 		period = Utils.getIntProperty(db, DirtConstants.PROPERTY_CORP_CONTRACTS_PERIOD);
-		executor.addPeriodicTask(db, new CorpContractsTask(), period);
+		executor.schedulePeriodicTask(db, new CorpContractsTask(), period);
 
 		// unknown ids resolution
 		period = Utils.getIntProperty(db, DirtConstants.PROPERTY_UNKNOWN_IDS_PERIOD);
-		executor.addPeriodicTask(db, new UnknownIdsTask(), period);
+		executor.schedulePeriodicTask(db, new UnknownIdsTask(), period);
 
 		dbPool.release(db);
 	}

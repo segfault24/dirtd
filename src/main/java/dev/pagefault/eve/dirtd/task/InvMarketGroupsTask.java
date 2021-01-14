@@ -53,7 +53,7 @@ public class InvMarketGroupsTask extends DirtTask {
 		for (Integer apiGroup : groups) {
 			// queue task if we don't have the info for the group, or we're forcing an update
 			if (!dbGroups.contains(apiGroup) || force) {
-				getDaemon().addTask(new InvMarketGroupTask(apiGroup));
+				getExecutor().scheduleTask(new InvMarketGroupTask(apiGroup));
 			}
 		}
 	}

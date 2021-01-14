@@ -118,7 +118,7 @@ public class CharacterContractsTask extends DirtTask {
 			}
 
 			// queue explicitly after contract insert because of foreign key constraint
-			getDaemon().addTasks(tasks);
+			getExecutor().scheduleTasks(tasks);
 		} while (contracts.size() > 0);
 
 		log.debug("Inserted " + totalContracts + " total contracts for character " + charId);

@@ -57,7 +57,7 @@ public class InvTypesTask extends DirtTask {
 			for (Integer apiType : types) {
 				// queue task if we don't have the info for the type, or we're forcing an update
 				if (!dbTypes.contains(apiType) || force) {
-					getDaemon().addTask(new InvTypeTask(apiType));
+					getExecutor().scheduleTask(new InvTypeTask(apiType));
 				}
 			}
 		} while(types.size() > 0);

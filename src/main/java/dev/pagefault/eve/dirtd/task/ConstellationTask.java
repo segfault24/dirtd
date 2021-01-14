@@ -53,7 +53,7 @@ public class ConstellationTask extends DirtTask {
 		}
 
 		for (Integer system : constellation.getSystems()) {
-			getDaemon().addTask(new SolarSystemTask(system, c.getRegionId()));
+			getExecutor().scheduleTask(new SolarSystemTask(system, c.getRegionId()));
 		}
 	}
 

@@ -93,10 +93,10 @@ public class UnknownIdsTask extends DirtTask {
 			for (PostUniverseNames200Ok name : names) {
 				switch (name.getCategory()) {
 				case CHARACTER:
-					getDaemon().addTask(new CharacterTask(name.getId()));
+					getExecutor().scheduleTask(new CharacterTask(name.getId()));
 					break;
 				case CORPORATION:
-					getDaemon().addTask(new CorporationTask(name.getId()));
+					getExecutor().scheduleTask(new CorporationTask(name.getId()));
 					break;
 				default:
 					log.debug("Not a char or corp id: " + name.getId() + " " + name.getCategory().toString());

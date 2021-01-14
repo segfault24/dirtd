@@ -54,10 +54,10 @@ public class MarketHistoryTask extends DirtTask {
 		List<Integer> b = types.subList(s / 4, s / 2);
 		List<Integer> c = types.subList(s / 2, 3 * s / 4);
 		List<Integer> d = types.subList(3 * s / 4, s);
-		getDaemon().addTask(new HistorySubTask(region, a, 1));
-		getDaemon().addTask(new HistorySubTask(region, b, 2));
-		getDaemon().addTask(new HistorySubTask(region, c, 3));
-		getDaemon().addTask(new HistorySubTask(region, d, 4));
+		getExecutor().scheduleTask(new HistorySubTask(region, a, 1));
+		getExecutor().scheduleTask(new HistorySubTask(region, b, 2));
+		getExecutor().scheduleTask(new HistorySubTask(region, c, 3));
+		getExecutor().scheduleTask(new HistorySubTask(region, d, 4));
 	}
 
 	private class HistorySubTask extends DirtTask {

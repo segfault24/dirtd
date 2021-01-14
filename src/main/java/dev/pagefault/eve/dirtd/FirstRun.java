@@ -11,6 +11,7 @@ import org.apache.logging.log4j.core.config.Configurator;
 
 import dev.pagefault.eve.dbtools.util.DbInfo;
 import dev.pagefault.eve.dbtools.util.DbPool;
+import dev.pagefault.eve.dirtd.daemon.Taskable;
 import dev.pagefault.eve.dirtd.task.DirtTask;
 import dev.pagefault.eve.dirtd.task.InvMarketGroupsTask;
 import dev.pagefault.eve.dirtd.task.InvTypesTask;
@@ -41,9 +42,9 @@ public class FirstRun implements Taskable {
 	}
 
 	public void run() {
-		addTask(new MapDataTask()); // spawns region, constellation, system, and station tasks
-		addTask(new InvTypesTask());
-		addTask(new InvMarketGroupsTask());
+		scheduleTask(new MapDataTask()); // spawns region, constellation, system, and station tasks
+		scheduleTask(new InvTypesTask());
+		scheduleTask(new InvMarketGroupsTask());
 
 		List<Thread> threads = new ArrayList<Thread>(numThreads);
 		for (int i = 0; i < numThreads; i++) {
@@ -75,16 +76,16 @@ public class FirstRun implements Taskable {
 	}
 
 	@Override
-	public void addTask(DirtTask t) {
+	public void scheduleTask(DirtTask t) {
 		t.setDbPool(dbPool);
-		t.setDaemon(this);
+		t.setExecutor(this);
 		queue.add(t);
 	}
 
 	@Override
-	public void addTasks(Collection<DirtTask> ts) {
+	public void scheduleTasks(Collection<DirtTask> ts) {
 		for (DirtTask t : ts) {
-			addTask(t);
+			scheduleTask(t);
 		}
 	}
 

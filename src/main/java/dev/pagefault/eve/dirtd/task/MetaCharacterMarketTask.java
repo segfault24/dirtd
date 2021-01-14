@@ -33,8 +33,8 @@ public class MetaCharacterMarketTask extends DirtTask {
 			return;
 		}
 		for (Integer charId : charIds) {
-			getDaemon().addTask(new CharacterOrdersTask(charId));
-			getDaemon().addTask(new CharacterContractsTask(charId));
+			getExecutor().scheduleTask(new CharacterOrdersTask(charId));
+			getExecutor().scheduleTask(new CharacterContractsTask(charId));
 		}
 	}
 

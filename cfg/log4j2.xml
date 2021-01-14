@@ -13,6 +13,7 @@
     </Console>
   </Appenders>
   <Loggers>
+    <!-- note that the root log level is set to the value in the db at runtime -->
     <Root level="info">
       <!--<AppenderRef ref="console"/>-->
       <AppenderRef ref="filelogger"/>

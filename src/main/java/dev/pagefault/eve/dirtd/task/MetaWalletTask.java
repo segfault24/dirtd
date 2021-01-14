@@ -33,7 +33,7 @@ public class MetaWalletTask extends DirtTask {
 			return;
 		}
 		for (Integer charId : charIds) {
-			getDaemon().addTask(new WalletTask(charId));
+			getExecutor().scheduleTask(new WalletTask(charId));
 		}
 	}
 

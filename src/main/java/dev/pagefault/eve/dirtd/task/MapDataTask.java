@@ -37,7 +37,7 @@ public class MapDataTask extends DirtTask {
 			return;
 		}
 		for (Integer region : regions) {
-			getDaemon().addTask(new RegionTask(region));;
+			getExecutor().scheduleTask(new RegionTask(region));;
 		}
 	}
 

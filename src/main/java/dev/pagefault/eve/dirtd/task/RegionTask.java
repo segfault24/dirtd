@@ -53,7 +53,7 @@ public class RegionTask extends DirtTask {
 		}
 
 		for (Integer constellation : region.getConstellations()) {
-			getDaemon().addTask(new ConstellationTask(constellation));
+			getExecutor().scheduleTask(new ConstellationTask(constellation));
 		}
 	}
 

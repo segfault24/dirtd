@@ -58,7 +58,7 @@ public class SolarSystemTask extends DirtTask {
 
 		List<Integer> stations = system.getStations();
 		for (Integer station : stations) {
-			getDaemon().addTask(new StationTask(station, s.getConstellationId(), regionId));
+			getExecutor().scheduleTask(new StationTask(station, s.getConstellationId(), regionId));
 		}
 	}
 

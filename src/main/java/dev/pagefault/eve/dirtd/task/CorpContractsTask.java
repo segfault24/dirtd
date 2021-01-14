@@ -100,13 +100,13 @@ public class CorpContractsTask extends DirtTask {
 			}
 
 			// queue explicitly after contract insert because of foreign key constraint
-			getDaemon().addTasks(tasks);
+			getExecutor().scheduleTasks(tasks);
 		} while (contracts.size() > 0);
 
 		log.debug("Inserted " + totalContracts + " total contracts for corporation " + corpId);
 
 		// trigger a doctrine scan
-		getDaemon().addTask(new DoctrineTask());
+		getExecutor().scheduleTask(new DoctrineTask());
 	}
 
 	private List<DirtTask> checkContractItems(OAuthUser auth, List<Contract> contracts, int corpId) {

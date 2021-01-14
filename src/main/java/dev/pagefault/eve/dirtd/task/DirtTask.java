@@ -11,13 +11,13 @@ import org.apache.logging.log4j.Logger;
 import dev.pagefault.eve.dbtools.db.TaskLogTable;
 import dev.pagefault.eve.dbtools.model.TaskLog;
 import dev.pagefault.eve.dbtools.util.DbPool;
-import dev.pagefault.eve.dirtd.Taskable;
+import dev.pagefault.eve.dirtd.daemon.Taskable;
 
 public abstract class DirtTask implements Runnable {
 
 	private static Logger log = LogManager.getLogger();
 
-	private Taskable daemon;
+	private Taskable executor;
 	private DbPool dbPool;
 	private Connection db;
 
@@ -28,12 +28,12 @@ public abstract class DirtTask implements Runnable {
 
 	protected abstract void runTask();
 
-	public void setDaemon(Taskable daemon) {
-		this.daemon = daemon;
+	public void setExecutor(Taskable executor) {
+		this.executor = executor;
 	}
 
-	protected Taskable getDaemon() {
-		return daemon;
+	protected Taskable getExecutor() {
+		return executor;
 	}
 
 	public void setDbPool(DbPool dbPool) {

@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -17,7 +16,6 @@ import dev.pagefault.eve.dbtools.model.TaskLog;
 import dev.pagefault.eve.dbtools.util.DbPool;
 import dev.pagefault.eve.dbtools.util.Utils;
 import dev.pagefault.eve.dirtd.DirtConstants;
-import dev.pagefault.eve.dirtd.Taskable;
 import dev.pagefault.eve.dirtd.task.DirtTask;
 
 public class TaskExecutor extends ScheduledThreadPoolExecutor implements Taskable {
@@ -25,15 +23,14 @@ public class TaskExecutor extends ScheduledThreadPoolExecutor implements Taskabl
 	private static Logger log = LogManager.getLogger();
 
 	private final DbPool dbPool;
-	private HashMap<String, ScheduledFuture<?>> futures = new HashMap<String, ScheduledFuture<?>>();
+	private HashMap<String, TaskEntry> registry = new HashMap<String, TaskEntry>();
 
-	public TaskExecutor(DbPool pool) throws SQLException {
+	public TaskExecutor(DbPool pool) {
 		super(1);
 		dbPool = pool;
+	}
 
-		log.info("=======================================");
-		log.info("==  dirtd task executor starting up  ==");
-		log.info("=======================================");
+	public void init() throws SQLException {
 		Connection db = dbPool.acquire();
 		int threads = Utils.getIntProperty(db, DirtConstants.PROPERTY_NUM_THREADS);
 		setCorePoolSize(threads);
@@ -42,34 +39,84 @@ public class TaskExecutor extends ScheduledThreadPoolExecutor implements Taskabl
 		dbPool.release(db);
 	}
 
-	/**
-	 * @param t
-	 */
-	@Override
-	public void addTask(DirtTask t) {
-		t.setDaemon(this);
-		t.setDbPool(dbPool);
-		schedule(t, 0, TimeUnit.MINUTES);
-		log.debug("Queued " + t.getTaskName());
+	// TODO load tasks from db into registry
+
+	public void start(String taskName) throws TaskNotFoundException {
+		TaskEntry entry = findTask(taskName);
+		if (!entry.task.isStarted()) {
+			entry.task.setExecutor(this);
+			entry.task.setDbPool(dbPool);
+			entry.future = schedule(entry.task, 0, TimeUnit.MINUTES);
+			entry.task.setStarted(true);
+			log.debug("Queued " + entry.task.getTaskName());
+		}
+	}
+
+	public void stop(String taskName, boolean force) throws TaskNotFoundException {
+		TaskEntry entry = findTask(taskName);
+		if (entry.future != null) {
+			entry.future.cancel(force);
+			entry.future = null;
+		}
+		entry.task.setStarted(false);
+	}
+
+	public void stopAll(){
+		for (TaskEntry entry : registry.values()) {
+			if (entry.future != null) {
+				entry.future.cancel(false);
+				entry.future = null;
+			}
+			entry.task.setStarted(false);
+		}
+		purge();
+	}
+
+	public void enable(String taskName) throws TaskNotFoundException {
+		TaskEntry entry = findTask(taskName);
+		entry.task.setEnabled(true);
+		// TODO: update task table
+	}
+
+	public void disable(String taskName) throws TaskNotFoundException {
+		TaskEntry entry = findTask(taskName);
+		entry.task.setEnabled(false);
+		// TODO: update task table
+	}
+
+	public String status(String taskName) throws TaskNotFoundException {
+		TaskEntry entry = findTask(taskName);
+		return "enabled: " + entry.task.isEnabled() + ", started: " + entry.task.isStarted();
 	}
 
 	/**
-	 * @param ts
+	 * @param task
 	 */
 	@Override
-	public void addTasks(Collection<DirtTask> ts) {
-		for (DirtTask t : ts) {
-			addTask(t);
+	public void scheduleTask(DirtTask task) {
+		task.setExecutor(this);
+		task.setDbPool(dbPool);
+		schedule(task, 0, TimeUnit.MINUTES);
+		log.debug("Queued " + task.getTaskName());
+	}
+
+	/**
+	 * @param tasks
+	 */
+	@Override
+	public void scheduleTasks(Collection<DirtTask> tasks) {
+		for (DirtTask task : tasks) {
+			scheduleTask(task);
 		}
 	}
 
 	/**
 	 * @param db
-	 * @param t
+	 * @param task
 	 * @param period in minutes
 	 */
-	public void addPeriodicTask(Connection db, DirtTask t, long period) {
-		TaskLog ts = TaskLogTable.getLatestTaskLog(db, t.getTaskName());
+	public void schedulePeriodicTask(Connection db, DirtTask task, long period) {
+		TaskLog ts = TaskLogTable.getLatestTaskLog(db, task.getTaskName());
 		long initialDelay = 0;
 		if (ts != null) {
 			long lastRun = ts.getFinishTime().getTime() / 1000 / 60;
@@ -81,41 +128,31 @@ public class TaskExecutor extends ScheduledThreadPoolExecutor implements Taskabl
 				initialDelay = 0;
 			}
 		}
-		t.setDaemon(this);
-		t.setDbPool(dbPool);
-		futures.put(t.getTaskName(), scheduleAtFixedRate(t, initialDelay, period, TimeUnit.MINUTES));
-		log.debug("Queued " + t.getTaskName() + " with period=" + period + " initialDelay=" + initialDelay);
+		task.setExecutor(this);
+		task.setDbPool(dbPool);
+		TaskEntry te = new TaskEntry();
+		te.future = scheduleAtFixedRate(task, initialDelay, period, TimeUnit.MINUTES);
+		te.task = task;
+		registry.put(task.getTaskName(), te);
+		log.debug("Queued " + task.getTaskName() + " with period=" + period + " initialDelay=" + initialDelay);
 	}
 
-	/**
-	 * @return
-	 */
-	public Set<String> getTaskNames() {
-		return futures.keySet();
-	}
-
-	/**
-	 * @param taskName
-	 * @param force
-	 * @return
-	 */
-	public boolean stopTask(String taskName, boolean force) {
-		ScheduledFuture<?> future = futures.get(taskName);
-		if (future != null) {
-			return future.cancel(force);
+	private TaskEntry findTask(String search) throws TaskNotFoundException {
+		TaskEntry entry = registry.get(search.toLowerCase());
+		if (entry == null) {
+			throw new TaskNotFoundException();
 		} else {
-			return false;
+			return entry;
 		}
 	}
 
-	/**
-	 * 
-	 */
-	public void stopAllTasks() {
-		for (ScheduledFuture<?> f : futures.values()) {
-			f.cancel(false);
-		}
-		purge();
-		futures.clear();
+	private static class TaskEntry {
+		public DirtTask task;
+		public ScheduledFuture<?> future;
 	}
+
+	public static class TaskNotFoundException extends Exception {
+		private static final long serialVersionUID = -1217549797920148675L;
+	}
+
 }
