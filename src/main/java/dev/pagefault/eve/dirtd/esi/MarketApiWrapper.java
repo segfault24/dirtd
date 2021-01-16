@@ -33,8 +33,7 @@ public class MarketApiWrapper {
 		mapi = new MarketApi();
 	}
 
-	public List<GetMarketsRegionIdOrders200Ok> getMarketsRegionIdOrders(int regionId, int page) throws ApiException {
-		//String etag = Utils.getEtag(db, "orders-" + regionId + "-" + page);
+	public ApiResponse<List<GetMarketsRegionIdOrders200Ok>> getMarketsRegionIdOrders(int regionId, int page) throws ApiException {
 		log.trace("Executing API query getMarketsRegionIdOrders(" + regionId + ", " + page + ")");
 		ApiResponse<List<GetMarketsRegionIdOrders200Ok>> resp = null;
 		boolean done = false;
@@ -61,10 +60,7 @@ public class MarketApiWrapper {
 			attempt++;
 		}
 		log.trace("API query returned status code " + resp.getStatusCode());
-		//if (!resp.getData().isEmpty()) {
-		//	Utils.upsertEtag(db, "orders-" + regionId + "-" + page, Utils.getEtag(resp.getHeaders()));
-		//}
-		return resp.getData();
+		return resp;
 	}
 
 	public List<GetMarketsRegionIdHistory200Ok> getMarketsRegionIdHistory(int regionId, int typeId)
@@ -86,8 +82,7 @@ public class MarketApiWrapper {
 		return resp.getData();
 	}
 
-	public List<GetMarketsStructuresStructureId200Ok> getMarketsStructureIdOrders(long structId, int page, String token) throws ApiException {
-		//String etag = Utils.getEtag(db, "orders-" + structId + "-" + page);
+	public ApiResponse<List<GetMarketsStructuresStructureId200Ok>> getMarketsStructureIdOrders(long structId, int page, String token) throws ApiException {
 		log.trace("Executing API query getMarketsStructureStructureId(" + structId + ", " + page + ")");
 		ApiResponse<List<GetMarketsStructuresStructureId200Ok>> resp = null;
 		boolean done = false;
@@ -114,10 +109,7 @@ public class MarketApiWrapper {
 			attempt++;
 		}
 		log.trace("API query returned status code " + resp.getStatusCode());
-		//if (!resp.getData().isEmpty()) {
-		//	Utils.upsertEtag(db, "orders-" + structId + "-" + page, Utils.getEtag(resp.getHeaders()));
-		//}
-		return resp.getData();
+		return resp;
 	}
 	
 	public List<GetCharactersCharacterIdOrders200Ok> getMarketsCharacterIdOrders(int charId, String token) throws ApiException {

@@ -16,9 +16,11 @@ import dev.pagefault.eve.dbtools.model.MarketOrder;
 import dev.pagefault.eve.dbtools.model.OAuthUser;
 import dev.pagefault.eve.dbtools.util.Utils;
 import dev.pagefault.eve.dirtd.TypeUtil;
+import dev.pagefault.eve.dirtd.esi.EsiUtils;
 import dev.pagefault.eve.dirtd.esi.MarketApiWrapper;
 import dev.pagefault.eve.dirtd.esi.auth.OAuthUtil;
 import net.evetech.ApiException;
+import net.evetech.ApiResponse;
 import net.evetech.esi.models.GetMarketsRegionIdOrders200Ok;
 import net.evetech.esi.models.GetMarketsStructuresStructureId200Ok;
 
@@ -63,14 +65,17 @@ public class MarketRegionOrdersTask extends DirtTask {
 	private void doPublicOrders() {
 		// iterate through the pages
 		MarketApiWrapper mapiw = new MarketApiWrapper(getDb());
-		List<GetMarketsRegionIdOrders200Ok> orders = new ArrayList<>();
 		int page = 0;
 		int totalOrders = 0;
+		int numPages = 1;
 		do {
 			page++;
 			Timestamp now = new Timestamp(System.currentTimeMillis());
+			List<GetMarketsRegionIdOrders200Ok> orders = new ArrayList<>();
 			try {
-				orders = mapiw.getMarketsRegionIdOrders(region, page);
+				ApiResponse<List<GetMarketsRegionIdOrders200Ok>> resp = mapiw.getMarketsRegionIdOrders(region, page);
+				orders = resp.getData();
+				numPages = EsiUtils.extractNumPages(resp);
 			} catch (ApiException e) {
 				if (e.getCode() == 304) {
 					break;
@@ -104,7 +109,7 @@ public class MarketRegionOrdersTask extends DirtTask {
 				log.error("Unexpected failure while processing page " + page + " for region " + region + ": " + e.getLocalizedMessage());
 				log.debug(e);
 			}
-		} while (orders.size() > 0);
+		} while (page < numPages);
 
 		log.debug("Inserted " + totalOrders + " total orders for region " + region);
 	}
@@ -163,13 +168,16 @@ public class MarketRegionOrdersTask extends DirtTask {
 
 		// iterate through the pages
 		MarketApiWrapper mapiw = new MarketApiWrapper(getDb());
-		List<GetMarketsStructuresStructureId200Ok> orders = new ArrayList<>();
 		int page = 0;
 		int totalOrders = 0;
+		int numPages = 1;
 		do {
 			page++;
+			List<GetMarketsStructuresStructureId200Ok> orders = new ArrayList<>();
 			try {
-				orders = mapiw.getMarketsStructureIdOrders(structId, page, OAuthUtil.getAuthToken(getDb(), auth));
+				ApiResponse<List<GetMarketsStructuresStructureId200Ok>> resp = mapiw.getMarketsStructureIdOrders(structId, page, OAuthUtil.getAuthToken(getDb(), auth));
+				orders = resp.getData();
+				numPages = EsiUtils.extractNumPages(resp);
 				Utils.putKV(getDb(), "forbidden-" + structId, "0"); // reset forbidden retry counter
 			} catch (ApiException e) {
 				if (e.getCode() == 304) {
@@ -207,7 +215,7 @@ public class MarketRegionOrdersTask extends DirtTask {
 				log.error("Unexpected failure while processing page " + page + " for structure " + structId + ": " + e.getLocalizedMessage());
 				log.debug(e);
 			}
-		} while (orders.size() > 0);
+		} while (page < numPages);
 
 		log.debug("Inserted " + totalOrders + " total orders for structure " + structId);
 	}

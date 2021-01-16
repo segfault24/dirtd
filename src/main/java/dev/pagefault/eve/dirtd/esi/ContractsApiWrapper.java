@@ -28,7 +28,7 @@ public class ContractsApiWrapper {
 		capi = new ContractsApi();
 	}
 
-	public List<GetCharactersCharacterIdContracts200Ok> getCharacterContracts(int charId, int page, String token)
+	public ApiResponse<List<GetCharactersCharacterIdContracts200Ok>> getCharacterContracts(int charId, int page, String token)
 			throws ApiException {
 		String etag = Utils.getEtag(db, "char-contract-" + charId + "-" + page);
 		log.trace("Executing API query getCharacterContracts(" + charId + ", " + page + ")");
@@ -43,7 +43,7 @@ public class ContractsApiWrapper {
 		}
 		log.trace("API query returned status code " + resp.getStatusCode());
 		Utils.upsertEtag(db, "char-contract-" + charId + "-" + page, etag);
-		return resp.getData();
+		return resp;
 	}
 
 	public List<GetCharactersCharacterIdContractsContractIdItems200Ok> getCharacterContractItems(int charId,
@@ -61,7 +61,7 @@ public class ContractsApiWrapper {
 		return resp.getData();
 	}
 
-	public List<GetCorporationsCorporationIdContracts200Ok> getCorporationContracts(int corpId, int page, String token)
+	public ApiResponse<List<GetCorporationsCorporationIdContracts200Ok>> getCorporationContracts(int corpId, int page, String token)
 			throws ApiException {
 		String etag = Utils.getEtag(db, "corp-contract-" + corpId + "-" + page);
 		log.trace("Executing API query getCorporationContracts(" + corpId + ", " + page + ")");
@@ -76,7 +76,7 @@ public class ContractsApiWrapper {
 		}
 		log.trace("API query returned status code " + resp.getStatusCode());
 		Utils.upsertEtag(db, "corp-contract-" + corpId + "-" + page, etag);
-		return resp.getData();
+		return resp;
 	}
 
 	public List<GetCorporationsCorporationIdContractsContractIdItems200Ok> getCorporationContractItems(int corpId,

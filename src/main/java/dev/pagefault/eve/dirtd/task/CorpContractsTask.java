@@ -17,8 +17,10 @@ import dev.pagefault.eve.dbtools.util.Utils;
 import dev.pagefault.eve.dirtd.DirtConstants;
 import dev.pagefault.eve.dirtd.TypeUtil;
 import dev.pagefault.eve.dirtd.esi.ContractsApiWrapper;
+import dev.pagefault.eve.dirtd.esi.EsiUtils;
 import dev.pagefault.eve.dirtd.esi.auth.OAuthUtil;
 import net.evetech.ApiException;
+import net.evetech.ApiResponse;
 import net.evetech.esi.models.GetCorporationsCorporationIdContracts200Ok;
 
 /**
@@ -59,13 +61,16 @@ public class CorpContractsTask extends DirtTask {
 
 		// iterate through the pages
 		ContractsApiWrapper capiw = new ContractsApiWrapper(getDb());
-		List<GetCorporationsCorporationIdContracts200Ok> contracts = new ArrayList<>();
 		int page = 0;
 		int totalContracts = 0;
+		int numPages = 1;
 		do {
 			page++;
+			List<GetCorporationsCorporationIdContracts200Ok> contracts = new ArrayList<>();
 			try {
-				contracts = capiw.getCorporationContracts(corpId, page, OAuthUtil.getAuthToken(getDb(), auth));
+				ApiResponse<List<GetCorporationsCorporationIdContracts200Ok>> resp = capiw.getCorporationContracts(corpId, page, OAuthUtil.getAuthToken(getDb(), auth));
+				contracts = resp.getData();
+				numPages = EsiUtils.extractNumPages(resp);
 			} catch (ApiException e) {
 				if (e.getCode() == 304) {
 					continue;
@@ -101,7 +106,7 @@ public class CorpContractsTask extends DirtTask {
 
 			// queue explicitly after contract insert because of foreign key constraint
 			getExecutor().scheduleTasks(tasks);
-		} while (contracts.size() > 0);
+		} while (page < numPages);
 
 		log.debug("Inserted " + totalContracts + " total contracts for corporation " + corpId);
 

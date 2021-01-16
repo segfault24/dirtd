@@ -111,7 +111,7 @@ public class DaemonControllerService extends DaemonControllerGrpc.DaemonControll
 					rstatus = RequestStatus.newBuilder().setSuccess(false).setMessage("Invalid pool size").build();
 				} else {
 					executor.setCorePoolSize(s);
-					executor.setMaximumPoolSize(s);
+					dbPool.setMinPoolSize(s);
 					Utils.setProperty(db, DirtConstants.PROPERTY_NUM_THREADS, request.getPropertyValue());
 					rstatus = RequestStatus.newBuilder().setSuccess(true).setMessage("Pool size updated").build();
 				}
