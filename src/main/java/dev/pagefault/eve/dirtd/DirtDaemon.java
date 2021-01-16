@@ -61,6 +61,8 @@ public class DirtDaemon {
 		Configurator.setRootLevel(l);
 		dbPool.release(db);
 
+		log.warn("Log level: " + l.name());
+
 		log.info("=======================================");
 		log.info("==  dirtd task executor starting up  ==");
 		log.info("=======================================");

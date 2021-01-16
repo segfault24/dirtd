@@ -76,6 +76,7 @@ public class MarketRegionOrdersTask extends DirtTask {
 				ApiResponse<List<GetMarketsRegionIdOrders200Ok>> resp = mapiw.getMarketsRegionIdOrders(region, page);
 				orders = resp.getData();
 				numPages = EsiUtils.extractNumPages(resp);
+				log.debug("detected " + numPages + " pages in header");
 			} catch (ApiException e) {
 				if (e.getCode() == 304) {
 					break;
