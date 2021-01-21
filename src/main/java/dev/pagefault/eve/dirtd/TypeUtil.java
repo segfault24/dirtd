@@ -19,6 +19,8 @@ import dev.pagefault.eve.dbtools.model.InvType;
 import dev.pagefault.eve.dbtools.model.MarketGroup;
 import dev.pagefault.eve.dbtools.model.MarketHistoryEntry;
 import dev.pagefault.eve.dbtools.model.MarketOrder;
+import dev.pagefault.eve.dbtools.model.PublicContract;
+import dev.pagefault.eve.dbtools.model.PublicContractItem;
 import dev.pagefault.eve.dbtools.model.Region;
 import dev.pagefault.eve.dbtools.model.SolarSystem;
 import dev.pagefault.eve.dbtools.model.Station;
@@ -31,6 +33,8 @@ import net.evetech.esi.models.GetCharactersCharacterIdOk;
 import net.evetech.esi.models.GetCharactersCharacterIdOrders200Ok;
 import net.evetech.esi.models.GetCharactersCharacterIdWalletJournal200Ok;
 import net.evetech.esi.models.GetCharactersCharacterIdWalletTransactions200Ok;
+import net.evetech.esi.models.GetContractsPublicItemsContractId200Ok;
+import net.evetech.esi.models.GetContractsPublicRegionId200Ok;
 import net.evetech.esi.models.GetCorporationsCorporationIdContracts200Ok;
 import net.evetech.esi.models.GetCorporationsCorporationIdContractsContractIdItems200Ok;
 import net.evetech.esi.models.GetCorporationsCorporationIdOk;
@@ -227,6 +231,66 @@ public interface TypeUtil {
 		item.setRecordId(i.getRecordId());
 		item.setIncluded(i.getIsIncluded());
 		item.setSingleton(i.getIsSingleton());
+		return item;
+	}
+
+	public static PublicContract convert(GetContractsPublicRegionId200Ok c) {
+		PublicContract contract = new PublicContract();
+		if (c.getContractId() != null)
+			contract.setContractId(c.getContractId());
+		if (c.getIssuerId() != null)
+			contract.setIssuerId(c.getIssuerId());
+		if (c.getIssuerCorporationId() != null)
+			contract.setIssuerCorpId(c.getIssuerCorporationId());
+		if (c.getType() != null)
+			contract.setType(convertContractType(c.getType().toString()));
+		if (c.getDateIssued() != null)
+			contract.setDateIssued(new Timestamp(c.getDateIssued().getMillis()));
+		if (c.getDateExpired() != null)
+			contract.setDateExpired(new Timestamp(c.getDateExpired().getMillis()));
+		if (c.getTitle() != null)
+			contract.setTitle(c.getTitle());
+		if (c.getForCorporation() != null)
+			contract.setForCorp(c.getForCorporation());
+		if (c.getStartLocationId() != null)
+			contract.setStartLocationId(c.getStartLocationId());
+		if (c.getEndLocationId() != null)
+			contract.setEndLocationId(c.getEndLocationId());
+		if (c.getDaysToComplete() != null)
+			contract.setDaysToComplete(c.getDaysToComplete());
+		if (c.getPrice() != null)
+			contract.setPrice(c.getPrice());
+		if (c.getReward() != null)
+			contract.setReward(c.getReward());
+		if (c.getCollateral() != null)
+			contract.setCollateral(c.getCollateral());
+		if (c.getBuyout() != null)
+			contract.setBuyout(c.getBuyout());
+		if (c.getVolume() != null)
+			contract.setVolume(c.getVolume());
+		return contract;
+	}
+
+	public static PublicContractItem convert(GetContractsPublicItemsContractId200Ok i) {
+		PublicContractItem item = new PublicContractItem();
+		if (i.getTypeId() != null)
+			item.setTypeId(i.getTypeId());
+		if (i.getQuantity() != null)
+			item.setQuantity(i.getQuantity());
+		if (i.getRecordId() != null)
+			item.setRecordId(i.getRecordId());
+		if (i.getIsIncluded() != null)
+			item.setIncluded(i.getIsIncluded());
+		if (i.getIsBlueprintCopy() != null)
+			item.setBpc(i.getIsBlueprintCopy());
+		if (i.getItemId() != null)
+			item.setItemId(i.getItemId());
+		if (i.getMaterialEfficiency() != null)
+			item.setMaterialEfficiency(i.getMaterialEfficiency());
+		if (i.getTimeEfficiency() != null)
+			item.setTimeEfficiency(i.getTimeEfficiency());
+		if (i.getRuns() != null)
+			item.setRuns(i.getRuns());
 		return item;
 	}
 

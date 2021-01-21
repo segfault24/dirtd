@@ -15,6 +15,7 @@ public interface DirtConstants {
 	public static final String PROPERTY_WALLET_PERIOD = "wallet.period";
 	public static final String PROPERTY_CHARACTER_MARKET_PERIOD = "charactermarket.period";
 	public static final String PROPERTY_CORP_CONTRACTS_PERIOD = "corpcontracts.period";
+	public static final String PROPERTY_PUBLIC_CONTRACTS_PERIOD = "publiccontracts.period";
 	public static final String PROPERTY_PUBLIC_STRUCTURES_PERIOD = "publicstructures.period";
 	public static final String PROPERTY_INSURANCE_PRICES_PERIOD = "insuranceprices.period";
 	public static final String PROPERTY_TYPE_INFO_PERIOD = "typeinfo.period";

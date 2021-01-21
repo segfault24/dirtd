@@ -117,7 +117,7 @@ public class CorpContractsTask extends DirtTask {
 	private List<DirtTask> checkContractItems(OAuthUser auth, List<Contract> contracts, int corpId) {
 		List<DirtTask> tasks = new ArrayList<DirtTask>();
 		for (Contract contract : contracts) {
-			if (contract.getType() == ContractType.ITEM_EXCHANGE && contract.getStatus() == ContractStatus.OUTSTANDING) {
+			if (contract.getType() == ContractType.ITEM_EXCHANGE) {
 				try {
 					Contract c = CorpContractTable.selectById(getDb(), contract.getContractId());
 					if (c == null) {

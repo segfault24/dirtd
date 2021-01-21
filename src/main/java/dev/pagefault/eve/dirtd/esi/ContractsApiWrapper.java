@@ -13,6 +13,8 @@ import net.evetech.ApiResponse;
 import net.evetech.esi.ContractsApi;
 import net.evetech.esi.models.GetCharactersCharacterIdContracts200Ok;
 import net.evetech.esi.models.GetCharactersCharacterIdContractsContractIdItems200Ok;
+import net.evetech.esi.models.GetContractsPublicItemsContractId200Ok;
+import net.evetech.esi.models.GetContractsPublicRegionId200Ok;
 import net.evetech.esi.models.GetCorporationsCorporationIdContracts200Ok;
 import net.evetech.esi.models.GetCorporationsCorporationIdContractsContractIdItems200Ok;
 
@@ -92,6 +94,36 @@ public class ContractsApiWrapper {
 		}
 		log.trace("API query returned status code " + resp.getStatusCode());
 		return resp.getData();
+	}
+
+	public ApiResponse<List<GetContractsPublicRegionId200Ok>> getPublicContracts(int region, int page) throws ApiException {
+		String etag = Utils.getEtag(db, "public-contracts-" + region + "-" + page);
+		log.trace("Executing API query getPublicContracts(" + region + ", " + page + ")");
+		ApiResponse<List<GetContractsPublicRegionId200Ok>> resp;
+		try {
+			Stats.esiCalls++;
+			resp = capi.getContractsPublicRegionIdWithHttpInfo(region, Utils.getApiDatasource(), etag, page);
+		} catch (ApiException e) {
+			Stats.esiErrors++;
+			throw e;
+		}
+		log.trace("API query returned status code " + resp.getStatusCode());
+		Utils.upsertEtag(db, "public-contracts-" + region + "-" + page, etag);
+		return resp;
+	}
+
+	public ApiResponse<List<GetContractsPublicItemsContractId200Ok>> getPublicContractItems(int contractId, int page) throws ApiException {
+		log.trace("Executing API query getPublicContractItems(" + contractId + ", " + page + ")");
+		ApiResponse<List<GetContractsPublicItemsContractId200Ok>> resp;
+		try {
+			Stats.esiCalls++;
+			resp = capi.getContractsPublicItemsContractIdWithHttpInfo(contractId, Utils.getApiDatasource(), null, page);
+		} catch(ApiException e) {
+			Stats.esiErrors++;
+			throw e;
+		}
+		log.trace("API query returned status code " + resp.getStatusCode());
+		return resp;
 	}
 
 }

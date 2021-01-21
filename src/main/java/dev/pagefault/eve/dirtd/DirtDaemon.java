@@ -28,6 +28,7 @@ import dev.pagefault.eve.dirtd.task.MarketRegionOrdersTask;
 import dev.pagefault.eve.dirtd.task.MetaCharacterMarketTask;
 import dev.pagefault.eve.dirtd.task.MetaWalletTask;
 import dev.pagefault.eve.dirtd.task.OrderReaperTask;
+import dev.pagefault.eve.dirtd.task.PublicContractsTask;
 import dev.pagefault.eve.dirtd.task.PublicStructuresTask;
 import dev.pagefault.eve.dirtd.task.UnknownIdsTask;
 import io.grpc.Server;
@@ -157,6 +158,10 @@ public class DirtDaemon {
 		// corporation contracts
 		period = Utils.getIntProperty(db, DirtConstants.PROPERTY_CORP_CONTRACTS_PERIOD);
 		executor.schedulePeriodicTask(db, new CorpContractsTask(), period);
+
+		// public contracts
+		period = Utils.getIntProperty(db, DirtConstants.PROPERTY_PUBLIC_CONTRACTS_PERIOD);
+		executor.schedulePeriodicTask(db, new PublicContractsTask(), period);
 
 		// unknown ids resolution
 		period = Utils.getIntProperty(db, DirtConstants.PROPERTY_UNKNOWN_IDS_PERIOD);
