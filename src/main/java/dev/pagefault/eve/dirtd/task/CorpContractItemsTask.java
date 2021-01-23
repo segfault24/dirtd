@@ -26,7 +26,7 @@ public class CorpContractItemsTask extends DirtTask {
 
 	private static Logger log = LogManager.getLogger();
 
-	private static final int SLEEP_HACK = 5000;
+	private static final int SLEEP_HACK = 10000;
 
 	private int corpId;
 	private int contractId;
