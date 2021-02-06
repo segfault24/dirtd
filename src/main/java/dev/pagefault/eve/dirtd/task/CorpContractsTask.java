@@ -10,7 +10,6 @@ import org.apache.logging.log4j.Logger;
 import dev.pagefault.eve.dbtools.db.ApiAuthTable;
 import dev.pagefault.eve.dbtools.db.CorpContractTable;
 import dev.pagefault.eve.dbtools.model.Contract;
-import dev.pagefault.eve.dbtools.model.Contract.ContractStatus;
 import dev.pagefault.eve.dbtools.model.Contract.ContractType;
 import dev.pagefault.eve.dbtools.model.OAuthUser;
 import dev.pagefault.eve.dbtools.util.Utils;
