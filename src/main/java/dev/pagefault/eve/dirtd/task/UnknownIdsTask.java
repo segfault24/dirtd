@@ -36,6 +36,8 @@ public class UnknownIdsTask extends DirtTask {
 			+ "UNION SELECT acceptorId FROM corpcontract "
 			+ "UNION SELECT assigneeId FROM corpcontract "
 			+ "UNION SELECT issuerCorpId FROM corpcontract "
+			+ "UNION SELECT issuerId FROM publiccontract "
+			+ "UNION SELECT issuerCorpId FROM publiccontract "
 			+ "UNION SELECT corpId FROM structure "
 			+ "UNION SELECT firstPartyId FROM walletjournal "
 			+ "UNION SELECT secondPartyId FROM walletjournal "
