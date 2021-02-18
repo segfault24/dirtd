@@ -21,6 +21,8 @@ public class CharacterTask extends DirtTask {
 
 	private static Logger log = LogManager.getLogger();
 
+	private static final int SLEEP_HACK = 1000;
+
 	private int charId;
 
 	public CharacterTask(int charId) {
@@ -50,6 +52,10 @@ public class CharacterTask extends DirtTask {
 			log.debug(e);
 		}
 		log.debug("Inserted information for character " + charId);
+		try {
+			Thread.sleep(SLEEP_HACK);
+		} catch (InterruptedException e) {
+		}
 	}
 
 }

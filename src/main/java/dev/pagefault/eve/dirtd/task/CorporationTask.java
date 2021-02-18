@@ -21,6 +21,8 @@ public class CorporationTask extends DirtTask {
 
 	private static Logger log = LogManager.getLogger();
 
+	private static final int SLEEP_HACK = 1000;
+
 	private int corpId;
 
 	public CorporationTask(int corpId) {
@@ -49,6 +51,10 @@ public class CorporationTask extends DirtTask {
 			log.debug(e);
 		}
 		log.debug("Inserted information for corporation " + corpId);
+		try {
+			Thread.sleep(SLEEP_HACK);
+		} catch (InterruptedException e) {
+		}
 	}
 
 }
