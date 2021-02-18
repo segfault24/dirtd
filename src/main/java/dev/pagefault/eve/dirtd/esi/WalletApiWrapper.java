@@ -7,7 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import dev.pagefault.eve.dbtools.util.Utils;
-import dev.pagefault.eve.dirtd.Stats;
 import net.evetech.ApiException;
 import net.evetech.ApiResponse;
 import net.evetech.esi.WalletApi;
@@ -26,33 +25,37 @@ public class WalletApiWrapper {
 
 	public List<GetCharactersCharacterIdWalletTransactions200Ok> getWalletTransactions(int charId, Long beforeTrans,
 			String token) throws ApiException {
+		EsiUtils.precall();
 		log.trace("Executing API query getWalletTransactions()");
 		ApiResponse<List<GetCharactersCharacterIdWalletTransactions200Ok>> resp;
 		try {
-			Stats.esiCalls++;
+			EsiUtils.esiCalls++;
 			resp = wapi.getCharactersCharacterIdWalletTransactionsWithHttpInfo(charId, Utils.getApiDatasource(),
 					beforeTrans, null, token);
 		} catch (ApiException e) {
-			Stats.esiErrors++;
+			EsiUtils.esiErrors++;
 			throw e;
 		}
 		log.trace("API query returned status code " + resp.getStatusCode());
+		EsiUtils.postcall(resp);
 		return resp.getData();
 	}
 
 	public List<GetCharactersCharacterIdWalletJournal200Ok> getWalletJournal(int charId, int page, String token)
 			throws ApiException {
+		EsiUtils.precall();
 		log.trace("Executing API query getWalletJournal()");
 		ApiResponse<List<GetCharactersCharacterIdWalletJournal200Ok>> resp;
 		try {
-			Stats.esiCalls++;
+			EsiUtils.esiCalls++;
 			resp = wapi.getCharactersCharacterIdWalletJournalWithHttpInfo(charId, Utils.getApiDatasource(), null, page,
 					token);
 		} catch (ApiException e) {
-			Stats.esiErrors++;
+			EsiUtils.esiErrors++;
 			throw e;
 		}
 		log.trace("API query returned status code " + resp.getStatusCode());
+		EsiUtils.postcall(resp);
 		return resp.getData();
 	}
 

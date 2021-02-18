@@ -7,7 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import dev.pagefault.eve.dbtools.util.Utils;
-import dev.pagefault.eve.dirtd.Stats;
 import net.evetech.ApiException;
 import net.evetech.ApiResponse;
 import net.evetech.esi.InsuranceApi;
@@ -26,21 +25,23 @@ public class InsuranceApiWrapper {
 	}
 
 	public List<GetInsurancePrices200Ok> getInsurancePrices() throws ApiException {
+		EsiUtils.precall();
 		String etag = Utils.getEtag(db, "insurance-prices");
 		log.trace("Executing API query getInsurancePrices()");
 		ApiResponse<List<GetInsurancePrices200Ok>> resp;
 		try {
-			Stats.esiCalls++;
+			EsiUtils.esiCalls++;
 			resp = iapi.getInsurancePricesWithHttpInfo(Utils.getApiLanguage(), Utils.getApiDatasource(), etag,
 					Utils.getApiLanguage());
 		} catch (ApiException e) {
-			Stats.esiErrors++;
+			EsiUtils.esiErrors++;
 			throw e;
 		}
 		log.trace("API query returned status code " + resp.getStatusCode());
 		if (!resp.getData().isEmpty()) {
 			Utils.upsertEtag(db, "insurance-prices", Utils.getEtag(resp.getHeaders()));
 		}
+		EsiUtils.postcall(resp);
 		return resp.getData();
 	}
 

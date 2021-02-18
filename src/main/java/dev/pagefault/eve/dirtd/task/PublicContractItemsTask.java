@@ -26,7 +26,7 @@ public class PublicContractItemsTask extends DirtTask {
 
 	private static Logger log = LogManager.getLogger();
 
-	private static final int SLEEP_HACK = 5000;
+	private static final int SLEEP_HACK = 4000;
 
 	private int contractId;
 

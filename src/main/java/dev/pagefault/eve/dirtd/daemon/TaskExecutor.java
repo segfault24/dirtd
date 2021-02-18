@@ -22,6 +22,8 @@ public class TaskExecutor extends ScheduledThreadPoolExecutor implements Taskabl
 
 	private static Logger log = LogManager.getLogger();
 
+	public final long started = System.currentTimeMillis();
+
 	private final DbPool dbPool;
 	private HashMap<String, TaskEntry> registry = new HashMap<String, TaskEntry>();
 
@@ -135,6 +137,16 @@ public class TaskExecutor extends ScheduledThreadPoolExecutor implements Taskabl
 		te.task = task;
 		registry.put(task.getTaskName(), te);
 		log.debug("Queued " + task.getTaskName() + " with period=" + period + " initialDelay=" + initialDelay);
+	}
+
+	public String getUptime() {
+		long now = System.currentTimeMillis();
+		long diff = (now - started) / 1000; // secs
+		long days = diff / (60 * 60 * 24);
+		long hours = (diff % (60 * 60 * 24)) / (60 * 60);
+		long minutes = (diff % (60 * 60)) / ( 60);
+		long seconds = (diff % 60);
+		return days + "d" + hours + "h" + minutes + "m" + seconds + "s";
 	}
 
 	private TaskEntry findTask(String search) throws TaskNotFoundException {

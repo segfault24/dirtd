@@ -21,7 +21,7 @@ import dev.pagefault.eve.dbtools.db.ApiAuthTable;
 import dev.pagefault.eve.dbtools.model.OAuthUser;
 import dev.pagefault.eve.dbtools.util.Utils;
 import dev.pagefault.eve.dirtd.DirtConstants;
-import dev.pagefault.eve.dirtd.Stats;
+import dev.pagefault.eve.dirtd.esi.EsiUtils;
 
 public class OAuthUtil {
 
@@ -57,7 +57,7 @@ public class OAuthUtil {
 			try {
 				refresh(db, oau);
 			} catch (IOException | SQLException | DirtAuthException e) {
-				Stats.ssoErrors++;
+				EsiUtils.ssoErrors++;
 				log.error("Failed to refresh OAuth token for key=" + oau.getKeyId(), e);
 			}
 		}
@@ -74,7 +74,7 @@ public class OAuthUtil {
 		String auth = "Basic " + new String(Base64.getEncoder().encode(creds.getBytes()));
 		String data = "grant_type=refresh_token&refresh_token=" + oau.getRefreshToken();
 
-		Stats.ssoCalls++;
+		EsiUtils.ssoCalls++;
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("POST");
 		con.setRequestProperty("Authorization", auth);

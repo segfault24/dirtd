@@ -6,7 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import dev.pagefault.eve.dbtools.util.Utils;
-import dev.pagefault.eve.dirtd.Stats;
 import net.evetech.ApiException;
 import net.evetech.ApiResponse;
 import net.evetech.esi.CharacterApi;
@@ -25,18 +24,20 @@ public class CharacterApiWrapper {
 	}
 
 	public GetCharactersCharacterIdOk getCharacter(int charId) throws ApiException {
+		EsiUtils.precall();
 		String etag = Utils.getEtag(db, "character-" + charId);
 		log.trace("Executing API query getCharacter(" + charId + ")");
 		ApiResponse<GetCharactersCharacterIdOk> resp;
 		try {
-			Stats.esiCalls++;
+			EsiUtils.esiCalls++;
 			resp = capi.getCharactersCharacterIdWithHttpInfo(charId, Utils.getApiDatasource(), etag);
 		} catch(ApiException e) {
-			Stats.esiErrors++;
+			EsiUtils.esiErrors++;
 			throw e;
 		}
 		log.trace("API query returned status code " + resp.getStatusCode());
 		Utils.upsertEtag(db, "character-" + charId, Utils.getEtag(resp.getHeaders()));
+		EsiUtils.postcall(resp);
 		return resp.getData();
 	}
 

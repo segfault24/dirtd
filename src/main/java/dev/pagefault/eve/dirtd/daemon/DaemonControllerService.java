@@ -12,7 +12,7 @@ import dev.pagefault.eve.dbtools.db.StructAuthTable;
 import dev.pagefault.eve.dbtools.util.DbPool;
 import dev.pagefault.eve.dbtools.util.Utils;
 import dev.pagefault.eve.dirtd.DirtConstants;
-import dev.pagefault.eve.dirtd.Stats;
+import dev.pagefault.eve.dirtd.esi.EsiUtils;
 import dev.pagefault.eve.dirtd.task.InvMarketGroupsTask;
 import dev.pagefault.eve.dirtd.task.InvTypesTask;
 import dev.pagefault.eve.dirtd.task.StructureTask;
@@ -162,9 +162,9 @@ public class DaemonControllerService extends DaemonControllerGrpc.DaemonControll
 	@Override
 	public void status(Empty request, StreamObserver<RequestStatus> responseObserver) {
 		String message = "\n";
-		message += "   uptime: " + Stats.uptime() + "\n";
-		message += "esi calls: " + Stats.esiCalls + "  errors: " + Stats.esiErrors + "\n";
-		message += "sso calls: " + Stats.ssoCalls + "  errors: " + Stats.ssoErrors + "\n";
+		message += "   uptime: " + executor.getUptime() + "\n";
+		message += "esi calls: " + EsiUtils.esiCalls + "  errors: " + EsiUtils.esiErrors + "\n";
+		message += "sso calls: " + EsiUtils.ssoCalls + "  errors: " + EsiUtils.ssoErrors + "\n";
 		message += " poolsize: " + executor.getPoolSize() + "\n";
 		message += " complete: " + executor.getCompletedTaskCount() + "\n";
 		message += "   queued: " + executor.getQueue().size() + "\n";
