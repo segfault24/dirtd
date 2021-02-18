@@ -45,7 +45,7 @@ public class PublicContractsTask extends DirtTask {
 	@Override
 	protected void runTask() {
 		ContractsApiWrapper capiw = new ContractsApiWrapper(getDb());
-		Timestamp now = new Timestamp(System.currentTimeMillis());
+		Timestamp now = new Timestamp(System.currentTimeMillis() - 1000);
 
 		int totalContracts = 0;
 		for (int region : regions) {
