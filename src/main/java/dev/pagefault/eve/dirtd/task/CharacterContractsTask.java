@@ -1,7 +1,6 @@
 package dev.pagefault.eve.dirtd.task;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +9,8 @@ import org.apache.logging.log4j.Logger;
 
 import dev.pagefault.eve.dbtools.db.ApiAuthTable;
 import dev.pagefault.eve.dbtools.db.ContractTable;
-import dev.pagefault.eve.dbtools.db.NotificationTable;
 import dev.pagefault.eve.dbtools.model.Contract;
-import dev.pagefault.eve.dbtools.model.Contract.ContractStatus;
 import dev.pagefault.eve.dbtools.model.Contract.ContractType;
-import dev.pagefault.eve.dbtools.model.Notification;
 import dev.pagefault.eve.dbtools.model.OAuthUser;
 import dev.pagefault.eve.dirtd.TypeUtil;
 import dev.pagefault.eve.dirtd.esi.ContractsApiWrapper;
@@ -105,11 +101,6 @@ public class CharacterContractsTask extends DirtTask {
 				l.add(c);
 			}
 
-			// check for notable conditions on contracts issued by this character
-			for (Contract contract : l) {
-				checkNotifications(auth, contract, otherCharIds);
-			}
-
 			// check if contracts haven't ever been seen, so we can get the items
 			// but don't queue the retrieval tasks until after we insert the contracts
 			List<DirtTask> tasks = checkContractItems(auth, l);
@@ -145,68 +136,6 @@ public class CharacterContractsTask extends DirtTask {
 			}
 		}
 		return tasks;
-	}
-
-	private void checkNotifications (OAuthUser auth, Contract contract, List<Integer> otherCharIds) {
-		// TODO: make these configurable by the user
-		boolean notifyOnInProgress = true;
-		boolean notifyOnFinished = true;
-		boolean notifyOnRejected = true;
-		boolean notifyOnFailed = true;
-		boolean ignoreFromAlts = true;
-
-		if (contract.getIssuerId() == charId) {
-			Contract dbContract;
-			try {
-				dbContract = ContractTable.selectById(getDb(), contract.getContractId());
-			} catch (SQLException e) {
-				log.error("Failed to query for contract information " + contract.getContractId() + ": " + e.getLocalizedMessage());
-				log.debug(e);
-				return;
-			}
-			// skip when we already have a record of this contract and the status
-			// is the same, that way, we only notify on previously unseen contracts
-			// and all status changes
-			if (dbContract != null && dbContract.getStatus() == contract.getStatus()) {
-				return;
-			}
-
-			// skip when trading between alts
-			for (int otherCharId : otherCharIds) {
-				if (ignoreFromAlts && contract.getAcceptorId() == otherCharId) {
-					return;
-				}
-			}
-
-			Notification n = new Notification();
-			n.setUserId(auth.getUserId());
-			n.setTime(new Timestamp(System.currentTimeMillis()));
-			boolean notify = true;
-			if (notifyOnFailed && contract.getStatus() == ContractStatus.FAILED) {
-				n.setTitle("Contract Failed");
-				n.setText("Contract " + contract.getContractId() + " was Failed");
-			} else if (notifyOnRejected && contract.getStatus() == ContractStatus.REJECTED) {
-				n.setTitle("Contract Rejected");
-				n.setText("Contract " + contract.getContractId() + " was Rejected");
-			} else if (notifyOnFinished && contract.getStatus() == ContractStatus.FINISHED) {
-				n.setTitle("Contract Completed");
-				n.setText("Contract " + contract.getContractId() + " was Completed");
-			} else if (notifyOnInProgress && contract.getStatus() == ContractStatus.IN_PROGRESS) {
-				n.setTitle("Contract In Progress");
-				n.setText("Contract " + contract.getContractId() + " is now In Progress");
-			} else {
-				notify = false;
-			}
-
-			if (notify) {
-				try {
-					NotificationTable.insert(getDb(), n);
-				} catch (Exception e) {
-					log.error("Failed to insert notification for contract status change" + ": " + e.getLocalizedMessage());
-					log.debug(e);
-				}
-			}
-		}
 	}
 
 }
