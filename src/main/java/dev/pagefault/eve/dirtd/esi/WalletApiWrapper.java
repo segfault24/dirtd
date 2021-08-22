@@ -59,4 +59,20 @@ public class WalletApiWrapper {
 		return resp.getData();
 	}
 
+	public Double getWalletBalance(int charId, String token) throws ApiException {
+		EsiUtils.precall();
+		log.trace("Executing API query getWalletBalance()");
+		ApiResponse<Double> resp;
+		try {
+			EsiUtils.esiCalls++;
+			resp = wapi.getCharactersCharacterIdWalletWithHttpInfo(charId, Utils.getApiDatasource(), null, token);
+		} catch (ApiException e) {
+			EsiUtils.esiErrors++;
+			throw e;
+		}
+		log.trace("API query returned status code " + resp.getStatusCode());
+		EsiUtils.postcall(resp);
+		return resp.getData();
+	}
+
 }

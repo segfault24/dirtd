@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import dev.pagefault.eve.dbtools.db.ApiAuthTable;
+import dev.pagefault.eve.dbtools.db.WalletBalanceTable;
 import dev.pagefault.eve.dbtools.db.WalletJournalTable;
 import dev.pagefault.eve.dbtools.db.WalletTransactionTable;
 import dev.pagefault.eve.dbtools.model.OAuthUser;
@@ -62,6 +63,8 @@ public class WalletTask extends DirtTask {
 		getTransactions(wapiw, auth);
 		log.debug("Retrieving wallet journal entries for character " + charId);
 		getJournalEntries(wapiw, auth);
+		log.debug("Retrieving wallet balance for character " + charId);
+		getBalance(wapiw, auth);
 	}
 
 	private void getTransactions(WalletApiWrapper wapiw, OAuthUser oau) {
@@ -116,6 +119,18 @@ public class WalletTask extends DirtTask {
 			result = WalletJournalTable.insertMany(getDb(), js);
 			page++;
 		} while(result);
+	}
+
+	private void getBalance(WalletApiWrapper wapiw, OAuthUser oau) {
+		Double wb;
+		try {
+			wb = wapiw.getWalletBalance(charId, OAuthUtil.getAuthToken(getDb(), oau));
+		} catch (ApiException e) {
+			log.error("Failed to retrieve wallet balance for character " + charId + ": " + e.getLocalizedMessage());
+			log.debug(e);
+			return;
+		}
+		WalletBalanceTable.upsert(getDb(), charId, wb);
 	}
 
 }
