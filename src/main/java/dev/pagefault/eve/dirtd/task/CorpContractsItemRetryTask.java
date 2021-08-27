@@ -22,13 +22,13 @@ public class CorpContractsItemRetryTask extends DirtTask {
 
 	private static Logger log = LogManager.getLogger();
 
-	// outstanding and finished exchange contracts that have no items in the db within the last 3 months
+	// outstanding and finished exchange contracts that have no items in the db within the last 3 days
 	private static final String SELECT_SQL = "SELECT c.contractid FROM corpcontract c"
 			+ " LEFT JOIN corpcontractitem ci ON ci.contractId=c.contractId"
 			+ " WHERE ci.contractItemId IS NULL AND c.type=" + Contract.ContractType.ITEM_EXCHANGE.getValue()
 			+ " AND c.status IN (" + Contract.ContractStatus.OUTSTANDING.getValue()
 			+ "," + Contract.ContractStatus.FINISHED.getValue() + ")"
-			+ " AND c.dateIssued > DATE_ADD(NOW(), INTERVAL -3 MONTH)";
+			+ " AND c.dateIssued > DATE_ADD(NOW(), INTERVAL -3 DAY)";
 
 	public CorpContractsItemRetryTask() {
 	}
