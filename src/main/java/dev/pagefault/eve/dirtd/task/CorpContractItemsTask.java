@@ -1,5 +1,6 @@
 package dev.pagefault.eve.dirtd.task;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +84,7 @@ public class CorpContractItemsTask extends DirtTask {
 
 		try {
 			getDb().setAutoCommit(false);
+			getDb().setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 			CorpContractItemTable.deleteByContractId(getDb(), contractId);
 			CorpContractItemTable.insertMany(getDb(), l);
 			getDb().commit();

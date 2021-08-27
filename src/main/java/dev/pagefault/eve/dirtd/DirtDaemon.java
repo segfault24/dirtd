@@ -17,6 +17,7 @@ import dev.pagefault.eve.dbtools.util.Utils;
 import dev.pagefault.eve.dirtd.daemon.DaemonControllerService;
 import dev.pagefault.eve.dirtd.daemon.TaskControllerService;
 import dev.pagefault.eve.dirtd.daemon.TaskExecutor;
+import dev.pagefault.eve.dirtd.task.CorpContractsItemRetryTask;
 import dev.pagefault.eve.dirtd.task.CorpContractsTask;
 import dev.pagefault.eve.dirtd.task.DerivedTableTask;
 import dev.pagefault.eve.dirtd.task.InsurancePricesTask;
@@ -113,6 +114,7 @@ public class DirtDaemon {
 		// public market orders for specific regions
 		List<Integer> regions = Utils.parseIntList(Utils.getProperty(db, DirtConstants.PROPERTY_MARKET_ORDERS_REGIONS));
 		int period = Utils.getIntProperty(db, DirtConstants.PROPERTY_MARKET_ORDERS_PERIOD);
+
 		for (Integer regionId : regions) {
 			executor.schedulePeriodicTask(db, new MarketRegionOrdersTask(regionId), period);
 		}
@@ -158,6 +160,10 @@ public class DirtDaemon {
 		// corporation contracts
 		period = Utils.getIntProperty(db, DirtConstants.PROPERTY_CORP_CONTRACTS_PERIOD);
 		executor.schedulePeriodicTask(db, new CorpContractsTask(), period);
+
+		// contract items retry
+		period = Utils.getIntProperty(db, DirtConstants.PROPERTY_CORP_CONTRACTS_PERIOD);
+		executor.schedulePeriodicTask(db, new CorpContractsItemRetryTask(), period * 4);
 
 		// public contracts
 		period = Utils.getIntProperty(db, DirtConstants.PROPERTY_PUBLIC_CONTRACTS_PERIOD);

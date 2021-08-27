@@ -1,5 +1,6 @@
 package dev.pagefault.eve.dirtd.esi;
 
+import java.net.SocketTimeoutException;
 import java.sql.Connection;
 import java.util.List;
 
@@ -20,6 +21,9 @@ import net.evetech.esi.models.GetCorporationsCorporationIdContractsContractIdIte
 public class ContractsApiWrapper {
 
 	private static Logger log = LogManager.getLogger();
+
+	private static final int MAX_ATTEMPTS = 3;
+	private static final int RETRY_WAIT = 5000; // milliseconds
 
 	private Connection db;
 	private ContractsApi capi;
@@ -90,13 +94,29 @@ public class ContractsApiWrapper {
 			int contractId, String token) throws ApiException {
 		EsiUtils.precall();
 		log.trace("Executing API query getCorporationContractItems(" + corpId + ", " + contractId + ")");
-		ApiResponse<List<GetCorporationsCorporationIdContractsContractIdItems200Ok>> resp;
-		try {
-			EsiUtils.esiCalls++;
-			resp = capi.getCorporationsCorporationIdContractsContractIdItemsWithHttpInfo(contractId, corpId, Utils.getApiDatasource(), null, token);
-		} catch(ApiException e) {
-			EsiUtils.esiErrors++;
-			throw e;
+		ApiResponse<List<GetCorporationsCorporationIdContractsContractIdItems200Ok>> resp = null;
+		boolean done = false;
+		int attempt = 1;
+		while (!done && attempt <= MAX_ATTEMPTS) {
+			try {
+				EsiUtils.esiCalls++;
+				resp = capi.getCorporationsCorporationIdContractsContractIdItemsWithHttpInfo(contractId, corpId, Utils.getApiDatasource(), null, token);
+				done = true;
+			} catch(ApiException e) {
+				EsiUtils.esiErrors++;
+				if (attempt == MAX_ATTEMPTS) {
+					// throw after reaching MAX_ATTEMPTS
+					throw e;
+				} else if (e.getCode() < 500 && !(e.getCause() instanceof SocketTimeoutException)) {
+					// immediately throw non-500 errors (probably our fault)
+					throw e;
+				} else {
+					// sleep with linear backoff and then retry
+					log.warn("Retrying API query getCorporationContractItems(" + corpId + ", " + contractId + ")");
+					Utils.sleep(RETRY_WAIT * attempt);
+				}
+			}
+			attempt++;
 		}
 		log.trace("API query returned status code " + resp.getStatusCode());
 		EsiUtils.postcall(resp);
