@@ -226,15 +226,11 @@ CREATE TABLE `dirtstructauth` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tasklog` (
-	`taskLogId` INT AUTO_INCREMENT,
 	`taskName` VARCHAR(255) NOT NULL,
-	`startTime` timestamp NOT NULL,
-	`finishTime` timestamp NOT NULL,
-	`duration` int(11) NOT NULL,
-	`success` boolean NOT NULL DEFAULT FALSE,
-	`error` varchar(255),
-	PRIMARY KEY (`taskLogId`),
-	KEY `ix_tasklog_taskName` (`taskName`)
+	`startTime` DATETIME NOT NULL,
+	`finishTime` DATETIME NOT NULL,
+	`success` BOOLEAN NOT NULL DEFAULT FALSE,
+	PRIMARY KEY (`taskName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `apireq` (

@@ -10,8 +10,9 @@ import dev.pagefault.eve.dbtools.util.Utils;
 
 public class TaskLogTable {
 
-	private static final String SELECT_LATEST_TASK_SQL = "SELECT `taskLogId`,`taskName`,`startTime`,`finishTime`,`duration`,`success`,`error` FROM tasklog WHERE `taskName`=? ORDER BY `finishTime` DESC LIMIT 1";
-	private static final String INSERT_TASK_SQL = "INSERT INTO tasklog (`taskName`,`startTime`,`finishTime`,`duration`,`success`,`error`) VALUES(?,?,?,?,?,?)";
+	private static final String SELECT_LATEST_TASK_SQL = "SELECT `taskName`,`startTime`,`finishTime`,`success` FROM tasklog WHERE `taskName`=?";
+	private static final String INSERT_TASK_SQL = "INSERT INTO tasklog (`taskName`,`startTime`,`finishTime`,`success`) VALUES (?,?,?,?)" +
+			"ON DUPLICATE KEY UPDATE `startTime`=VALUES(`startTime`), `finishTime`=VALUES(`finishTime`), `success`=VALUES(`success`)";
 
 	/**
 	 * Get the latest TaskLog for the given taskName
@@ -30,13 +31,10 @@ public class TaskLogTable {
 			rs = stmt.executeQuery();
 			if (rs.next()) {
 				t = new TaskLog();
-				t.setTaskLogId(rs.getInt(1));
 				t.setTaskName(taskName);
-				t.setStartTime(rs.getTimestamp(3));
-				t.setFinishTime(rs.getTimestamp(4));
-				t.setDuration(rs.getInt(5));
-				t.setSuccess(rs.getBoolean(6));
-				t.setError(rs.getString(7));
+				t.setStartTime(rs.getTimestamp(2));
+				t.setFinishTime(rs.getTimestamp(3));
+				t.setSuccess(rs.getBoolean(4));
 			}
 		} catch (SQLException e) {
 			t = null;
@@ -59,9 +57,7 @@ public class TaskLogTable {
 		stmt.setString(1, taskLog.getTaskName());
 		stmt.setTimestamp(2, taskLog.getStartTime());
 		stmt.setTimestamp(3, taskLog.getFinishTime());
-		stmt.setInt(4, taskLog.getDuration());
-		stmt.setBoolean(5, taskLog.isSuccess());
-		stmt.setString(6, taskLog.getError());
+		stmt.setBoolean(4, taskLog.isSuccess());
 		stmt.execute();
 		Utils.closeQuietly(stmt);
 	}

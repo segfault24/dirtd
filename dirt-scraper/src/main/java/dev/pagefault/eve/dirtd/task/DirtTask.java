@@ -66,9 +66,7 @@ public abstract class DirtTask implements Runnable {
 		tl.setTaskName(getTaskName());
 		tl.setStartTime(new Timestamp(startTime));
 		tl.setFinishTime(new Timestamp(endTime));
-		tl.setDuration(duration);
 		tl.setSuccess(true);
-		tl.setError(null);
 		try {
 			TaskLogTable.insertTaskLog(db, tl);
 		} catch (SQLException e) {
