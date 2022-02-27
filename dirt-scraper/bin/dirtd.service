@@ -2,8 +2,8 @@
 Description=DIRT Daemon Service
 
 [Service]
-WorkingDirectory=/opt/dirtd/
-ExecStart=/usr/bin/java -Xms128m -Xmx1536m \
+WorkingDirectory=/opt/dirtd/dirt-scraper
+ExecStart=/usr/bin/java -Xms128m -Xmx1G \
         -cp "dirtd.jar:lib/*" \
         -Dconfig="cfg/db.ini" \
         -Dlog4j.configurationFile="cfg/log4j2.xml" \
