@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package dev.pagefault.eve.grpc;
+
+import "common.proto";
+
+option java_multiple_files = true;
+option java_generic_services = true;
+
+service DaemonController {
+	rpc ForceTypeUpdate (Empty) returns (RequestStatus) {}
+	rpc AddStruct (Struct) returns (RequestStatus) {}
+	rpc SetProperty (Property) returns (PropertyStatus) {}
+	rpc GetProperty (Property) returns (PropertyStatus) {}
+	rpc Status (Empty) returns (RequestStatus) {}
+}
+
+message PropertyStatus {
+	RequestStatus status = 1;
+	Property property = 2;
+}
+
+message Struct {
+	uint64 structid = 1;
+}
+
+message Property {
+	string propertyName = 1;
+	string propertyValue = 2;
+}

@@ -1,0 +1,56 @@
+# IncursionsApi
+
+All URIs are relative to *https://esi.evetech.net*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+[**getIncursions**](IncursionsApi.md#getIncursions) | **GET** /v1/incursions/ | List incursions
+
+
+<a name="getIncursions"></a>
+# **getIncursions**
+> List&lt;GetIncursions200Ok&gt; getIncursions(datasource, ifNoneMatch)
+
+List incursions
+
+Return a list of current incursions  ---  This route is cached for up to 300 seconds
+
+### Example
+```java
+// Import classes:
+//import net.evetech.ApiException;
+//import net.evetech.esi.IncursionsApi;
+
+
+IncursionsApi apiInstance = new IncursionsApi();
+String datasource = "tranquility"; // String | The server name you would like data from
+String ifNoneMatch = "ifNoneMatch_example"; // String | ETag from a previous request. A 304 will be returned if this matches the current ETag
+try {
+    List<GetIncursions200Ok> result = apiInstance.getIncursions(datasource, ifNoneMatch);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling IncursionsApi#getIncursions");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **datasource** | **String**| The server name you would like data from | [optional] [default to tranquility] [enum: tranquility]
+ **ifNoneMatch** | **String**| ETag from a previous request. A 304 will be returned if this matches the current ETag | [optional]
+
+### Return type
+
+[**List&lt;GetIncursions200Ok&gt;**](GetIncursions200Ok.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+

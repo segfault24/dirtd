@@ -1,11 +1,3 @@
-# eclipse stuff
-.settings/
-
-# build artifacts
-build/
-deploy/
 target/
-
-# runtime artifacts
 logs/
 cfg/db.ini
