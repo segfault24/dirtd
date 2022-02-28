@@ -82,6 +82,7 @@ OFFICEFOLDER | &quot;OfficeFolder&quot;
 PILOT | &quot;Pilot&quot;
 PLANETSURFACE | &quot;PlanetSurface&quot;
 QUAFEBAY | &quot;QuafeBay&quot;
+QUANTUMCOREROOM | &quot;QuantumCoreRoom&quot;
 REWARD | &quot;Reward&quot;
 RIGSLOT0 | &quot;RigSlot0&quot;
 RIGSLOT1 | &quot;RigSlot1&quot;

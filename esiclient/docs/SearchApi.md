@@ -35,10 +35,10 @@ SearchApi apiInstance = new SearchApi();
 List<String> categories = Arrays.asList("categories_example"); // List<String> | Type of entities to search for
 Integer characterId = 56; // Integer | An EVE character ID
 String search = "search_example"; // String | The string to search on
-String acceptLanguage = "en-us"; // String | Language to use in the response
+String acceptLanguage = "en"; // String | Language to use in the response
 String datasource = "tranquility"; // String | The server name you would like data from
 String ifNoneMatch = "ifNoneMatch_example"; // String | ETag from a previous request. A 304 will be returned if this matches the current ETag
-String language = "en-us"; // String | Language to use in the response, takes precedence over Accept-Language
+String language = "en"; // String | Language to use in the response, takes precedence over Accept-Language
 Boolean strict = false; // Boolean | Whether the search should be a strict match
 String token = "token_example"; // String | Access token to use if unable to set a header
 try {
@@ -57,10 +57,10 @@ Name | Type | Description  | Notes
  **categories** | [**List&lt;String&gt;**](String.md)| Type of entities to search for | [enum: agent, alliance, character, constellation, corporation, faction, inventory_type, region, solar_system, station, structure]
  **characterId** | **Integer**| An EVE character ID |
  **search** | **String**| The string to search on |
- **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
  **datasource** | **String**| The server name you would like data from | [optional] [default to tranquility] [enum: tranquility]
  **ifNoneMatch** | **String**| ETag from a previous request. A 304 will be returned if this matches the current ETag | [optional]
- **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
  **strict** | **Boolean**| Whether the search should be a strict match | [optional] [default to false]
  **token** | **String**| Access token to use if unable to set a header | [optional]
 
@@ -95,10 +95,10 @@ Search for entities that match a given sub-string.  ---  This route is cached fo
 SearchApi apiInstance = new SearchApi();
 List<String> categories = Arrays.asList("categories_example"); // List<String> | Type of entities to search for
 String search = "search_example"; // String | The string to search on
-String acceptLanguage = "en-us"; // String | Language to use in the response
+String acceptLanguage = "en"; // String | Language to use in the response
 String datasource = "tranquility"; // String | The server name you would like data from
 String ifNoneMatch = "ifNoneMatch_example"; // String | ETag from a previous request. A 304 will be returned if this matches the current ETag
-String language = "en-us"; // String | Language to use in the response, takes precedence over Accept-Language
+String language = "en"; // String | Language to use in the response, takes precedence over Accept-Language
 Boolean strict = false; // Boolean | Whether the search should be a strict match
 try {
     GetSearchOk result = apiInstance.getSearch(categories, search, acceptLanguage, datasource, ifNoneMatch, language, strict);
@@ -115,10 +115,10 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **categories** | [**List&lt;String&gt;**](String.md)| Type of entities to search for | [enum: agent, alliance, character, constellation, corporation, faction, inventory_type, region, solar_system, station]
  **search** | **String**| The string to search on |
- **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
  **datasource** | **String**| The server name you would like data from | [optional] [default to tranquility] [enum: tranquility]
  **ifNoneMatch** | **String**| ETag from a previous request. A 304 will be returned if this matches the current ETag | [optional]
- **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
  **strict** | **Boolean**| Whether the search should be a strict match | [optional] [default to false]
 
 ### Return type

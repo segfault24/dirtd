@@ -4,7 +4,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**changedAt** | [**DateTime**](DateTime.md) | changed_at string | 
+**changedAt** | [**OffsetDateTime**](OffsetDateTime.md) | changed_at string | 
 **characterId** | **Integer** | The character whose roles are changed | 
 **issuerId** | **Integer** | ID of the character who issued this change | 
 **newRoles** | [**List&lt;NewRolesEnum&gt;**](#List&lt;NewRolesEnum&gt;) | new_roles array | 

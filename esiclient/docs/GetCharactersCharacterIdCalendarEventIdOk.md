@@ -4,7 +4,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**date** | [**DateTime**](DateTime.md) | date string | 
+**date** | [**OffsetDateTime**](OffsetDateTime.md) | date string | 
 **duration** | **Integer** | Length in minutes | 
 **eventId** | **Integer** | event_id integer | 
 **importance** | **Integer** | importance integer | 

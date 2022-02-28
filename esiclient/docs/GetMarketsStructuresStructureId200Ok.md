@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **duration** | **Integer** | duration integer | 
 **isBuyOrder** | **Boolean** | is_buy_order boolean | 
-**issued** | [**DateTime**](DateTime.md) | issued string | 
+**issued** | [**OffsetDateTime**](OffsetDateTime.md) | issued string | 
 **locationId** | **Long** | location_id integer | 
 **minVolume** | **Integer** | min_volume integer | 
 **orderId** | **Long** | order_id integer | 

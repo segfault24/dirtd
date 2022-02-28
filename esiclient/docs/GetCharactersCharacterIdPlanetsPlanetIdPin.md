@@ -5,11 +5,11 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **contents** | [**List&lt;GetCharactersCharacterIdPlanetsPlanetIdContent&gt;**](GetCharactersCharacterIdPlanetsPlanetIdContent.md) | contents array |  [optional]
-**expiryTime** | [**DateTime**](DateTime.md) | expiry_time string |  [optional]
+**expiryTime** | [**OffsetDateTime**](OffsetDateTime.md) | expiry_time string |  [optional]
 **extractorDetails** | [**GetCharactersCharacterIdPlanetsPlanetIdExtractorDetails**](GetCharactersCharacterIdPlanetsPlanetIdExtractorDetails.md) |  |  [optional]
 **factoryDetails** | [**GetCharactersCharacterIdPlanetsPlanetIdFactoryDetails**](GetCharactersCharacterIdPlanetsPlanetIdFactoryDetails.md) |  |  [optional]
-**installTime** | [**DateTime**](DateTime.md) | install_time string |  [optional]
-**lastCycleStart** | [**DateTime**](DateTime.md) | last_cycle_start string |  [optional]
+**installTime** | [**OffsetDateTime**](OffsetDateTime.md) | install_time string |  [optional]
+**lastCycleStart** | [**OffsetDateTime**](OffsetDateTime.md) | last_cycle_start string |  [optional]
 **latitude** | **Float** | latitude number | 
 **longitude** | **Float** | longitude number | 
 **pinId** | **Long** | pin_id integer | 

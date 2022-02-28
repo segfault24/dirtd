@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **senderId** | **Integer** | sender_id integer | 
 **senderType** | [**SenderTypeEnum**](#SenderTypeEnum) | sender_type string | 
 **text** | **String** | text string |  [optional]
-**timestamp** | [**DateTime**](DateTime.md) | timestamp string | 
+**timestamp** | [**OffsetDateTime**](OffsetDateTime.md) | timestamp string | 
 **type** | [**TypeEnum**](#TypeEnum) | type string | 
 
 
@@ -107,6 +107,8 @@ DISTRICTATTACKED | &quot;DistrictAttacked&quot;
 DUSTAPPACCEPTEDMSG | &quot;DustAppAcceptedMsg&quot;
 ESSMAINBANKLINK | &quot;ESSMainBankLink&quot;
 ENTOSISCAPTURESTARTED | &quot;EntosisCaptureStarted&quot;
+EXPERTSYSTEMEXPIRED | &quot;ExpertSystemExpired&quot;
+EXPERTSYSTEMEXPIRYIMMINENT | &quot;ExpertSystemExpiryImminent&quot;
 FWALLIANCEKICKMSG | &quot;FWAllianceKickMsg&quot;
 FWALLIANCEWARNINGMSG | &quot;FWAllianceWarningMsg&quot;
 FWCHARKICKMSG | &quot;FWCharKickMsg&quot;

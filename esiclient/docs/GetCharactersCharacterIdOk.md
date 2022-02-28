@@ -5,8 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **allianceId** | **Integer** | The character&#39;s alliance ID |  [optional]
-**ancestryId** | **Integer** | ancestry_id integer |  [optional]
-**birthday** | [**DateTime**](DateTime.md) | Creation date of the character | 
+**birthday** | [**OffsetDateTime**](OffsetDateTime.md) | Creation date of the character | 
 **bloodlineId** | **Integer** | bloodline_id integer | 
 **corporationId** | **Integer** | The character&#39;s corporation ID | 
 **description** | **String** | description string |  [optional]

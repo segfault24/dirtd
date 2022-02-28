@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **balance** | **Double** | Wallet balance after transaction occurred |  [optional]
 **contextId** | **Long** | An ID that gives extra context to the particular transaction. Because of legacy reasons the context is completely different per ref_type and means different things. It is also possible to not have a context_id |  [optional]
 **contextIdType** | [**ContextIdTypeEnum**](#ContextIdTypeEnum) | The type of the given context_id if present |  [optional]
-**date** | [**DateTime**](DateTime.md) | Date and time of transaction | 
+**date** | [**OffsetDateTime**](OffsetDateTime.md) | Date and time of transaction | 
 **description** | **String** | The reason for the transaction, mirrors what is seen in the client | 
 **firstPartyId** | **Integer** | The id of the first party involved in the transaction. This attribute has no consistency and is different or non existant for particular ref_types. The description attribute will help make sense of what this attribute means. For more info about the given ID it can be dropped into the /universe/names/ ESI route to determine its type and name |  [optional]
 **id** | **Long** | Unique journal reference ID | 
@@ -103,6 +103,7 @@ CORPORATION_REGISTRATION_FEE | &quot;corporation_registration_fee&quot;
 COURIER_MISSION_ESCROW | &quot;courier_mission_escrow&quot;
 CSPA | &quot;cspa&quot;
 CSPAOFFLINEREFUND | &quot;cspaofflinerefund&quot;
+DAILY_CHALLENGE_REWARD | &quot;daily_challenge_reward&quot;
 DATACORE_FEE | &quot;datacore_fee&quot;
 DNA_MODIFICATION_FEE | &quot;dna_modification_fee&quot;
 DOCKING_FEE | &quot;docking_fee&quot;
@@ -110,7 +111,14 @@ DUEL_WAGER_ESCROW | &quot;duel_wager_escrow&quot;
 DUEL_WAGER_PAYMENT | &quot;duel_wager_payment&quot;
 DUEL_WAGER_REFUND | &quot;duel_wager_refund&quot;
 ESS_ESCROW_TRANSFER | &quot;ess_escrow_transfer&quot;
+EXTERNAL_TRADE_DELIVERY | &quot;external_trade_delivery&quot;
+EXTERNAL_TRADE_FREEZE | &quot;external_trade_freeze&quot;
+EXTERNAL_TRADE_THAW | &quot;external_trade_thaw&quot;
 FACTORY_SLOT_RENTAL_FEE | &quot;factory_slot_rental_fee&quot;
+FLUX_PAYOUT | &quot;flux_payout&quot;
+FLUX_TAX | &quot;flux_tax&quot;
+FLUX_TICKET_REPAYMENT | &quot;flux_ticket_repayment&quot;
+FLUX_TICKET_SALE | &quot;flux_ticket_sale&quot;
 GM_CASH_TRANSFER | &quot;gm_cash_transfer&quot;
 INDUSTRY_JOB_TAX | &quot;industry_job_tax&quot;
 INFRASTRUCTURE_HUB_MAINTENANCE | &quot;infrastructure_hub_maintenance&quot;
@@ -124,9 +132,11 @@ LP_STORE | &quot;lp_store&quot;
 MANUFACTURING | &quot;manufacturing&quot;
 MARKET_ESCROW | &quot;market_escrow&quot;
 MARKET_FINE_PAID | &quot;market_fine_paid&quot;
+MARKET_PROVIDER_TAX | &quot;market_provider_tax&quot;
 MARKET_TRANSACTION | &quot;market_transaction&quot;
 MEDAL_CREATION | &quot;medal_creation&quot;
 MEDAL_ISSUED | &quot;medal_issued&quot;
+MILESTONE_REWARD_PAYMENT | &quot;milestone_reward_payment&quot;
 MISSION_COMPLETION | &quot;mission_completion&quot;
 MISSION_COST | &quot;mission_cost&quot;
 MISSION_EXPIRATION | &quot;mission_expiration&quot;
@@ -142,6 +152,7 @@ PLAYER_TRADING | &quot;player_trading&quot;
 PROJECT_DISCOVERY_REWARD | &quot;project_discovery_reward&quot;
 PROJECT_DISCOVERY_TAX | &quot;project_discovery_tax&quot;
 REACTION | &quot;reaction&quot;
+REDEEMED_ISK_TOKEN | &quot;redeemed_isk_token&quot;
 RELEASE_OF_IMPOUNDED_PROPERTY | &quot;release_of_impounded_property&quot;
 REPAIR_BILL | &quot;repair_bill&quot;
 REPROCESSING_TAX | &quot;reprocessing_tax&quot;
@@ -150,6 +161,7 @@ RESEARCHING_TECHNOLOGY | &quot;researching_technology&quot;
 RESEARCHING_TIME_PRODUCTIVITY | &quot;researching_time_productivity&quot;
 RESOURCE_WARS_REWARD | &quot;resource_wars_reward&quot;
 REVERSE_ENGINEERING | &quot;reverse_engineering&quot;
+SEASON_CHALLENGE_REWARD | &quot;season_challenge_reward&quot;
 SECURITY_PROCESSING_FEE | &quot;security_processing_fee&quot;
 SHARES | &quot;shares&quot;
 SKILL_PURCHASE | &quot;skill_purchase&quot;

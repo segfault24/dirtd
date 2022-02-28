@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **escrow** | **Double** | For buy orders, the amount of ISK in escrow |  [optional]
 **isBuyOrder** | **Boolean** | True if the order is a bid (buy) order |  [optional]
 **isCorporation** | **Boolean** | Signifies whether the buy/sell order was placed on behalf of a corporation. | 
-**issued** | [**DateTime**](DateTime.md) | Date and time when this order was issued | 
+**issued** | [**OffsetDateTime**](OffsetDateTime.md) | Date and time when this order was issued | 
 **locationId** | **Long** | ID of the location where order was placed | 
 **minVolume** | **Integer** | For buy orders, the minimum quantity that will be accepted in a matching sell order |  [optional]
 **orderId** | **Long** | Unique order ID | 

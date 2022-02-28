@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **read** | **Boolean** | Whether the mail is flagged as read |  [optional]
 **recipients** | [**List&lt;GetCharactersCharacterIdMailMailIdRecipient&gt;**](GetCharactersCharacterIdMailMailIdRecipient.md) | Recipients of the mail |  [optional]
 **subject** | **String** | Mail subject |  [optional]
-**timestamp** | [**DateTime**](DateTime.md) | When the mail was sent |  [optional]
+**timestamp** | [**OffsetDateTime**](OffsetDateTime.md) | When the mail was sent |  [optional]
 
 
 

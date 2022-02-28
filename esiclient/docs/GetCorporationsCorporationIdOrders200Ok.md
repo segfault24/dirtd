@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **duration** | **Integer** | Number of days for which order is valid (starting from the issued date). An order expires at time issued + duration | 
 **escrow** | **Double** | For buy orders, the amount of ISK in escrow |  [optional]
 **isBuyOrder** | **Boolean** | True if the order is a bid (buy) order |  [optional]
-**issued** | [**DateTime**](DateTime.md) | Date and time when this order was issued | 
+**issued** | [**OffsetDateTime**](OffsetDateTime.md) | Date and time when this order was issued | 
 **issuedBy** | **Integer** | The character who issued this order | 
 **locationId** | **Long** | ID of the location where order was placed | 
 **minVolume** | **Integer** | For buy orders, the minimum quantity that will be accepted in a matching sell order |  [optional]

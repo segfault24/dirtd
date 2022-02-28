@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **eventType** | [**EventTypeEnum**](#EventTypeEnum) | Type of event this campaign is for. tcu_defense, ihub_defense and station_defense are referred to as \&quot;Defense Events\&quot;, station_freeport as \&quot;Freeport Events\&quot;.  | 
 **participants** | [**List&lt;GetSovereigntyCampaignsParticipant&gt;**](GetSovereigntyCampaignsParticipant.md) | Alliance participating and their respective scores, only present in Freeport Events.  |  [optional]
 **solarSystemId** | **Integer** | The solar system the structure is located in.  | 
-**startTime** | [**DateTime**](DateTime.md) | Time the event is scheduled to start.  | 
+**startTime** | [**OffsetDateTime**](OffsetDateTime.md) | Time the event is scheduled to start.  | 
 **structureId** | **Long** | The structure item ID that is related to this campaign.  | 
 
 

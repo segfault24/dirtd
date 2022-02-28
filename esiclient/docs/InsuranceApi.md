@@ -23,10 +23,10 @@ Return available insurance levels for all ship types  ---  This route is cached 
 
 
 InsuranceApi apiInstance = new InsuranceApi();
-String acceptLanguage = "en-us"; // String | Language to use in the response
+String acceptLanguage = "en"; // String | Language to use in the response
 String datasource = "tranquility"; // String | The server name you would like data from
 String ifNoneMatch = "ifNoneMatch_example"; // String | ETag from a previous request. A 304 will be returned if this matches the current ETag
-String language = "en-us"; // String | Language to use in the response, takes precedence over Accept-Language
+String language = "en"; // String | Language to use in the response, takes precedence over Accept-Language
 try {
     List<GetInsurancePrices200Ok> result = apiInstance.getInsurancePrices(acceptLanguage, datasource, ifNoneMatch, language);
     System.out.println(result);
@@ -40,10 +40,10 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
  **datasource** | **String**| The server name you would like data from | [optional] [default to tranquility] [enum: tranquility]
  **ifNoneMatch** | **String**| ETag from a previous request. A 304 will be returned if this matches the current ETag | [optional]
- **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
 
 ### Return type
 

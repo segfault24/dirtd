@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **itemId** | **Long** | item_id integer | 
-**position** | [**PostCharactersCharacterIdAssetsLocationsPosition**](PostCharactersCharacterIdAssetsLocationsPosition.md) |  |  [optional]
+**position** | [**PostCharactersCharacterIdAssetsLocationsPosition**](PostCharactersCharacterIdAssetsLocationsPosition.md) |  | 
 
 
 

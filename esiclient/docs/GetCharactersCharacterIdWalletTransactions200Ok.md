@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **clientId** | **Integer** | client_id integer | 
-**date** | [**DateTime**](DateTime.md) | Date and time of transaction | 
+**date** | [**OffsetDateTime**](OffsetDateTime.md) | Date and time of transaction | 
 **isBuy** | **Boolean** | is_buy boolean | 
 **isPersonal** | **Boolean** | is_personal boolean | 
 **journalRefId** | **Long** | journal_ref_id integer | 

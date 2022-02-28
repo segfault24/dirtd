@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **itemId** | **Long** | item_id integer | 
-**position** | [**PostCorporationsCorporationIdAssetsLocationsPosition**](PostCorporationsCorporationIdAssetsLocationsPosition.md) |  |  [optional]
+**position** | [**PostCorporationsCorporationIdAssetsLocationsPosition**](PostCorporationsCorporationIdAssetsLocationsPosition.md) |  | 
 
 
 

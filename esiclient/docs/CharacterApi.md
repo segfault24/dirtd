@@ -4,21 +4,20 @@ All URIs are relative to *https://esi.evetech.net*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**getCharactersCharacterId**](CharacterApi.md#getCharactersCharacterId) | **GET** /v4/characters/{character_id}/ | Get character&#39;s public information
-[**getCharactersCharacterIdAgentsResearch**](CharacterApi.md#getCharactersCharacterIdAgentsResearch) | **GET** /v1/characters/{character_id}/agents_research/ | Get agents research
-[**getCharactersCharacterIdBlueprints**](CharacterApi.md#getCharactersCharacterIdBlueprints) | **GET** /v2/characters/{character_id}/blueprints/ | Get blueprints
-[**getCharactersCharacterIdCorporationhistory**](CharacterApi.md#getCharactersCharacterIdCorporationhistory) | **GET** /v1/characters/{character_id}/corporationhistory/ | Get corporation history
-[**getCharactersCharacterIdFatigue**](CharacterApi.md#getCharactersCharacterIdFatigue) | **GET** /v1/characters/{character_id}/fatigue/ | Get jump fatigue
-[**getCharactersCharacterIdMedals**](CharacterApi.md#getCharactersCharacterIdMedals) | **GET** /v1/characters/{character_id}/medals/ | Get medals
+[**getCharactersCharacterId**](CharacterApi.md#getCharactersCharacterId) | **GET** /v5/characters/{character_id}/ | Get character&#39;s public information
+[**getCharactersCharacterIdAgentsResearch**](CharacterApi.md#getCharactersCharacterIdAgentsResearch) | **GET** /v2/characters/{character_id}/agents_research/ | Get agents research
+[**getCharactersCharacterIdBlueprints**](CharacterApi.md#getCharactersCharacterIdBlueprints) | **GET** /v3/characters/{character_id}/blueprints/ | Get blueprints
+[**getCharactersCharacterIdCorporationhistory**](CharacterApi.md#getCharactersCharacterIdCorporationhistory) | **GET** /v2/characters/{character_id}/corporationhistory/ | Get corporation history
+[**getCharactersCharacterIdFatigue**](CharacterApi.md#getCharactersCharacterIdFatigue) | **GET** /v2/characters/{character_id}/fatigue/ | Get jump fatigue
+[**getCharactersCharacterIdMedals**](CharacterApi.md#getCharactersCharacterIdMedals) | **GET** /v2/characters/{character_id}/medals/ | Get medals
 [**getCharactersCharacterIdNotifications**](CharacterApi.md#getCharactersCharacterIdNotifications) | **GET** /v5/characters/{character_id}/notifications/ | Get character notifications
-[**getCharactersCharacterIdNotificationsContacts**](CharacterApi.md#getCharactersCharacterIdNotificationsContacts) | **GET** /v1/characters/{character_id}/notifications/contacts/ | Get new contact notifications
+[**getCharactersCharacterIdNotificationsContacts**](CharacterApi.md#getCharactersCharacterIdNotificationsContacts) | **GET** /v2/characters/{character_id}/notifications/contacts/ | Get new contact notifications
 [**getCharactersCharacterIdPortrait**](CharacterApi.md#getCharactersCharacterIdPortrait) | **GET** /v2/characters/{character_id}/portrait/ | Get character portraits
-[**getCharactersCharacterIdRoles**](CharacterApi.md#getCharactersCharacterIdRoles) | **GET** /v2/characters/{character_id}/roles/ | Get character corporation roles
-[**getCharactersCharacterIdStandings**](CharacterApi.md#getCharactersCharacterIdStandings) | **GET** /v1/characters/{character_id}/standings/ | Get standings
-[**getCharactersCharacterIdStats**](CharacterApi.md#getCharactersCharacterIdStats) | **GET** /v2/characters/{character_id}/stats/ | Yearly aggregate stats
-[**getCharactersCharacterIdTitles**](CharacterApi.md#getCharactersCharacterIdTitles) | **GET** /v1/characters/{character_id}/titles/ | Get character corporation titles
-[**postCharactersAffiliation**](CharacterApi.md#postCharactersAffiliation) | **POST** /v1/characters/affiliation/ | Character affiliation
-[**postCharactersCharacterIdCspa**](CharacterApi.md#postCharactersCharacterIdCspa) | **POST** /v4/characters/{character_id}/cspa/ | Calculate a CSPA charge cost
+[**getCharactersCharacterIdRoles**](CharacterApi.md#getCharactersCharacterIdRoles) | **GET** /v3/characters/{character_id}/roles/ | Get character corporation roles
+[**getCharactersCharacterIdStandings**](CharacterApi.md#getCharactersCharacterIdStandings) | **GET** /v2/characters/{character_id}/standings/ | Get standings
+[**getCharactersCharacterIdTitles**](CharacterApi.md#getCharactersCharacterIdTitles) | **GET** /v2/characters/{character_id}/titles/ | Get character corporation titles
+[**postCharactersAffiliation**](CharacterApi.md#postCharactersAffiliation) | **POST** /v2/characters/affiliation/ | Character affiliation
+[**postCharactersCharacterIdCspa**](CharacterApi.md#postCharactersCharacterIdCspa) | **POST** /v5/characters/{character_id}/cspa/ | Calculate a CSPA charge cost
 
 
 <a name="getCharactersCharacterId"></a>
@@ -642,65 +641,6 @@ Name | Type | Description  | Notes
  - **Content-Type**: application/json
  - **Accept**: application/json
 
-<a name="getCharactersCharacterIdStats"></a>
-# **getCharactersCharacterIdStats**
-> List&lt;GetCharactersCharacterIdStats200Ok&gt; getCharactersCharacterIdStats(characterId, datasource, ifNoneMatch, token)
-
-Yearly aggregate stats
-
-Returns aggregate yearly stats for a character  ---  This route is cached for up to 86400 seconds
-
-### Example
-```java
-// Import classes:
-//import net.evetech.ApiClient;
-//import net.evetech.ApiException;
-//import net.evetech.Configuration;
-//import net.evetech.auth.*;
-//import net.evetech.esi.CharacterApi;
-
-ApiClient defaultClient = Configuration.getDefaultApiClient();
-
-// Configure OAuth2 access token for authorization: evesso
-OAuth evesso = (OAuth) defaultClient.getAuthentication("evesso");
-evesso.setAccessToken("YOUR ACCESS TOKEN");
-
-CharacterApi apiInstance = new CharacterApi();
-Integer characterId = 56; // Integer | An EVE character ID
-String datasource = "tranquility"; // String | The server name you would like data from
-String ifNoneMatch = "ifNoneMatch_example"; // String | ETag from a previous request. A 304 will be returned if this matches the current ETag
-String token = "token_example"; // String | Access token to use if unable to set a header
-try {
-    List<GetCharactersCharacterIdStats200Ok> result = apiInstance.getCharactersCharacterIdStats(characterId, datasource, ifNoneMatch, token);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling CharacterApi#getCharactersCharacterIdStats");
-    e.printStackTrace();
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **characterId** | **Integer**| An EVE character ID |
- **datasource** | **String**| The server name you would like data from | [optional] [default to tranquility] [enum: tranquility]
- **ifNoneMatch** | **String**| ETag from a previous request. A 304 will be returned if this matches the current ETag | [optional]
- **token** | **String**| Access token to use if unable to set a header | [optional]
-
-### Return type
-
-[**List&lt;GetCharactersCharacterIdStats200Ok&gt;**](GetCharactersCharacterIdStats200Ok.md)
-
-### Authorization
-
-[evesso](../README.md#evesso)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
 <a name="getCharactersCharacterIdTitles"></a>
 # **getCharactersCharacterIdTitles**
 > List&lt;GetCharactersCharacterIdTitles200Ok&gt; getCharactersCharacterIdTitles(characterId, datasource, ifNoneMatch, token)
@@ -766,7 +706,7 @@ Name | Type | Description  | Notes
 
 Character affiliation
 
-Bulk lookup of character IDs to corporation, alliance and faction  ---  This route is cached for up to 3600 seconds  --- [Diff of the upcoming changes](https://esi.evetech.net/diff/latest/dev/#POST-/characters/affiliation/)
+Bulk lookup of character IDs to corporation, alliance and faction  ---  This route is cached for up to 3600 seconds
 
 ### Example
 ```java
@@ -813,7 +753,7 @@ No authorization required
 
 Calculate a CSPA charge cost
 
-Takes a source character ID in the url and a set of target character ID&#39;s in the body, returns a CSPA charge cost  ---
+Takes a source character ID in the url and a set of target character ID&#39;s in the body, returns a CSPA charge cost  --- 
 
 ### Example
 ```java

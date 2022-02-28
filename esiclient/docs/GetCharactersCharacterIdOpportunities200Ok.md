@@ -4,7 +4,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**completedAt** | [**DateTime**](DateTime.md) | completed_at string | 
+**completedAt** | [**OffsetDateTime**](OffsetDateTime.md) | completed_at string | 
 **taskId** | **Integer** | task_id integer | 
 
 

@@ -52,10 +52,10 @@ Get all character ancestries  ---  This route expires daily at 11:05
 
 
 UniverseApi apiInstance = new UniverseApi();
-String acceptLanguage = "en-us"; // String | Language to use in the response
+String acceptLanguage = "en"; // String | Language to use in the response
 String datasource = "tranquility"; // String | The server name you would like data from
 String ifNoneMatch = "ifNoneMatch_example"; // String | ETag from a previous request. A 304 will be returned if this matches the current ETag
-String language = "en-us"; // String | Language to use in the response, takes precedence over Accept-Language
+String language = "en"; // String | Language to use in the response, takes precedence over Accept-Language
 try {
     List<GetUniverseAncestries200Ok> result = apiInstance.getUniverseAncestries(acceptLanguage, datasource, ifNoneMatch, language);
     System.out.println(result);
@@ -69,10 +69,10 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
  **datasource** | **String**| The server name you would like data from | [optional] [default to tranquility] [enum: tranquility]
  **ifNoneMatch** | **String**| ETag from a previous request. A 304 will be returned if this matches the current ETag | [optional]
- **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
 
 ### Return type
 
@@ -152,10 +152,10 @@ Get a list of bloodlines  ---  This route expires daily at 11:05
 
 
 UniverseApi apiInstance = new UniverseApi();
-String acceptLanguage = "en-us"; // String | Language to use in the response
+String acceptLanguage = "en"; // String | Language to use in the response
 String datasource = "tranquility"; // String | The server name you would like data from
 String ifNoneMatch = "ifNoneMatch_example"; // String | ETag from a previous request. A 304 will be returned if this matches the current ETag
-String language = "en-us"; // String | Language to use in the response, takes precedence over Accept-Language
+String language = "en"; // String | Language to use in the response, takes precedence over Accept-Language
 try {
     List<GetUniverseBloodlines200Ok> result = apiInstance.getUniverseBloodlines(acceptLanguage, datasource, ifNoneMatch, language);
     System.out.println(result);
@@ -169,10 +169,10 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
  **datasource** | **String**| The server name you would like data from | [optional] [default to tranquility] [enum: tranquility]
  **ifNoneMatch** | **String**| ETag from a previous request. A 304 will be returned if this matches the current ETag | [optional]
- **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
 
 ### Return type
 
@@ -251,10 +251,10 @@ Get information of an item category  ---  This route expires daily at 11:05
 
 UniverseApi apiInstance = new UniverseApi();
 Integer categoryId = 56; // Integer | An Eve item category ID
-String acceptLanguage = "en-us"; // String | Language to use in the response
+String acceptLanguage = "en"; // String | Language to use in the response
 String datasource = "tranquility"; // String | The server name you would like data from
 String ifNoneMatch = "ifNoneMatch_example"; // String | ETag from a previous request. A 304 will be returned if this matches the current ETag
-String language = "en-us"; // String | Language to use in the response, takes precedence over Accept-Language
+String language = "en"; // String | Language to use in the response, takes precedence over Accept-Language
 try {
     GetUniverseCategoriesCategoryIdOk result = apiInstance.getUniverseCategoriesCategoryId(categoryId, acceptLanguage, datasource, ifNoneMatch, language);
     System.out.println(result);
@@ -269,10 +269,10 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **categoryId** | **Integer**| An Eve item category ID |
- **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
  **datasource** | **String**| The server name you would like data from | [optional] [default to tranquility] [enum: tranquility]
  **ifNoneMatch** | **String**| ETag from a previous request. A 304 will be returned if this matches the current ETag | [optional]
- **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
 
 ### Return type
 
@@ -351,10 +351,10 @@ Get information on a constellation  ---  This route expires daily at 11:05
 
 UniverseApi apiInstance = new UniverseApi();
 Integer constellationId = 56; // Integer | constellation_id integer
-String acceptLanguage = "en-us"; // String | Language to use in the response
+String acceptLanguage = "en"; // String | Language to use in the response
 String datasource = "tranquility"; // String | The server name you would like data from
 String ifNoneMatch = "ifNoneMatch_example"; // String | ETag from a previous request. A 304 will be returned if this matches the current ETag
-String language = "en-us"; // String | Language to use in the response, takes precedence over Accept-Language
+String language = "en"; // String | Language to use in the response, takes precedence over Accept-Language
 try {
     GetUniverseConstellationsConstellationIdOk result = apiInstance.getUniverseConstellationsConstellationId(constellationId, acceptLanguage, datasource, ifNoneMatch, language);
     System.out.println(result);
@@ -369,10 +369,10 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **constellationId** | **Integer**| constellation_id integer |
- **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
  **datasource** | **String**| The server name you would like data from | [optional] [default to tranquility] [enum: tranquility]
  **ifNoneMatch** | **String**| ETag from a previous request. A 304 will be returned if this matches the current ETag | [optional]
- **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
 
 ### Return type
 
@@ -403,10 +403,10 @@ Get a list of factions  ---  This route expires daily at 11:05
 
 
 UniverseApi apiInstance = new UniverseApi();
-String acceptLanguage = "en-us"; // String | Language to use in the response
+String acceptLanguage = "en"; // String | Language to use in the response
 String datasource = "tranquility"; // String | The server name you would like data from
 String ifNoneMatch = "ifNoneMatch_example"; // String | ETag from a previous request. A 304 will be returned if this matches the current ETag
-String language = "en-us"; // String | Language to use in the response, takes precedence over Accept-Language
+String language = "en"; // String | Language to use in the response, takes precedence over Accept-Language
 try {
     List<GetUniverseFactions200Ok> result = apiInstance.getUniverseFactions(acceptLanguage, datasource, ifNoneMatch, language);
     System.out.println(result);
@@ -420,10 +420,10 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
  **datasource** | **String**| The server name you would like data from | [optional] [default to tranquility] [enum: tranquility]
  **ifNoneMatch** | **String**| ETag from a previous request. A 304 will be returned if this matches the current ETag | [optional]
- **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
 
 ### Return type
 
@@ -600,10 +600,10 @@ Get information on an item group  ---  This route expires daily at 11:05
 
 UniverseApi apiInstance = new UniverseApi();
 Integer groupId = 56; // Integer | An Eve item group ID
-String acceptLanguage = "en-us"; // String | Language to use in the response
+String acceptLanguage = "en"; // String | Language to use in the response
 String datasource = "tranquility"; // String | The server name you would like data from
 String ifNoneMatch = "ifNoneMatch_example"; // String | ETag from a previous request. A 304 will be returned if this matches the current ETag
-String language = "en-us"; // String | Language to use in the response, takes precedence over Accept-Language
+String language = "en"; // String | Language to use in the response, takes precedence over Accept-Language
 try {
     GetUniverseGroupsGroupIdOk result = apiInstance.getUniverseGroupsGroupId(groupId, acceptLanguage, datasource, ifNoneMatch, language);
     System.out.println(result);
@@ -618,10 +618,10 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **groupId** | **Integer**| An Eve item group ID |
- **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
  **datasource** | **String**| The server name you would like data from | [optional] [default to tranquility] [enum: tranquility]
  **ifNoneMatch** | **String**| ETag from a previous request. A 304 will be returned if this matches the current ETag | [optional]
- **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
 
 ### Return type
 
@@ -750,10 +750,10 @@ Get a list of character races  ---  This route expires daily at 11:05
 
 
 UniverseApi apiInstance = new UniverseApi();
-String acceptLanguage = "en-us"; // String | Language to use in the response
+String acceptLanguage = "en"; // String | Language to use in the response
 String datasource = "tranquility"; // String | The server name you would like data from
 String ifNoneMatch = "ifNoneMatch_example"; // String | ETag from a previous request. A 304 will be returned if this matches the current ETag
-String language = "en-us"; // String | Language to use in the response, takes precedence over Accept-Language
+String language = "en"; // String | Language to use in the response, takes precedence over Accept-Language
 try {
     List<GetUniverseRaces200Ok> result = apiInstance.getUniverseRaces(acceptLanguage, datasource, ifNoneMatch, language);
     System.out.println(result);
@@ -767,10 +767,10 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
  **datasource** | **String**| The server name you would like data from | [optional] [default to tranquility] [enum: tranquility]
  **ifNoneMatch** | **String**| ETag from a previous request. A 304 will be returned if this matches the current ETag | [optional]
- **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
 
 ### Return type
 
@@ -849,10 +849,10 @@ Get information on a region  ---  This route expires daily at 11:05
 
 UniverseApi apiInstance = new UniverseApi();
 Integer regionId = 56; // Integer | region_id integer
-String acceptLanguage = "en-us"; // String | Language to use in the response
+String acceptLanguage = "en"; // String | Language to use in the response
 String datasource = "tranquility"; // String | The server name you would like data from
 String ifNoneMatch = "ifNoneMatch_example"; // String | ETag from a previous request. A 304 will be returned if this matches the current ETag
-String language = "en-us"; // String | Language to use in the response, takes precedence over Accept-Language
+String language = "en"; // String | Language to use in the response, takes precedence over Accept-Language
 try {
     GetUniverseRegionsRegionIdOk result = apiInstance.getUniverseRegionsRegionId(regionId, acceptLanguage, datasource, ifNoneMatch, language);
     System.out.println(result);
@@ -867,10 +867,10 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **regionId** | **Integer**| region_id integer |
- **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
  **datasource** | **String**| The server name you would like data from | [optional] [default to tranquility] [enum: tranquility]
  **ifNoneMatch** | **String**| ETag from a previous request. A 304 will be returned if this matches the current ETag | [optional]
- **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
 
 ### Return type
 
@@ -1298,10 +1298,10 @@ Get information on a solar system.  ---  This route expires daily at 11:05
 
 UniverseApi apiInstance = new UniverseApi();
 Integer systemId = 56; // Integer | system_id integer
-String acceptLanguage = "en-us"; // String | Language to use in the response
+String acceptLanguage = "en"; // String | Language to use in the response
 String datasource = "tranquility"; // String | The server name you would like data from
 String ifNoneMatch = "ifNoneMatch_example"; // String | ETag from a previous request. A 304 will be returned if this matches the current ETag
-String language = "en-us"; // String | Language to use in the response, takes precedence over Accept-Language
+String language = "en"; // String | Language to use in the response, takes precedence over Accept-Language
 try {
     GetUniverseSystemsSystemIdOk result = apiInstance.getUniverseSystemsSystemId(systemId, acceptLanguage, datasource, ifNoneMatch, language);
     System.out.println(result);
@@ -1316,10 +1316,10 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **systemId** | **Integer**| system_id integer |
- **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
  **datasource** | **String**| The server name you would like data from | [optional] [default to tranquility] [enum: tranquility]
  **ifNoneMatch** | **String**| ETag from a previous request. A 304 will be returned if this matches the current ETag | [optional]
- **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
 
 ### Return type
 
@@ -1400,10 +1400,10 @@ Get information on a type  ---  This route expires daily at 11:05
 
 UniverseApi apiInstance = new UniverseApi();
 Integer typeId = 56; // Integer | An Eve item type ID
-String acceptLanguage = "en-us"; // String | Language to use in the response
+String acceptLanguage = "en"; // String | Language to use in the response
 String datasource = "tranquility"; // String | The server name you would like data from
 String ifNoneMatch = "ifNoneMatch_example"; // String | ETag from a previous request. A 304 will be returned if this matches the current ETag
-String language = "en-us"; // String | Language to use in the response, takes precedence over Accept-Language
+String language = "en"; // String | Language to use in the response, takes precedence over Accept-Language
 try {
     GetUniverseTypesTypeIdOk result = apiInstance.getUniverseTypesTypeId(typeId, acceptLanguage, datasource, ifNoneMatch, language);
     System.out.println(result);
@@ -1418,10 +1418,10 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **typeId** | **Integer**| An Eve item type ID |
- **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
  **datasource** | **String**| The server name you would like data from | [optional] [default to tranquility] [enum: tranquility]
  **ifNoneMatch** | **String**| ETag from a previous request. A 304 will be returned if this matches the current ETag | [optional]
- **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
 
 ### Return type
 
@@ -1453,9 +1453,9 @@ Resolve a set of names to IDs in the following categories: agents, alliances, ch
 
 UniverseApi apiInstance = new UniverseApi();
 List<String> names = Arrays.asList(new List<String>()); // List<String> | The names to resolve
-String acceptLanguage = "en-us"; // String | Language to use in the response
+String acceptLanguage = "en"; // String | Language to use in the response
 String datasource = "tranquility"; // String | The server name you would like data from
-String language = "en-us"; // String | Language to use in the response, takes precedence over Accept-Language
+String language = "en"; // String | Language to use in the response, takes precedence over Accept-Language
 try {
     PostUniverseIdsOk result = apiInstance.postUniverseIds(names, acceptLanguage, datasource, language);
     System.out.println(result);
@@ -1470,9 +1470,9 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **names** | **List&lt;String&gt;**| The names to resolve |
- **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **acceptLanguage** | **String**| Language to use in the response | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
  **datasource** | **String**| The server name you would like data from | [optional] [default to tranquility] [enum: tranquility]
- **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en-us] [enum: de, en-us, fr, ja, ru, ko]
+ **language** | **String**| Language to use in the response, takes precedence over Accept-Language | [optional] [default to en] [enum: en, en-us, de, fr, ja, ru, zh, ko, es]
 
 ### Return type
 

@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **constellationId** | **Integer** | The constellation this solar system is in | 
 **name** | **String** | name string | 
 **planets** | [**List&lt;GetUniverseSystemsSystemIdPlanet&gt;**](GetUniverseSystemsSystemIdPlanet.md) | planets array |  [optional]
-**position** | [**GetUniverseSystemsSystemIdPosition**](GetUniverseSystemsSystemIdPosition.md) |  |  [optional]
+**position** | [**GetUniverseSystemsSystemIdPosition**](GetUniverseSystemsSystemIdPosition.md) |  | 
 **securityClass** | **String** | security_class string |  [optional]
 **securityStatus** | **Float** | security_status number | 
 **starId** | **Integer** | star_id integer |  [optional]

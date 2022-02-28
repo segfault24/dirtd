@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **containerTypeId** | **Integer** | Type ID of the container | 
 **locationFlag** | [**LocationFlagEnum**](#LocationFlagEnum) | location_flag string | 
 **locationId** | **Long** | location_id integer | 
-**loggedAt** | [**DateTime**](DateTime.md) | Timestamp when this log was created | 
+**loggedAt** | [**OffsetDateTime**](OffsetDateTime.md) | Timestamp when this log was created | 
 **newConfigBitmask** | **Integer** | new_config_bitmask integer |  [optional]
 **oldConfigBitmask** | **Integer** | old_config_bitmask integer |  [optional]
 **passwordType** | [**PasswordTypeEnum**](#PasswordTypeEnum) | Type of password set if action is of type SetPassword or EnterPassword |  [optional]
@@ -102,6 +102,7 @@ OFFICEFOLDER | &quot;OfficeFolder&quot;
 PILOT | &quot;Pilot&quot;
 PLANETSURFACE | &quot;PlanetSurface&quot;
 QUAFEBAY | &quot;QuafeBay&quot;
+QUANTUMCOREROOM | &quot;QuantumCoreRoom&quot;
 REWARD | &quot;Reward&quot;
 RIGSLOT0 | &quot;RigSlot0&quot;
 RIGSLOT1 | &quot;RigSlot1&quot;

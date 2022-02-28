@@ -4,7 +4,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**lastUpdate** | [**DateTime**](DateTime.md) | last_update string | 
+**lastUpdate** | [**OffsetDateTime**](OffsetDateTime.md) | last_update string | 
 **numPins** | **Integer** | num_pins integer | 
 **ownerId** | **Integer** | owner_id integer | 
 **planetId** | **Integer** | planet_id integer | 

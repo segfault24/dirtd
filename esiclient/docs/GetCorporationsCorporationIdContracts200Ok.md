@@ -10,10 +10,10 @@ Name | Type | Description | Notes
 **buyout** | **Double** | Buyout price (for Auctions only) |  [optional]
 **collateral** | **Double** | Collateral price (for Couriers only) |  [optional]
 **contractId** | **Integer** | contract_id integer | 
-**dateAccepted** | [**DateTime**](DateTime.md) | Date of confirmation of contract |  [optional]
-**dateCompleted** | [**DateTime**](DateTime.md) | Date of completed of contract |  [optional]
-**dateExpired** | [**DateTime**](DateTime.md) | Expiration date of the contract | 
-**dateIssued** | [**DateTime**](DateTime.md) | Сreation date of the contract | 
+**dateAccepted** | [**OffsetDateTime**](OffsetDateTime.md) | Date of confirmation of contract |  [optional]
+**dateCompleted** | [**OffsetDateTime**](OffsetDateTime.md) | Date of completed of contract |  [optional]
+**dateExpired** | [**OffsetDateTime**](OffsetDateTime.md) | Expiration date of the contract | 
+**dateIssued** | [**OffsetDateTime**](OffsetDateTime.md) | Сreation date of the contract | 
 **daysToComplete** | **Integer** | Number of days to perform the contract |  [optional]
 **endLocationId** | **Long** | End location ID (for Couriers contract) |  [optional]
 **forCorporation** | **Boolean** | true if the contract was issued on behalf of the issuer&#39;s corporation | 

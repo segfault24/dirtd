@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **pointsPerDay** | **Float** | points_per_day number | 
 **remainderPoints** | **Float** | remainder_points number | 
 **skillTypeId** | **Integer** | skill_type_id integer | 
-**startedAt** | [**DateTime**](DateTime.md) | started_at string | 
+**startedAt** | [**OffsetDateTime**](OffsetDateTime.md) | started_at string | 
 
 
 

@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **mailId** | **Integer** | mail_id integer |  [optional]
 **recipients** | [**List&lt;GetCharactersCharacterIdMailRecipient&gt;**](GetCharactersCharacterIdMailRecipient.md) | Recipients of the mail |  [optional]
 **subject** | **String** | Mail subject |  [optional]
-**timestamp** | [**DateTime**](DateTime.md) | When the mail was sent |  [optional]
+**timestamp** | [**OffsetDateTime**](OffsetDateTime.md) | When the mail was sent |  [optional]
 
 
 

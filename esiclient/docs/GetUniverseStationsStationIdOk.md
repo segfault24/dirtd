@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **name** | **String** | name string | 
 **officeRentalCost** | **Float** | office_rental_cost number | 
 **owner** | **Integer** | ID of the corporation that controls this station |  [optional]
-**position** | [**GetUniverseStationsStationIdPosition**](GetUniverseStationsStationIdPosition.md) |  |  [optional]
+**position** | [**GetUniverseStationsStationIdPosition**](GetUniverseStationsStationIdPosition.md) |  | 
 **raceId** | **Integer** | race_id integer |  [optional]
 **reprocessingEfficiency** | **Float** | reprocessing_efficiency number | 
 **reprocessingStationsTake** | **Float** | reprocessing_stations_take number | 

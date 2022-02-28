@@ -4,7 +4,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**eventDate** | [**DateTime**](DateTime.md) | event_date string |  [optional]
+**eventDate** | [**OffsetDateTime**](OffsetDateTime.md) | event_date string |  [optional]
 **eventId** | **Integer** | event_id integer |  [optional]
 **eventResponse** | [**EventResponseEnum**](#EventResponseEnum) | event_response string |  [optional]
 **importance** | **Integer** | importance integer |  [optional]

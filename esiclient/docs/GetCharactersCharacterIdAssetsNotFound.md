@@ -1,10 +1,10 @@
 
-# PostCharactersAffiliationNotFound
+# GetCharactersCharacterIdAssetsNotFound
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**error** | **String** | Not found message |  [optional]
+**error** | **String** | error message |  [optional]
 
 
 

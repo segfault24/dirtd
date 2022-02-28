@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **corporationId** | **Integer** | corporation_id integer | 
-**date** | [**DateTime**](DateTime.md) | date string | 
+**date** | [**OffsetDateTime**](OffsetDateTime.md) | date string | 
 **description** | **String** | description string | 
 **graphics** | [**List&lt;GetCharactersCharacterIdMedalsGraphic&gt;**](GetCharactersCharacterIdMedalsGraphic.md) | graphics array | 
 **issuerId** | **Integer** | issuer_id integer | 
