@@ -14,6 +14,8 @@ DROP TABLE IF EXISTS `meriskvolume`;
 DROP TABLE IF EXISTS `insuranceprice`;
 DROP TABLE IF EXISTS `charorder`;
 DROP TABLE IF EXISTS `marketorder`;
+DROP TABLE IF EXISTS `latestset`;
+DROP TABLE IF EXISTS `orderset`;
 DROP TABLE IF EXISTS `marketstat`;
 DROP TABLE IF EXISTS `markethistory`;
 DROP TABLE IF EXISTS `contractitem`;

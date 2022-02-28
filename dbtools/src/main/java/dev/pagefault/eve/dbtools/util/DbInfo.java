@@ -7,8 +7,12 @@ import java.util.Properties;
 
 public class DbInfo {
 
-	private String dbDriver, dbHost, dbPort;
-	private String dbName, dbUser, dbPass;
+	private final String dbDriver;
+	private final String dbHost;
+	private final String dbPort;
+	private final String dbName;
+	private final String dbUser;
+	private final String dbPass;
 
 	public DbInfo() {
 		String filePath = System.getProperties().getProperty("config");
@@ -25,7 +29,7 @@ public class DbInfo {
 		try {
 			fis = new FileInputStream(f);
 			props.load(fis);
-		} catch (IOException e) {
+		} catch (IOException ignored) {
 		} finally {
 			Utils.closeQuietly(fis);
 		}
@@ -45,19 +49,7 @@ public class DbInfo {
 	}
 
 	public String getDbConnectionString() {
-		return "jdbc:" + dbDriver + "://" + dbHost + ":" + dbPort + "/" + dbName + "?useSSL=false";
-	}
-
-	public String getHost() {
-		return dbHost;
-	}
-
-	public String getPort() {
-		return dbPort;
-	}
-
-	public String getDbName() {
-		return dbName;
+		return "jdbc:" + dbDriver + "://" + dbHost + ":" + dbPort + "/" + dbName + "?useSSL=false&rewriteBatchedStatements=true";
 	}
 
 	public String getUser() {

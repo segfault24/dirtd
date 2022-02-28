@@ -364,7 +364,7 @@ public interface TypeUtil {
 	public static MarketOrder convert(GetMarketsRegionIdOrders200Ok o) {
 		MarketOrder order = new MarketOrder();
 		order.setIssued(new Timestamp(o.getIssued().getMillis()));
-		order.setRange(o.getRange().toString());
+		order.setRange(convert(o.getRange()));
 		order.setBuyOrder(o.getIsBuyOrder());
 		order.setDuration(o.getDuration());
 		order.setOrderId(o.getOrderId());
@@ -380,7 +380,7 @@ public interface TypeUtil {
 	public static MarketOrder convert(GetMarketsStructuresStructureId200Ok o) {
 		MarketOrder order = new MarketOrder();
 		order.setIssued(new Timestamp(o.getIssued().getMillis()));
-		order.setRange(o.getRange().toString());
+		order.setRange(convert(o.getRange()));
 		order.setBuyOrder(o.getIsBuyOrder());
 		order.setDuration(o.getDuration());
 		order.setOrderId(o.getOrderId());
@@ -526,4 +526,39 @@ public interface TypeUtil {
 		return station;
 	}
 
+	public static int convert(GetMarketsRegionIdOrders200Ok.RangeEnum range) {
+		switch(range) {
+			case STATION: return 0;
+			case REGION: return 100;
+			case SOLARSYSTEM: return 1;
+			case _1: return 1;
+			case _2: return 2;
+			case _3: return 3;
+			case _4: return 4;
+			case _5: return 5;
+			case _10: return 10;
+			case _20: return 20;
+			case _30: return 30;
+			case _40: return 40;
+			default: return 0;
+		}
+	}
+
+	public static int convert(GetMarketsStructuresStructureId200Ok.RangeEnum range) {
+		switch(range) {
+			case STATION: return 0;
+			case REGION: return 100;
+			case SOLARSYSTEM: return 1;
+			case _1: return 1;
+			case _2: return 2;
+			case _3: return 3;
+			case _4: return 4;
+			case _5: return 5;
+			case _10: return 10;
+			case _20: return 20;
+			case _30: return 30;
+			case _40: return 40;
+			default: return 0;
+		}
+	}
 }

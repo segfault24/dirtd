@@ -34,7 +34,7 @@ INSERT INTO `property` (`propertyName`,`propertyValue`) VALUES ("threads","4");
 INSERT INTO `property` (`propertyName`,`propertyValue`) VALUES ("loglevel","INFO");
 INSERT INTO `property` (`propertyName`,`propertyValue`) VALUES ("marketorders.regions","10000002,10000043");
 INSERT INTO `property` (`propertyName`,`propertyValue`) VALUES ("marketorders.period","20");
-INSERT INTO `property` (`propertyName`,`propertyValue`) VALUES ("marketorders.maxage","2880");
+INSERT INTO `property` (`propertyName`,`propertyValue`) VALUES ("marketorders.maxage","120");
 INSERT INTO `property` (`propertyName`,`propertyValue`) VALUES ("markethistory.regions","10000002");
 INSERT INTO `property` (`propertyName`,`propertyValue`) VALUES ("markethistory.period","1440");
 INSERT INTO `property` (`propertyName`,`propertyValue`) VALUES ("wallet.period","60");

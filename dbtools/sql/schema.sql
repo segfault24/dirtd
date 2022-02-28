@@ -487,25 +487,45 @@ CREATE TABLE `marketstat` (
 	UNIQUE KEY `ux_marketstat_regionId_typeId` (`regionId`, `typeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `orderset` (
+	`setId` INT NOT NULL AUTO_INCREMENT,
+    `regionId` INT UNSIGNED NOT NULL,
+    `retrieved` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`setId`),
+    KEY `ix_orderset_regionId` (`regionId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `latestset` (
+	`regionId` INT UNSIGNED NOT NULL,
+    `setId` INT DEFAULT NULL,
+    PRIMARY KEY (`regionId`),
+    FOREIGN KEY (`setId`)
+		REFERENCES `orderset`(`setId`)
+        ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `marketorder` (
-	`issued` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	`range` VARCHAR(45),
-	`isBuyOrder` BOOLEAN,
-	`duration` INT,
+	`eid` BIGINT NOT NULL AUTO_INCREMENT,
+	`setId` INT NOT NULL,
+	`issued` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`range` TINYINT UNSIGNED NOT NULL,
+	`isBuyOrder` BOOLEAN NOT NULL,
+	`duration` SMALLINT UNSIGNED NOT NULL,
 	`orderId` BIGINT NOT NULL,
-	`volumeRemain` INT,
-	`minVolume` INT,
-	`typeId` INT NOT NULL,
-	`volumeTotal` INT,
+	`volumeRemain` INT UNSIGNED NOT NULL,
+	`minVolume` INT UNSIGNED NOT NULL DEFAULT 1,
+	`typeId` INT UNSIGNED NOT NULL,
+	`volumeTotal` INT UNSIGNED NOT NULL,
 	`locationId` BIGINT NOT NULL,
-	`price` DECIMAL(19,4),
-	`regionId` INT NOT NULL,
-	`retrieved` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (`orderId`),
-	KEY `ix_marketorder_typeId_regionId` (`typeId`, `regionId`),
-	KEY `ix_marketorder_locationId` (`locationId`),
-	KEY `ix_marketorder_regionId` (`regionId`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8;
+	`price` DOUBLE NOT NULL,
+	PRIMARY KEY (`eid`),
+	FOREIGN KEY (`setId`)
+		REFERENCES `orderset`(`setId`)
+		ON DELETE CASCADE,
+	KEY `ix_marketorder_setId` (`setId`),
+	KEY `ix_marketorder_typeId` (`typeId`),
+	KEY `ix_marketorder_locationId` (`locationId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `charorder` (
 	`orderEntryId` BIGINT AUTO_INCREMENT,
@@ -610,8 +630,16 @@ CREATE TABLE `dlocation` (
 
 -- -----------------------------------------------------------------------------
 
-CREATE VIEW vjitabestbuy AS SELECT typeId, MAX(price) AS best FROM marketorder WHERE locationId IN (60003760, 1028858195912) AND isBuyOrder=1 GROUP BY typeId;
-CREATE VIEW vjitabestsell AS SELECT typeId, MIN(price) AS best FROM marketorder WHERE locationId IN (60003760, 1028858195912) AND isBuyOrder=0 GROUP BY typeId;
-CREATE VIEW vamarrbestbuy AS SELECT typeId, MAX(price) AS best FROM marketorder WHERE locationId=60008494 AND isBuyOrder=1 GROUP BY typeId;
-CREATE VIEW vamarrbestsell AS SELECT typeId, MIN(price) AS best FROM marketorder WHERE locationId=60008494 AND isBuyOrder=0 GROUP BY typeId;
+CREATE VIEW vjitabestbuy AS SELECT typeId, MAX(price) AS best FROM marketorder
+    WHERE setId=(SELECT setId FROM latestset WHERE regionId=10000002)
+    AND locationId IN (60003760, 1028858195912) AND isBuyOrder=1 GROUP BY typeId;
+CREATE VIEW vjitabestsell AS SELECT typeId, MIN(price) AS best FROM marketorder
+    WHERE setId=(SELECT setId FROM latestset WHERE regionId=10000002)
+    AND locationId IN (60003760, 1028858195912) AND isBuyOrder=0 GROUP BY typeId;
+CREATE VIEW vamarrbestbuy AS SELECT typeId, MAX(price) AS best FROM marketorder
+    WHERE setId=(SELECT setId FROM latestset WHERE regionId=10000043)
+    AND locationId=60008494 AND isBuyOrder=1 GROUP BY typeId;
+CREATE VIEW vamarrbestsell AS SELECT typeId, MIN(price) AS best FROM marketorder
+    WHERE setId=(SELECT setId FROM latestset WHERE regionId=10000043)
+    AND locationId=60008494 AND isBuyOrder=0 GROUP BY typeId;
 

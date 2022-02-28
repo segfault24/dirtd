@@ -4,8 +4,9 @@ import java.sql.Timestamp;
 
 public class MarketOrder {
 
+	private int setId;
 	private Timestamp issued;
-	private String range;
+	private int range;
 	private boolean buyOrder;
 	private int duration;
 	private long orderId;
@@ -15,10 +16,16 @@ public class MarketOrder {
 	private int volumeTotal;
 	private long locationId;
 	private double price;
-	private int region;
-	private Timestamp retrieved;
 
 	public MarketOrder() {
+	}
+
+	public int getSetId() {
+		return setId;
+	}
+
+	public void setSetId(int setId) {
+		this.setId = setId;
 	}
 
 	public Timestamp getIssued() {
@@ -29,11 +36,11 @@ public class MarketOrder {
 		this.issued = issued;
 	}
 
-	public String getRange() {
+	public int getRange() {
 		return range;
 	}
 
-	public void setRange(String range) {
+	public void setRange(int range) {
 		this.range = range;
 	}
 
@@ -107,22 +114,6 @@ public class MarketOrder {
 
 	public void setPrice(double price) {
 		this.price = price;
-	}
-
-	public int getRegion() {
-		return region;
-	}
-
-	public void setRegion(int region) {
-		this.region = region;
-	}
-
-	public Timestamp getRetrieved() {
-		return retrieved;
-	}
-
-	public void setRetrieved(Timestamp retrieved) {
-		this.retrieved = retrieved;
 	}
 
 }

@@ -3,6 +3,7 @@ package dev.pagefault.eve.dirtd.task;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+import dev.pagefault.eve.dbtools.db.OrderSetTable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,10 +26,10 @@ public class OrderReaperTask extends DirtTask {
 		long maxAgeMinutes = Long.parseLong(Utils.getProperty(getDb(), DirtConstants.PROPERTY_MARKET_ORDERS_MAX_AGE));
 		Timestamp olderThan = new Timestamp(System.currentTimeMillis() - maxAgeMinutes * 60 * 1000);
 		try {
-			int count = MarketOrderTable.deleteOldOrders(getDb(), olderThan);
-			log.debug("Deleted " + count + " old market orders");
+			int count = OrderSetTable.deleteOldSets(getDb(), olderThan);
+			log.debug("Deleted " + count + " old order sets");
 		} catch (SQLException e) {
-			log.fatal("Failed to delete old market orders: " + e.getLocalizedMessage());
+			log.fatal("Failed to delete old order sets: " + e.getLocalizedMessage());
 			log.debug(e);
 		}
 		try {

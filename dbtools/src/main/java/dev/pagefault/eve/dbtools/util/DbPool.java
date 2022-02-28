@@ -71,6 +71,7 @@ public class DbPool {
 	}
 
 	private Connection createConnection() throws SQLException {
+		log.debug("Opening database connection: " + info.getDbConnectionString());
 		return DriverManager.getConnection(info.getDbConnectionString(), info.getUser(), info.getPass());
 	}
 
