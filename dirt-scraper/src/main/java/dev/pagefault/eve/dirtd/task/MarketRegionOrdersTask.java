@@ -107,22 +107,26 @@ public class MarketRegionOrdersTask extends DirtTask {
 			queue.add(m);
 		}
 
+		// spawn L thread
+		Thread l = new Thread(new LWorkerThread(getDb(), queue));
+		l.setName("mrot-load-" + region);
+		l.start();
+
 		// spawn ET threads
 		ArrayList<Thread> threads = new ArrayList<>(NUM_ET_THREADS);
 		int range = numPages / NUM_ET_THREADS;
 		int p = 2;
+		int i = 1;
 		while(p < numPages) {
 			int s = p;
 			int e = Math.min(s + range, numPages);
 			Thread t = new Thread(new ETWorkerThread(setId, region, s, e, queue));
+			t.setName("mrot-extr-" + region + "-" + i);
 			threads.add(t);
 			t.start();
 			p = e;
+			i++;
 		}
-
-		// spawn L thread
-		Thread l = new Thread(new LWorkerThread(getDb(), queue));
-		l.start();
 
 		// wait for ET threads
 		threads.forEach(thread -> {
