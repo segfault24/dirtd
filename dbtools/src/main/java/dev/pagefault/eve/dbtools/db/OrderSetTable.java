@@ -1,6 +1,5 @@
 package dev.pagefault.eve.dbtools.db;
 
-import dev.pagefault.eve.dbtools.model.OrderSet;
 import dev.pagefault.eve.dbtools.util.Utils;
 
 import java.sql.Connection;
@@ -15,7 +14,7 @@ public class OrderSetTable {
     private static final String INSERT_SQL = "INSERT INTO orderset (`regionId`,`retrieved`) VALUES (?,?)";
     private static final String UPSERT_LATEST_SQL = "INSERT INTO latestset (`regionId`,`setId`) VALUES (?,?)" +
             " ON DUPLICATE KEY UPDATE `setId`=VALUES(`setId`)";
-    private static final String DELETE_OLD_SQL = "DELETE FROM orderset WHERE `retrieved`<?";
+    private static final String DELETE_OLD_SQL = "DELETE FROM orderset WHERE `retrieved`<? LIMIT 1";
 
     public static int buildNewSet(Connection db, int regionId) throws SQLException {
         PreparedStatement stmt = db.prepareStatement(INSERT_SQL, Statement.RETURN_GENERATED_KEYS);
@@ -36,7 +35,7 @@ public class OrderSetTable {
         stmt.executeUpdate();
     }
 
-    public static int deleteOldSets(Connection db, Timestamp olderThan) throws SQLException {
+    public static int deleteOneOldSet(Connection db, Timestamp olderThan) throws SQLException {
         PreparedStatement stmt = db.prepareStatement(DELETE_OLD_SQL);
         stmt.setTimestamp(1, olderThan);
         return stmt.executeUpdate();
