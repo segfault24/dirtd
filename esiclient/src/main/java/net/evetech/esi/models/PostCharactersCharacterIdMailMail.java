@@ -31,7 +31,7 @@ import net.evetech.esi.models.PostCharactersCharacterIdMailRecipient;
  * mail object
  */
 @ApiModel(description = "mail object")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-27T23:34:00.171-05:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-28T09:30:14.131-05:00")
 public class PostCharactersCharacterIdMailMail {
   @SerializedName("approved_cost")
   private Long approvedCost = 0l;

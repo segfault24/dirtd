@@ -31,7 +31,7 @@ import net.evetech.esi.models.GetCharactersCharacterIdPlanetsPlanetIdHead;
  * extractor_details object
  */
 @ApiModel(description = "extractor_details object")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-27T23:34:00.171-05:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-28T09:30:14.131-05:00")
 public class GetCharactersCharacterIdPlanetsPlanetIdExtractorDetails {
   @SerializedName("cycle_time")
   private Integer cycleTime = null;

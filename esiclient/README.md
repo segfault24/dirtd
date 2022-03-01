@@ -1,8 +1,8 @@
-# esi-client
+# esiclient
 
 EVE Swagger Interface
 - API version: 1.10.1
-  - Build date: 2022-02-27T23:34:00.171-05:00
+  - Build date: 2022-02-28T09:30:14.131-05:00
 
 An OpenAPI for EVE Online
 
@@ -38,9 +38,9 @@ Add this dependency to your project's POM:
 
 ```xml
 <dependency>
-  <groupId>io.swagger</groupId>
-  <artifactId>esi-client</artifactId>
-  <version>1.0.0</version>
+  <groupId>dev.pagefault.eve</groupId>
+  <artifactId>esiclient</artifactId>
+  <version>1.1.0</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -50,7 +50,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "io.swagger:esi-client:1.0.0"
+compile "dev.pagefault.eve:esiclient:1.1.0"
 ```
 
 ### Others
@@ -63,7 +63,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/esi-client-1.0.0.jar`
+* `target/esiclient-1.1.0.jar`
 * `target/lib/*.jar`
 
 ## Getting Started

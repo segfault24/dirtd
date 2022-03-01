@@ -28,7 +28,7 @@ import java.io.IOException;
  * No image server for this datasource
  */
 @ApiModel(description = "No image server for this datasource")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-27T23:34:00.171-05:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-28T09:30:14.131-05:00")
 public class GetCharactersCharacterIdPortraitNotFound {
   @SerializedName("error")
   private String error = null;

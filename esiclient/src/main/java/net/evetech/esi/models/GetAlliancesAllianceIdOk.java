@@ -29,7 +29,7 @@ import org.threeten.bp.OffsetDateTime;
  * 200 ok object
  */
 @ApiModel(description = "200 ok object")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-27T23:34:00.171-05:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-28T09:30:14.131-05:00")
 public class GetAlliancesAllianceIdOk {
   @SerializedName("creator_corporation_id")
   private Integer creatorCorporationId = null;

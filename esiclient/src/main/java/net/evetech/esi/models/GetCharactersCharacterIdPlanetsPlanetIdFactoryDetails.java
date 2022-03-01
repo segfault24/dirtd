@@ -28,7 +28,7 @@ import java.io.IOException;
  * factory_details object
  */
 @ApiModel(description = "factory_details object")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-27T23:34:00.171-05:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-28T09:30:14.131-05:00")
 public class GetCharactersCharacterIdPlanetsPlanetIdFactoryDetails {
   @SerializedName("schematic_id")
   private Integer schematicId = null;

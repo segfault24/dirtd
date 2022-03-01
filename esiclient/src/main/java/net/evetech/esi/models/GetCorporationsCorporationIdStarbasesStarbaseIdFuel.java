@@ -28,7 +28,7 @@ import java.io.IOException;
  * fuel object
  */
 @ApiModel(description = "fuel object")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-27T23:34:00.171-05:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-28T09:30:14.131-05:00")
 public class GetCorporationsCorporationIdStarbasesStarbaseIdFuel {
   @SerializedName("quantity")
   private Integer quantity = null;

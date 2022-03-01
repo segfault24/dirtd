@@ -30,7 +30,7 @@ import java.util.List;
  * new_mail object
  */
 @ApiModel(description = "new_mail object")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-27T23:34:00.171-05:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-28T09:30:14.131-05:00")
 public class PostUiOpenwindowNewmailNewMail {
   @SerializedName("body")
   private String body = null;

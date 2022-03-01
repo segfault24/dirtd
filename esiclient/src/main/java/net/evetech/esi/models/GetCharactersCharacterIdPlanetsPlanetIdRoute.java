@@ -30,7 +30,7 @@ import java.util.List;
  * route object
  */
 @ApiModel(description = "route object")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-27T23:34:00.171-05:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-28T09:30:14.131-05:00")
 public class GetCharactersCharacterIdPlanetsPlanetIdRoute {
   @SerializedName("content_type_id")
   private Integer contentTypeId = null;

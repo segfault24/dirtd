@@ -28,7 +28,7 @@ import java.io.IOException;
  * Summary of kills against an enemy faction for the given faction
  */
 @ApiModel(description = "Summary of kills against an enemy faction for the given faction")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-27T23:34:00.171-05:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-28T09:30:14.131-05:00")
 public class GetFwStatsKills {
   @SerializedName("last_week")
   private Integer lastWeek = null;

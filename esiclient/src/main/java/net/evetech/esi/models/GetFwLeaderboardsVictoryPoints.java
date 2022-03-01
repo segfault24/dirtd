@@ -33,7 +33,7 @@ import net.evetech.esi.models.GetFwLeaderboardsYesterdayYesterday1;
  * Top 4 rankings of factions by victory points from yesterday, last week and in total
  */
 @ApiModel(description = "Top 4 rankings of factions by victory points from yesterday, last week and in total")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-27T23:34:00.171-05:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-28T09:30:14.131-05:00")
 public class GetFwLeaderboardsVictoryPoints {
   @SerializedName("active_total")
   private List<GetFwLeaderboardsActiveTotalActiveTotal1> activeTotal = new ArrayList<GetFwLeaderboardsActiveTotalActiveTotal1>();

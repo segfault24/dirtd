@@ -1,8 +1,8 @@
 lazy val root = (project in file(".")).
   settings(
-    organization := "io.swagger",
-    name := "esi-client",
-    version := "1.0.0",
+    organization := "dev.pagefault.eve",
+    name := "esiclient",
+    version := "1.1.0",
     scalaVersion := "2.11.4",
     scalacOptions ++= Seq("-feature"),
     javacOptions in compile ++= Seq("-Xlint:deprecation"),
