@@ -50,9 +50,10 @@ import net.evetech.esi.models.GetUniverseStationsStationIdOk;
 import net.evetech.esi.models.GetUniverseStructuresStructureIdOk;
 import net.evetech.esi.models.GetUniverseSystemsSystemIdOk;
 import net.evetech.esi.models.GetUniverseTypesTypeIdOk;
+import org.threeten.bp.ZoneOffset;
 
 /**
- * Utilities for converting ESI types to out types
+ * Utilities for converting ESI types to our types
  *
  * @author austin
  */
@@ -135,17 +136,17 @@ public interface TypeUtil {
 		if (c.getType() != null)
 			contract.setType(convertContractType(c.getType().toString()));
 		if (c.getDateIssued() != null)
-			contract.setDateIssued(new Timestamp(c.getDateIssued().getMillis()));
+			contract.setDateIssued(new Timestamp(c.getDateIssued().toInstant().toEpochMilli()));
 		if (c.getDateExpired() != null)
-			contract.setDateExpired(new Timestamp(c.getDateExpired().getMillis()));
+			contract.setDateExpired(new Timestamp(c.getDateExpired().toInstant().toEpochMilli()));
 		if (c.getDateAccepted() != null)
-			contract.setDateAccepted(new Timestamp(c.getDateAccepted().getMillis()));
+			contract.setDateAccepted(new Timestamp(c.getDateAccepted().toInstant().toEpochMilli()));
 		if (c.getDateCompleted() != null)
-			contract.setDateCompleted(new Timestamp(c.getDateCompleted().getMillis()));
+			contract.setDateCompleted(new Timestamp(c.getDateCompleted().toInstant().toEpochMilli()));
 		if (c.getTitle() != null)
 			contract.setTitle(c.getTitle());
-		if (c.getForCorporation() != null)
-			contract.setForCorp(c.getForCorporation());
+		if (c.isForCorporation() != null)
+			contract.setForCorp(c.isForCorporation());
 		if (c.getStartLocationId() != null)
 			contract.setStartLocationId(c.getStartLocationId());
 		if (c.getEndLocationId() != null)
@@ -170,8 +171,8 @@ public interface TypeUtil {
 		item.setTypeId(i.getTypeId());
 		item.setQuantity(i.getQuantity());
 		item.setRecordId(i.getRecordId());
-		item.setIncluded(i.getIsIncluded());
-		item.setSingleton(i.getIsSingleton());
+		item.setIncluded(i.isIsIncluded());
+		item.setSingleton(i.isIsSingleton());
 		return item;
 	}
 
@@ -194,17 +195,17 @@ public interface TypeUtil {
 		if (c.getType() != null)
 			contract.setType(convertContractType(c.getType().toString()));
 		if (c.getDateIssued() != null)
-			contract.setDateIssued(new Timestamp(c.getDateIssued().getMillis()));
+			contract.setDateIssued(new Timestamp(c.getDateIssued().toInstant().toEpochMilli()));
 		if (c.getDateExpired() != null)
-			contract.setDateExpired(new Timestamp(c.getDateExpired().getMillis()));
+			contract.setDateExpired(new Timestamp(c.getDateExpired().toInstant().toEpochMilli()));
 		if (c.getDateAccepted() != null)
-			contract.setDateAccepted(new Timestamp(c.getDateAccepted().getMillis()));
+			contract.setDateAccepted(new Timestamp(c.getDateAccepted().toInstant().toEpochMilli()));
 		if (c.getDateCompleted() != null)
-			contract.setDateCompleted(new Timestamp(c.getDateCompleted().getMillis()));
+			contract.setDateCompleted(new Timestamp(c.getDateCompleted().toInstant().toEpochMilli()));
 		if (c.getTitle() != null)
 			contract.setTitle(c.getTitle());
-		if (c.getForCorporation() != null)
-			contract.setForCorp(c.getForCorporation());
+		if (c.isForCorporation() != null)
+			contract.setForCorp(c.isForCorporation());
 		if (c.getStartLocationId() != null)
 			contract.setStartLocationId(c.getStartLocationId());
 		if (c.getEndLocationId() != null)
@@ -229,8 +230,8 @@ public interface TypeUtil {
 		item.setTypeId(i.getTypeId());
 		item.setQuantity(i.getQuantity());
 		item.setRecordId(i.getRecordId());
-		item.setIncluded(i.getIsIncluded());
-		item.setSingleton(i.getIsSingleton());
+		item.setIncluded(i.isIsIncluded());
+		item.setSingleton(i.isIsSingleton());
 		return item;
 	}
 
@@ -245,13 +246,13 @@ public interface TypeUtil {
 		if (c.getType() != null)
 			contract.setType(convertContractType(c.getType().toString()));
 		if (c.getDateIssued() != null)
-			contract.setDateIssued(new Timestamp(c.getDateIssued().getMillis()));
+			contract.setDateIssued(new Timestamp(c.getDateIssued().toInstant().toEpochMilli()));
 		if (c.getDateExpired() != null)
-			contract.setDateExpired(new Timestamp(c.getDateExpired().getMillis()));
+			contract.setDateExpired(new Timestamp(c.getDateExpired().toInstant().toEpochMilli()));
 		if (c.getTitle() != null)
 			contract.setTitle(c.getTitle());
-		if (c.getForCorporation() != null)
-			contract.setForCorp(c.getForCorporation());
+		if (c.isForCorporation() != null)
+			contract.setForCorp(c.isForCorporation());
 		if (c.getStartLocationId() != null)
 			contract.setStartLocationId(c.getStartLocationId());
 		if (c.getEndLocationId() != null)
@@ -279,10 +280,10 @@ public interface TypeUtil {
 			item.setQuantity(i.getQuantity());
 		if (i.getRecordId() != null)
 			item.setRecordId(i.getRecordId());
-		if (i.getIsIncluded() != null)
-			item.setIncluded(i.getIsIncluded());
-		if (i.getIsBlueprintCopy() != null)
-			item.setBpc(i.getIsBlueprintCopy());
+		if (i.isIsIncluded() != null)
+			item.setIncluded(i.isIsIncluded());
+		if (i.isIsBlueprintCopy() != null)
+			item.setBpc(i.isIsBlueprintCopy());
 		if (i.getItemId() != null)
 			item.setItemId(i.getItemId());
 		if (i.getMaterialEfficiency() != null)
@@ -308,8 +309,8 @@ public interface TypeUtil {
 			type.setMass(t.getMass());
 		if (t.getVolume() != null)
 			type.setVolume(t.getVolume());
-		if (t.getPublished() != null)
-			type.setPublished(t.getPublished());
+		if (t.isPublished() != null)
+			type.setPublished(t.isPublished());
 		if (t.getMarketGroupId() != null)
 			type.setMarketGroupId(t.getMarketGroupId());
 		return type;
@@ -332,7 +333,7 @@ public interface TypeUtil {
 		character.setCorpId(c.getCorporationId());
 		if (c.getAllianceId() != null)
 			character.setAllianceId(c.getAllianceId());
-		character.setBirthday(new Date(c.getBirthday().getMillis()));
+		character.setBirthday(new Date(c.getBirthday().toInstant().toEpochMilli()));
 		return character;
 	}
 
@@ -345,7 +346,7 @@ public interface TypeUtil {
 		corp.setCeoId(c.getCeoId());
 		corp.setCreatorId(c.getCreatorId());
 		if (c.getDateFounded() != null)
-			corp.setCreationDate(new Date(c.getDateFounded().getMillis()));
+			corp.setCreationDate(new Date(c.getDateFounded().toInstant().toEpochMilli()));
 		corp.setMemberCount(c.getMemberCount());
 		corp.setTaxRate(c.getTaxRate());
 		corp.setUrl(c.getUrl());
@@ -363,9 +364,9 @@ public interface TypeUtil {
 
 	public static MarketOrder convert(GetMarketsRegionIdOrders200Ok o) {
 		MarketOrder order = new MarketOrder();
-		order.setIssued(new Timestamp(o.getIssued().getMillis()));
+		order.setIssued(new Timestamp(o.getIssued().toInstant().toEpochMilli()));
 		order.setRange(convert(o.getRange()));
-		order.setBuyOrder(o.getIsBuyOrder());
+		order.setBuyOrder(o.isIsBuyOrder());
 		order.setDuration(o.getDuration());
 		order.setOrderId(o.getOrderId());
 		order.setVolumeRemain(o.getVolumeRemain());
@@ -379,9 +380,9 @@ public interface TypeUtil {
 
 	public static MarketOrder convert(GetMarketsStructuresStructureId200Ok o) {
 		MarketOrder order = new MarketOrder();
-		order.setIssued(new Timestamp(o.getIssued().getMillis()));
+		order.setIssued(new Timestamp(o.getIssued().toInstant().toEpochMilli()));
 		order.setRange(convert(o.getRange()));
-		order.setBuyOrder(o.getIsBuyOrder());
+		order.setBuyOrder(o.isIsBuyOrder());
 		order.setDuration(o.getDuration());
 		order.setOrderId(o.getOrderId());
 		order.setVolumeRemain(o.getVolumeRemain());
@@ -396,11 +397,11 @@ public interface TypeUtil {
 	public static CharOrder convert(GetCharactersCharacterIdOrders200Ok o) {
 		CharOrder order = new CharOrder();
 		if (o.getIssued() != null)
-			order.setIssued(new Timestamp(o.getIssued().getMillis()));
+			order.setIssued(new Timestamp(o.getIssued().toInstant().toEpochMilli()));
 		if (o.getRange() != null)
 			order.setRange(o.getRange().toString());
-		if (o.getIsBuyOrder() != null)
-			order.setBuyOrder(o.getIsBuyOrder());
+		if (o.isIsBuyOrder() != null)
+			order.setBuyOrder(o.isIsBuyOrder());
 		if (o.getDuration() != null)
 			order.setDuration(o.getDuration());
 		if (o.getOrderId() != null)
@@ -437,9 +438,9 @@ public interface TypeUtil {
 		WalletTransaction transaction = new WalletTransaction();
 		transaction.setTransactionId(t.getTransactionId());
 		transaction.setClientId(t.getClientId());
-		transaction.setDate(new Timestamp(t.getDate().getMillis()));
-		transaction.setBuy(t.getIsBuy());
-		transaction.setPersonal(t.getIsPersonal());
+		transaction.setDate(new Timestamp(t.getDate().toInstant().toEpochMilli()));
+		transaction.setBuy(t.isIsBuy());
+		transaction.setPersonal(t.isIsPersonal());
 		transaction.setTypeId(t.getTypeId());
 		transaction.setQuantity(t.getQuantity());
 		transaction.setUnitPrice(t.getUnitPrice());
@@ -451,7 +452,7 @@ public interface TypeUtil {
 	public static WalletJournalEntry convert(GetCharactersCharacterIdWalletJournal200Ok j) {
 		WalletJournalEntry entry = new WalletJournalEntry();
 		entry.setJournalId(j.getId());
-		entry.setDate(new Timestamp(j.getDate().getMillis()));
+		entry.setDate(new Timestamp(j.getDate().toInstant().toEpochMilli()));
 		entry.setAmount(j.getAmount());
 		entry.setBalance(j.getBalance());
 		if (j.getTax() != null)

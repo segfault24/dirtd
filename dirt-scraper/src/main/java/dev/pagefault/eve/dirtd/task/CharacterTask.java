@@ -44,6 +44,7 @@ public class CharacterTask extends DirtTask {
 			Character c = TypeUtil.convert(info);
 			c.setCharId(charId);
 			CharacterTable.upsert(getDb(), c);
+			log.debug("Inserted information for character " + charId);
 		} catch (ApiException e) {
 			log.error("Failed to retrieve info for character " + charId + ": " + e.getLocalizedMessage());
 			log.debug(e);
@@ -51,7 +52,6 @@ public class CharacterTask extends DirtTask {
 			log.error("Failed to insert info for character " + charId + ": " + e.getLocalizedMessage());
 			log.debug(e);
 		}
-		log.debug("Inserted information for character " + charId);
 		try {
 			Thread.sleep(SLEEP_HACK);
 		} catch (InterruptedException e) {
