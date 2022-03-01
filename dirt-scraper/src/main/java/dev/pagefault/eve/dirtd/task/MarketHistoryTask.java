@@ -25,9 +25,9 @@ import net.evetech.esi.models.GetMarketsRegionIdHistory200Ok;
  */
 public class MarketHistoryTask extends DirtTask {
 
-	private static Logger log = LogManager.getLogger();
+	private static final Logger log = LogManager.getLogger();
 
-	private int region;
+	private final int region;
 
 	public MarketHistoryTask(int region) {
 		this.region = region;
@@ -60,11 +60,11 @@ public class MarketHistoryTask extends DirtTask {
 		getExecutor().scheduleTask(new HistorySubTask(region, d, 4));
 	}
 
-	private class HistorySubTask extends DirtTask {
+	private static class HistorySubTask extends DirtTask {
 
-		private int region;
-		private List<Integer> types;
-		private int subTaskId;
+		private final int region;
+		private final List<Integer> types;
+		private final int subTaskId;
 
 		public HistorySubTask(int region, List<Integer> types, int subTaskId) {
 			this.region = region;
@@ -80,11 +80,18 @@ public class MarketHistoryTask extends DirtTask {
 		@Override
 		protected void runTask() {
 			log.debug("Retrieving market history for " + types.size() + " types");
+			try {
+				getDb().setAutoCommit(false);
+			} catch (SQLException e) {
+				log.fatal("Failed to set autocommit=false");
+				return;
+			}
 			for (Integer type : types) {
 				List<MarketHistoryEntry> hs = getHistory(region, type);
 				try {
-					getDb().setAutoCommit(false);
 					MarketHistoryTable.insertMany(getDb(), hs);
+					getDb().commit();
+					calcStat(hs, type);
 					getDb().commit();
 					log.debug("Inserted " + hs.size() + " history entries for region " + region + " type " + type);
 				} catch (SQLException e) {
@@ -95,21 +102,19 @@ public class MarketHistoryTask extends DirtTask {
 					} catch (SQLException e1) {
 						log.error(e1);
 					}
-				} finally {
-					try {
-						getDb().setAutoCommit(true);
-					} catch (SQLException e) {
-						log.error(e);
-					}
 				}
-				calcStat(hs, type);
+			}
+			try {
+				getDb().setAutoCommit(true);
+			} catch (SQLException e) {
+				log.error(e);
 			}
 			log.debug("Inserted history for " + types.size() + " types for region " + region);
 		}
 
 		private List<MarketHistoryEntry> getHistory(int regionId, int typeId) {
 			MarketApiWrapper mapiw = new MarketApiWrapper(getDb());
-			List<GetMarketsRegionIdHistory200Ok> history = new ArrayList<GetMarketsRegionIdHistory200Ok>();
+			List<GetMarketsRegionIdHistory200Ok> history = new ArrayList<>();
 			int retry = 0;
 			while (true) {
 				try {
@@ -122,11 +127,10 @@ public class MarketHistoryTask extends DirtTask {
 						break;
 					} else {
 						retry++;
-						continue;
 					}
 				}
 			}
-			List<MarketHistoryEntry> entries = new ArrayList<MarketHistoryEntry>(history.size());
+			List<MarketHistoryEntry> entries = new ArrayList<>(history.size());
 			for (GetMarketsRegionIdHistory200Ok h : history) {
 				MarketHistoryEntry e = TypeUtil.convert(h);
 				e.setTypeId(typeId);
