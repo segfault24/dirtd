@@ -27,7 +27,7 @@ public class MarketOrderTable {
 			stmt.setTimestamp(2, o.getIssued());
 			stmt.setInt(3, o.getRange());
 			stmt.setBoolean(4, o.isBuyOrder());
-			stmt.setInt(5, o.getDuration());
+			stmt.setShort(5, o.getDuration());
 			stmt.setLong(6, o.getOrderId());
 			stmt.setInt(7, o.getVolumeRemain());
 			stmt.setInt(8, o.getMinVolume());

@@ -287,9 +287,9 @@ public interface TypeUtil {
 		if (i.getItemId() != null)
 			item.setItemId(i.getItemId());
 		if (i.getMaterialEfficiency() != null)
-			item.setMaterialEfficiency(i.getMaterialEfficiency());
+			item.setMaterialEfficiency(i.getMaterialEfficiency().shortValue());
 		if (i.getTimeEfficiency() != null)
-			item.setTimeEfficiency(i.getTimeEfficiency());
+			item.setTimeEfficiency(i.getTimeEfficiency().shortValue());
 		if (i.getRuns() != null)
 			item.setRuns(i.getRuns());
 		return item;
@@ -367,7 +367,7 @@ public interface TypeUtil {
 		order.setIssued(new Timestamp(o.getIssued().toInstant().toEpochMilli()));
 		order.setRange(convert(o.getRange()));
 		order.setBuyOrder(o.isIsBuyOrder());
-		order.setDuration(o.getDuration());
+		order.setDuration(o.getDuration().shortValue());
 		order.setOrderId(o.getOrderId());
 		order.setVolumeRemain(o.getVolumeRemain());
 		order.setMinVolume(o.getMinVolume());
@@ -383,7 +383,7 @@ public interface TypeUtil {
 		order.setIssued(new Timestamp(o.getIssued().toInstant().toEpochMilli()));
 		order.setRange(convert(o.getRange()));
 		order.setBuyOrder(o.isIsBuyOrder());
-		order.setDuration(o.getDuration());
+		order.setDuration(o.getDuration().shortValue());
 		order.setOrderId(o.getOrderId());
 		order.setVolumeRemain(o.getVolumeRemain());
 		order.setMinVolume(o.getMinVolume());

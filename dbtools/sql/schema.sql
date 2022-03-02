@@ -450,8 +450,8 @@ CREATE TABLE `publiccontractitem` (
 	`included` BOOLEAN NOT NULL,
 	`isBpc` BOOLEAN,
 	`itemId` BIGINT,
-	`matEfficiency` INT,
-	`timeEfficiency` INT,
+	`matEfficiency` TINYINT,
+	`timeEfficiency` TINYINT,
 	`runs` INT,
 	PRIMARY KEY (`contractItemId`),
 	FOREIGN KEY (`contractId`)

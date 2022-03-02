@@ -25,8 +25,8 @@ public class PublicContractItemTable {
 			stmt.setBoolean(5, i.isIncluded());
 			stmt.setBoolean(6, i.isBpc());
 			stmt.setLong(7, i.getItemId());
-			stmt.setInt(8, i.getMaterialEfficiency());
-			stmt.setInt(9, i.getTimeEfficiency());
+			stmt.setShort(8, i.getMaterialEfficiency());
+			stmt.setShort(9, i.getTimeEfficiency());
 			stmt.setInt(10, i.getRuns());
 			stmt.addBatch();
 		}

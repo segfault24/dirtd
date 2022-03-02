@@ -8,7 +8,7 @@ public class MarketOrder {
 	private Timestamp issued;
 	private int range;
 	private boolean buyOrder;
-	private int duration;
+	private short duration;
 	private long orderId;
 	private int volumeRemain;
 	private int minVolume;
@@ -52,11 +52,11 @@ public class MarketOrder {
 		this.buyOrder = buyOrder;
 	}
 
-	public int getDuration() {
+	public short getDuration() {
 		return duration;
 	}
 
-	public void setDuration(int duration) {
+	public void setDuration(short duration) {
 		this.duration = duration;
 	}
 

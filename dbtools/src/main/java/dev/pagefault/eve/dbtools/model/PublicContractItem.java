@@ -10,8 +10,8 @@ public class PublicContractItem {
 	private boolean included;
 	private boolean isBpc;
 	private long itemId;
-	private int materialEfficiency;
-	private int timeEfficiency;
+	private short materialEfficiency;
+	private short timeEfficiency;
 	private int runs;
 
 	public PublicContractItem() {
@@ -81,19 +81,19 @@ public class PublicContractItem {
 		this.itemId = itemId;
 	}
 
-	public int getMaterialEfficiency() {
+	public short getMaterialEfficiency() {
 		return materialEfficiency;
 	}
 
-	public void setMaterialEfficiency(int materialEfficiency) {
+	public void setMaterialEfficiency(short materialEfficiency) {
 		this.materialEfficiency = materialEfficiency;
 	}
 
-	public int getTimeEfficiency() {
+	public short getTimeEfficiency() {
 		return timeEfficiency;
 	}
 
-	public void setTimeEfficiency(int timeEfficiency) {
+	public void setTimeEfficiency(short timeEfficiency) {
 		this.timeEfficiency = timeEfficiency;
 	}
 
