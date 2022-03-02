@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 public class TaskExecutor extends ScheduledThreadPoolExecutor implements Taskable {
@@ -26,7 +27,16 @@ public class TaskExecutor extends ScheduledThreadPoolExecutor implements Taskabl
 	private final HashMap<String, TaskEntry> registry = new HashMap<String, TaskEntry>();
 
 	public TaskExecutor(DbPool pool) {
-		super(1, runnable -> new Thread(runnable, "digger-"));
+		super(1, new ThreadFactory() {
+			private int i = 0;
+			private final Object lock = new Object();
+			@Override
+			public Thread newThread(Runnable runnable) {
+				int n;
+				synchronized (lock) { n = i++; }
+				return new Thread(runnable, "digger-" + n);
+			}
+		});
 		dbPool = pool;
 	}
 
