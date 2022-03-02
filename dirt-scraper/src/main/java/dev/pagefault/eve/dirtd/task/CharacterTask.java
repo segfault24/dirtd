@@ -1,5 +1,6 @@
 package dev.pagefault.eve.dirtd.task;
 
+import java.sql.Date;
 import java.sql.SQLException;
 
 import org.apache.logging.log4j.LogManager;
@@ -19,11 +20,11 @@ import net.evetech.esi.models.GetCharactersCharacterIdOk;
  */
 public class CharacterTask extends DirtTask {
 
-	private static Logger log = LogManager.getLogger();
+	private static final Logger log = LogManager.getLogger();
 
 	private static final int SLEEP_HACK = 1000;
 
-	private int charId;
+	private final int charId;
 
 	public CharacterTask(int charId) {
 		this.charId = charId;
@@ -46,15 +47,33 @@ public class CharacterTask extends DirtTask {
 			CharacterTable.upsert(getDb(), c);
 			log.debug("Inserted information for character " + charId);
 		} catch (ApiException e) {
-			log.error("Failed to retrieve info for character " + charId + ": " + e.getLocalizedMessage());
-			log.debug(e);
+			if (e.getCode() == 404) {
+				// character was deleted
+				// insert a special entry so that we don't constantly retry and 420 ourselves
+				Character c = new Character();
+				c.setCharId(charId);
+				c.setAllianceId(0);
+				c.setCorpId(1000001);
+				c.setCharName("DELETED-" + charId);
+				c.setBirthday(new Date(0));
+				try {
+					CharacterTable.upsert(getDb(), c);
+					log.warn("Inserted null character for deleted character " + charId);
+				} catch (SQLException ex) {
+					log.error("Failed to insert info for character " + charId + ": " + e.getLocalizedMessage());
+					log.debug(e);
+				}
+			} else {
+				log.error("Failed to retrieve info for character " + charId + ": " + e.getLocalizedMessage());
+				log.debug(e);
+			}
 		} catch (SQLException e) {
 			log.error("Failed to insert info for character " + charId + ": " + e.getLocalizedMessage());
 			log.debug(e);
 		}
 		try {
 			Thread.sleep(SLEEP_HACK);
-		} catch (InterruptedException e) {
+		} catch (InterruptedException ignored) {
 		}
 	}
 

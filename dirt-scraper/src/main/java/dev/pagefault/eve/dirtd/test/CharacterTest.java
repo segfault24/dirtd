@@ -15,6 +15,9 @@ public class CharacterTest {
         DirtTask t = new CharacterTask(93764661);
         t.setDbPool(dbPool);
         t.run();
+        t = new CharacterTask(2119411560);
+        t.setDbPool(dbPool);
+        t.run();
         dbPool.closeAll();
     }
 
