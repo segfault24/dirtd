@@ -1,5 +1,14 @@
 package dev.pagefault.eve.dirtd.daemon;
 
+import dev.pagefault.eve.dbtools.db.TaskLogTable;
+import dev.pagefault.eve.dbtools.model.TaskLog;
+import dev.pagefault.eve.dbtools.util.DbPool;
+import dev.pagefault.eve.dbtools.util.Utils;
+import dev.pagefault.eve.dirtd.DirtConstants;
+import dev.pagefault.eve.dirtd.task.DirtTask;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -8,27 +17,16 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import dev.pagefault.eve.dbtools.db.TaskLogTable;
-import dev.pagefault.eve.dbtools.model.TaskLog;
-import dev.pagefault.eve.dbtools.util.DbPool;
-import dev.pagefault.eve.dbtools.util.Utils;
-import dev.pagefault.eve.dirtd.DirtConstants;
-import dev.pagefault.eve.dirtd.task.DirtTask;
-
 public class TaskExecutor extends ScheduledThreadPoolExecutor implements Taskable {
 
-	private static Logger log = LogManager.getLogger();
+	private static final Logger log = LogManager.getLogger();
 
-	public final long started = System.currentTimeMillis();
-
+	private final long started = System.currentTimeMillis();
 	private final DbPool dbPool;
-	private HashMap<String, TaskEntry> registry = new HashMap<String, TaskEntry>();
+	private final HashMap<String, TaskEntry> registry = new HashMap<String, TaskEntry>();
 
 	public TaskExecutor(DbPool pool) {
-		super(1);
+		super(1, runnable -> new Thread(runnable, "digger-"));
 		dbPool = pool;
 	}
 
@@ -107,9 +105,7 @@ public class TaskExecutor extends ScheduledThreadPoolExecutor implements Taskabl
 	 */
 	@Override
 	public void scheduleTasks(Collection<DirtTask> tasks) {
-		for (DirtTask task : tasks) {
-			scheduleTask(task);
-		}
+		tasks.forEach(this::scheduleTask);
 	}
 
 	/**
