@@ -28,7 +28,7 @@ public class TaskExecutor extends ScheduledThreadPoolExecutor implements Taskabl
 
 	public TaskExecutor(DbPool pool) {
 		super(1, new ThreadFactory() {
-			private int i = 0;
+			private int i = 1;
 			private final Object lock = new Object();
 			@Override
 			public Thread newThread(Runnable runnable) {
