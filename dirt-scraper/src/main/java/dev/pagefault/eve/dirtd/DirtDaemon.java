@@ -123,7 +123,7 @@ public class DirtDaemon {
 		executor.schedulePeriodicTask(db, new OrderReaperTask(), 30);
 
 		// auto-regenerate derived tables periodically
-		executor.schedulePeriodicTask(db, new DerivedTableTask(), 120);
+		executor.schedulePeriodicTask(db, new DerivedTableTask(), 360);
 
 		// market history for specific regions
 		regions = Utils.parseIntList(Utils.getProperty(db, DirtConstants.PROPERTY_MARKET_HISTORY_REGIONS));
