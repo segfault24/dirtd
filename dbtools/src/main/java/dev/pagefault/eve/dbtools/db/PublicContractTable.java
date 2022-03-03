@@ -28,7 +28,8 @@ public class PublicContractTable {
 			+ " `lastSeen`=VALUES(`lastSeen`), `status`=VALUES(`status`)";
 
 	private static final String UPDATE_COMPLETED_SQL = "UPDATE publiccontract SET `status`="
-			+ Contract.ContractStatus.FINISHED.getValue() + " WHERE `lastSeen`<?";
+			+ Contract.ContractStatus.FINISHED.getValue() + " WHERE `lastSeen`<?"
+			+ " AND `status`=" + ContractStatus.OUTSTANDING.getValue();
 
 	private static final int BATCH_SIZE = 1000;
 
