@@ -1,5 +1,11 @@
 package dev.pagefault.eve.dirtd.task;
 
+import dev.pagefault.eve.dirtd.esi.UniverseApiWrapper;
+import net.evetech.ApiException;
+import net.evetech.esi.models.PostUniverseNames200Ok;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,13 +13,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import dev.pagefault.eve.dirtd.esi.UniverseApiWrapper;
-import net.evetech.ApiException;
-import net.evetech.esi.models.PostUniverseNames200Ok;
 
 /**
  * Gets a list of character and corporation ids from wallet entries, contracts,
@@ -24,24 +23,20 @@ import net.evetech.esi.models.PostUniverseNames200Ok;
  */
 public class UnknownIdsTask extends DirtTask {
 
-	private static Logger log = LogManager.getLogger();
+	private static final Logger log = LogManager.getLogger();
 
 	private static final String SELECT_IDS_KNOWN_SQL = "SELECT `charId` FROM `character` "
 			+ "UNION SELECT `corpId` FROM corporation";
-	private static final String SELECT_IDS_UNKNOWN_SQL = "SELECT issuerId FROM contract "
-			+ "UNION SELECT acceptorId FROM contract "
-			+ "UNION SELECT assigneeId FROM contract "
-			+ "UNION SELECT issuerCorpId FROM contract "
-			+ "UNION SELECT issuerId FROM corpcontract "
-			+ "UNION SELECT acceptorId FROM corpcontract "
-			+ "UNION SELECT assigneeId FROM corpcontract "
-			+ "UNION SELECT issuerCorpId FROM corpcontract "
-			+ "UNION SELECT issuerId FROM publiccontract "
-			+ "UNION SELECT issuerCorpId FROM publiccontract "
-			+ "UNION SELECT corpId FROM structure "
-			+ "UNION SELECT firstPartyId FROM walletjournal "
-			+ "UNION SELECT secondPartyId FROM walletjournal "
-			+ "UNION SELECT clientId FROM wallettransaction";
+
+	// keep ids in their rows, reduces calls
+	private static final String[] SELECT_IDS_UNKNOWN_SQLS = {
+			"SELECT issuerId, acceptorId, assigneeId, issuerCorpId FROM contract;",
+			"SELECT issuerId, acceptorId, assigneeId, issuerCorpId FROM corpcontract;",
+			"SELECT issuerId, issuerCorpId FROM publiccontract;",
+			"SELECT corpId FROM structure;",
+			"SELECT firstPartyId, secondPartyId FROM walletjournal;",
+			"SELECT clientId FROM wallettransaction;"
+	};
 
 	private static final int BATCH_SIZE = 500;
 
@@ -53,34 +48,43 @@ public class UnknownIdsTask extends DirtTask {
 	@Override
 	protected void runTask() {
 		// get list of all known corp + char ids in the db
-		List<Integer> knowns;
-		List<Integer> unknowns;
+		HashSet<Integer> knowns;
 		try {
 			knowns = getKnownIds(getDb());
-			unknowns = getUnknownIds(getDb());
 		} catch (SQLException e) {
 			log.fatal("Failed to scan database for char and corp ids: " + e.getLocalizedMessage());
 			log.debug(e);
 			return;
 		}
 		log.debug("Found " + knowns.size() + " known char and corp ids");
-		log.debug("Found " + unknowns.size() + " unknown char and corp ids");
 
-		// remove knowns from the unknowns
-		HashSet<Integer> unresolved = new HashSet<Integer>(unknowns);
-		unresolved.removeAll(knowns);
-		unresolved.remove(0);
-		List<Integer> search = new ArrayList<Integer>(unresolved);
+		HashSet<Integer> search = new HashSet<>();
+		for (String sql : SELECT_IDS_UNKNOWN_SQLS) {
+			HashSet<Integer> unknowns;
+			try {
+				log.trace(sql);
+				unknowns = getUnknownIds(getDb(), sql);
+			} catch (SQLException e) {
+				log.fatal("Failed to scan database for unknown ids: " + e.getLocalizedMessage());
+				continue;
+			}
+			unknowns.forEach(id -> {
+				if (!knowns.contains(id) && id != 0) {
+					search.add(id);
+				}
+			});
+		}
 		log.debug("There are " + search.size() + " ids to be resolved");
 
 		// pump through ESI's id resolver
 		UniverseApiWrapper uapiw = new UniverseApiWrapper(getDb());
 
-		int batches = (search.size() - 1) / BATCH_SIZE + 1;
+		List<Integer> search2 = new ArrayList<>(search);
+		int batches = (search2.size() - 1) / BATCH_SIZE + 1;
 		for (int i=0; i<batches; i++) {
 			int startIdx = i * BATCH_SIZE;
-			int endIdx = Math.min(startIdx + BATCH_SIZE, search.size());
-			List<Integer> sublist = search.subList(startIdx, endIdx);
+			int endIdx = Math.min(startIdx + BATCH_SIZE, search2.size());
+			List<Integer> sublist = search2.subList(startIdx, endIdx);
 
 			List<PostUniverseNames200Ok> names;
 			try {
@@ -108,10 +112,10 @@ public class UnknownIdsTask extends DirtTask {
 		}
 	}
 
-	private List<Integer> getKnownIds(Connection db) throws SQLException {
+	private HashSet<Integer> getKnownIds(Connection db) throws SQLException {
 		PreparedStatement stmt = db.prepareStatement(SELECT_IDS_KNOWN_SQL);
 		ResultSet rs = stmt.executeQuery();
-		List<Integer> ids = new ArrayList<Integer>();
+		HashSet<Integer> ids = new HashSet<>();
 		while (rs.next()) {
 			ids.add(rs.getInt(1));
 		}
@@ -120,12 +124,15 @@ public class UnknownIdsTask extends DirtTask {
 		return ids;
 	}
 
-	private List<Integer> getUnknownIds(Connection db) throws SQLException {
-		PreparedStatement stmt = db.prepareStatement(SELECT_IDS_UNKNOWN_SQL);
+	private HashSet<Integer> getUnknownIds(Connection db, String sql) throws SQLException {
+		PreparedStatement stmt = db.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
-		List<Integer> ids = new ArrayList<Integer>();
+		HashSet<Integer> ids = new HashSet<>();
+		int c = rs.getMetaData().getColumnCount();
 		while (rs.next()) {
-			ids.add(rs.getInt(1));
+			for (int i=1; i<=c; i++) {
+				ids.add(rs.getInt(i));
+			}
 		}
 		rs.close();
 		stmt.close();
