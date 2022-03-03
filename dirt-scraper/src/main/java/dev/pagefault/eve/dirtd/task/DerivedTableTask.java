@@ -1,31 +1,40 @@
 package dev.pagefault.eve.dirtd.task;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import dev.pagefault.eve.dbtools.util.Utils;
+import java.sql.SQLException;
 
 /**
- * Periodically refresh derived tables
+ * Periodically refresh derived tables.
+ * These could probably be stored procedures, tbh...
  * 
  * @author austin
  */
 public class DerivedTableTask extends DirtTask {
 
-	private static Logger log = LogManager.getLogger();
+	private static final Logger log = LogManager.getLogger();
 
-	private static final String DENTITY_TRUNCATE_SQL = "DELETE FROM dentity;";
-	private static final String DENTITY_INSERT_SQL = "INSERT INTO dentity"
-			+ " SELECT `character`.`charId` AS `id`,`character`.`charName` AS `name` FROM `character`"
-			+ " UNION SELECT `corporation`.`corpId` AS `id`,`corporation`.`corpName` AS `name` FROM `corporation`"
-			+ " UNION SELECT  `alliance`.`allianceId` AS `id`, `alliance`.`allianceName` AS `name` FROM `alliance`;";
-	private static final String DLOCATION_TRUNCATE_SQL = "DELETE FROM dlocation;";
-	private static final String DLOCATION_INSERT_SQL = "INSERT INTO `dlocation`"
-			+ " SELECT `stationId` AS locationId, `stationName` AS locationName FROM `station`"
-			+ " UNION ALL SELECT `structId` AS locationId, `structName` AS locationName FROM `structure`;";
+	private static final String[] DENTITY_SQLS = {
+			"DROP TABLE IF EXISTS dentity_tmp;",
+			"DROP TABLE IF EXISTS dentity_old;",
+			"CREATE TABLE dentity_tmp LIKE dentity;",
+			"INSERT INTO dentity_tmp SELECT `alliance`.`allianceId` AS `id`, `alliance`.`allianceName` AS `name` FROM `alliance`;",
+			"INSERT INTO dentity_tmp SELECT `corporation`.`corpId` AS `id`,`corporation`.`corpName` AS `name` FROM `corporation`;",
+			"INSERT INTO dentity_tmp SELECT `character`.`charId` AS `id`,`character`.`charName` AS `name` FROM `character`;",
+			"RENAME TABLE dentity TO dentity_old, dentity_tmp TO dentity;",
+			"DROP TABLE IF EXISTS dentity_old;"
+	};
+
+	private static final String[] DLOCATION_SQLS = {
+			"DROP TABLE IF EXISTS dlocation_tmp;",
+			"DROP TABLE IF EXISTS dlocation_old;",
+			"CREATE TABLE dlocation_tmp LIKE dlocation;",
+			"INSERT INTO dlocation_tmp SELECT `stationId` AS locationId, `stationName` AS locationName FROM `station`;",
+			"INSERT INTO dlocation_tmp SELECT `structId` AS locationId, `structName` AS locationName FROM `structure`;",
+			"RENAME TABLE dlocation TO dlocation_old, dlocation_tmp TO dlocation;",
+			"DROP TABLE IF EXISTS dlocation_old;"
+	};
 
 	@Override
 	public String getTaskName() {
@@ -34,27 +43,19 @@ public class DerivedTableTask extends DirtTask {
 
 	@Override
 	protected void runTask() {
-		updateDerivedTable(DENTITY_TRUNCATE_SQL, DENTITY_INSERT_SQL);
-		updateDerivedTable(DLOCATION_TRUNCATE_SQL, DLOCATION_INSERT_SQL);
+		updateDerivedTable(DENTITY_SQLS);
+		updateDerivedTable(DLOCATION_SQLS);
 	}
 
-	private void updateDerivedTable(String truncateSql, String insertSql) {
-		PreparedStatement t = null;
-		PreparedStatement i = null;
+	private void updateDerivedTable(String[] sqls) {
+		// the initial DELETEs make this task self-correcting correcting if anything goes wrong
 		try {
-			getDb().setAutoCommit(false);
-			t = getDb().prepareStatement(truncateSql);
-			t.execute();
-			i = getDb().prepareStatement(insertSql);
-			i.execute();
-			getDb().commit();
-			getDb().setAutoCommit(true);
+			for (String sql : sqls) {
+				getDb().prepareStatement(sql).execute();
+			}
 		} catch (SQLException e) {
-			log.error("Failed to update derived table" + ": " + e.getLocalizedMessage());
+			log.error("Failed to update derived table: " + e.getLocalizedMessage());
 			log.debug(e);
-		} finally {
-			Utils.closeQuietly(i);
-			Utils.closeQuietly(t);
 		}
 	}
 }
