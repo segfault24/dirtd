@@ -48,9 +48,10 @@ public class DerivedTableTask extends DirtTask {
 	}
 
 	private void updateDerivedTable(String[] sqls) {
-		// the initial DELETEs make this task self-correcting correcting if anything goes wrong
+		// the initial DELETEs make this task self-correcting if anything goes wrong
 		try {
 			for (String sql : sqls) {
+				log.trace(sql);
 				getDb().prepareStatement(sql).execute();
 			}
 		} catch (SQLException e) {
