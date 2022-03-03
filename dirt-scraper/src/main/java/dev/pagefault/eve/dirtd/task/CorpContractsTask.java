@@ -118,8 +118,7 @@ public class CorpContractsTask extends DirtTask {
 		for (Contract contract : contracts) {
 			if (contract.getType() == ContractType.ITEM_EXCHANGE) {
 				try {
-					Contract c = CorpContractTable.selectById(getDb(), contract.getContractId());
-					if (c == null) {
+					if (!CorpContractTable.existsById(getDb(), contract.getContractId())) {
 						// we haven't seen this contract before, get the items
 						tasks.add(new CorpContractItemsTask(corpId, contract.getContractId(), auth.getKeyId()));
 					}

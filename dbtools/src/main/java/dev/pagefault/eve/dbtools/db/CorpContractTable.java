@@ -21,6 +21,8 @@ public class CorpContractTable {
 			+ "`daysToComplete`,`price`,`reward`,`collateral`,`buyout`,`volume`"
 			+ " FROM corpcontract WHERE contractId=?";
 
+	private static final String SELECT_BY_ID_EXISTS_SQL = "SELECT `contractId` FROM corpcontract WHERE contractId=?";
+
 	private static final String SELECT_OUTSTANDING_EXCHANGE_SQL = "SELECT `contractId`,`issuerId`,`issuerCorpId`,"
 			+ "`assigneeId`,`acceptorId`,`availability`,`status`,`type`,`dateIssued`,`dateExpired`,"
 			+ "`dateAccepted`,`dateCompleted`,`title`,`forCorp`,`startLocationId`,`endLocationId`,"
@@ -72,6 +74,19 @@ public class CorpContractTable {
 		Utils.closeQuietly(rs);
 		Utils.closeQuietly(stmt);
 		return c;
+	}
+
+	public static boolean existsById(Connection db, int contractId) throws SQLException {
+		boolean ret = false;
+		PreparedStatement stmt = db.prepareStatement(SELECT_BY_ID_EXISTS_SQL);
+		stmt.setInt(1, contractId);
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()) {
+			ret = true;
+		}
+		Utils.closeQuietly(rs);
+		Utils.closeQuietly(stmt);
+		return ret;
 	}
 
 	public static void upsertMany(Connection db, List<Contract> l) throws SQLException {
