@@ -209,7 +209,8 @@ CREATE TABLE `dirtapiauth` (
 	PRIMARY KEY (`keyId`),
 	FOREIGN KEY (`userId`)
 		REFERENCES `dirtuser` (`userId`)
-		ON DELETE CASCADE
+		ON DELETE CASCADE,
+	KEY `ix_dirtapiauth_charId` (`charId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `dirtstructauth` (
