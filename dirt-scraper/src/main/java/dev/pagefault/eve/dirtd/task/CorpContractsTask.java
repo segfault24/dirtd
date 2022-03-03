@@ -2,6 +2,7 @@ package dev.pagefault.eve.dirtd.task;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -114,18 +115,20 @@ public class CorpContractsTask extends DirtTask {
 	}
 
 	private List<DirtTask> checkContractItems(OAuthUser auth, List<Contract> contracts, int corpId) {
-		List<DirtTask> tasks = new ArrayList<DirtTask>();
-		for (Contract contract : contracts) {
-			if (contract.getType() == ContractType.ITEM_EXCHANGE) {
-				try {
-					if (!CorpContractTable.existsById(getDb(), contract.getContractId())) {
-						// we haven't seen this contract before, get the items
-						tasks.add(new CorpContractItemsTask(corpId, contract.getContractId(), auth.getKeyId()));
-					}
-				} catch (SQLException e) {
-					log.error("Failed to search for contract " + contract.getContractId()+ ": " + e.getLocalizedMessage());
-					log.debug(e);
-				}
+		// check db for the existence of these contractids, effectively returning a list of what is already in the db
+		// anything not in the resultset needs to have an item task queued
+		List<DirtTask> tasks = new ArrayList<>();
+		HashSet<Integer> exists = null;
+		try {
+			exists = CorpContractTable.existsByIdExchangeBulk(getDb(), contracts);
+		} catch (SQLException e) {
+			log.error("Failed to look up if corpcontracts already exist " + e.getLocalizedMessage());
+			return tasks;
+		}
+		for (Contract c : contracts) {
+			if (!exists.contains(c.getContractId())) {
+				// we haven't seen this contract before, get the items
+				tasks.add(new CorpContractItemsTask(corpId, c.getContractId(), auth.getKeyId()));
 			}
 		}
 		return tasks;

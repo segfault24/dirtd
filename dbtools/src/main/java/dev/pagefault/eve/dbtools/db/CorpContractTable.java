@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import dev.pagefault.eve.dbtools.model.Contract;
 import dev.pagefault.eve.dbtools.model.Contract.ContractAvailability;
@@ -21,7 +23,8 @@ public class CorpContractTable {
 			+ "`daysToComplete`,`price`,`reward`,`collateral`,`buyout`,`volume`"
 			+ " FROM corpcontract WHERE contractId=?";
 
-	private static final String SELECT_BY_ID_EXISTS_SQL = "SELECT `contractId` FROM corpcontract WHERE contractId=?";
+	private static final String SELECT_BY_IDS_EXCH_EXISTS_SQL = "SELECT `contractId` FROM corpcontract"
+			+ " WHERE `contractId` IN (%s) AND `type`=" + ContractType.ITEM_EXCHANGE.getValue();
 
 	private static final String SELECT_OUTSTANDING_EXCHANGE_SQL = "SELECT `contractId`,`issuerId`,`issuerCorpId`,"
 			+ "`assigneeId`,`acceptorId`,`availability`,`status`,`type`,`dateIssued`,`dateExpired`,"
@@ -76,17 +79,26 @@ public class CorpContractTable {
 		return c;
 	}
 
-	public static boolean existsById(Connection db, int contractId) throws SQLException {
-		boolean ret = false;
-		PreparedStatement stmt = db.prepareStatement(SELECT_BY_ID_EXISTS_SQL);
-		stmt.setInt(1, contractId);
+	public static HashSet<Integer> existsByIdExchangeBulk(Connection db, List<Contract> contracts) throws SQLException {
+		String sql = String.format(SELECT_BY_IDS_EXCH_EXISTS_SQL, contracts.stream()
+				.filter(contract -> contract.getType()==ContractType.ITEM_EXCHANGE)
+				.map(v -> "?")
+				.collect(Collectors.joining(",")));
+		PreparedStatement stmt = db.prepareStatement(sql);
+		int i = 1;
+		for (Contract c : contracts) {
+			if (c.getType() == ContractType.ITEM_EXCHANGE) {
+				stmt.setInt(i++, c.getContractId());
+			}
+		}
+		HashSet<Integer> exists = new HashSet<>();
 		ResultSet rs = stmt.executeQuery();
-		if (rs.next()) {
-			ret = true;
+		while (rs.next()) {
+			exists.add(rs.getInt(1));
 		}
 		Utils.closeQuietly(rs);
 		Utils.closeQuietly(stmt);
-		return ret;
+		return exists;
 	}
 
 	public static void upsertMany(Connection db, List<Contract> l) throws SQLException {
