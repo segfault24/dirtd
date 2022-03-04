@@ -126,7 +126,7 @@ public class CorpContractsTask extends DirtTask {
 			return tasks;
 		}
 		for (Contract c : contracts) {
-			if (!exists.contains(c.getContractId())) {
+			if (!exists.contains(c.getContractId()) && c.getType()==ContractType.ITEM_EXCHANGE) {
 				// we haven't seen this contract before, get the items
 				tasks.add(new CorpContractItemsTask(corpId, c.getContractId(), auth.getKeyId()));
 			}
