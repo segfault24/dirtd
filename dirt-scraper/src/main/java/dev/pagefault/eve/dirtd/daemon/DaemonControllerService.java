@@ -25,10 +25,10 @@ import java.sql.SQLException;
 
 public class DaemonControllerService extends DaemonControllerGrpc.DaemonControllerImplBase {
 
-	private static Logger log = LogManager.getLogger();
+	private static final Logger log = LogManager.getLogger();
 
-	private DbPool dbPool;
-	private TaskExecutor executor;
+	private final DbPool dbPool;
+	private final TaskExecutor executor;
 
 	public DaemonControllerService(DbPool dbPool, TaskExecutor executor) {
 		this.dbPool = dbPool;
@@ -117,7 +117,7 @@ public class DaemonControllerService extends DaemonControllerGrpc.DaemonControll
 			} catch (NumberFormatException e) {
 				rstatus = RequestStatus.newBuilder().setSuccess(false).setMessage("Invalid pool size").build();
 			}
-		} else if (request.getPropertyName().equalsIgnoreCase(DirtConstants.PROPERTY_LOG_LEVEL)) {
+		} else if (request.getPropertyName().equalsIgnoreCase("loglevel")) {
 			try {
 				Level l = Level.valueOf(request.getPropertyValue());
 				Configurator.setRootLevel(l);

@@ -58,7 +58,7 @@ public class CharacterTask extends DirtTask {
 				c.setBirthday(new Date(0));
 				try {
 					CharacterTable.upsert(getDb(), c);
-					log.warn("Inserted null character for deleted character " + charId);
+					log.info("Inserted null character for deleted character " + charId);
 				} catch (SQLException ex) {
 					log.error("Failed to insert info for character " + charId + ": " + e.getLocalizedMessage());
 					log.debug(e);

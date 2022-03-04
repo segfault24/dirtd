@@ -1,16 +1,5 @@
 package dev.pagefault.eve.dirtd;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
-
 import dev.pagefault.eve.dbtools.util.DbInfo;
 import dev.pagefault.eve.dbtools.util.DbPool;
 import dev.pagefault.eve.dbtools.util.Utils;
@@ -34,13 +23,21 @@ import dev.pagefault.eve.dirtd.task.PublicStructuresTask;
 import dev.pagefault.eve.dirtd.task.UnknownIdsTask;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author austin
  */
 public class DirtDaemon {
 
-	private static Logger log = LogManager.getLogger();
+	private static final Logger log = LogManager.getLogger();
 
 	private boolean startWithPeriodicTasks = true;
 	private final DbPool dbPool;
@@ -58,20 +55,13 @@ public class DirtDaemon {
 	}
 
 	public void start() throws IOException, SQLException {
-		Connection db = dbPool.acquire();
-		Level l = Level.valueOf(Utils.getProperty(db, DirtConstants.PROPERTY_LOG_LEVEL));
-		Configurator.setRootLevel(l);
-		dbPool.release(db);
-
-		log.warn("Log level: " + l.name());
-
 		log.info("=======================================");
-		log.info("==  dirtd task executor starting up  ==");
+		log.warn("==  dirtd task executor starting up  ==");
 		log.info("=======================================");
 		executor.init();
 
 		log.info("=====================================");
-		log.info("==  dirtd grpc server starting up  ==");
+		log.warn("==  dirtd grpc server starting up  ==");
 		log.info("=====================================");
 		server.start();
 
