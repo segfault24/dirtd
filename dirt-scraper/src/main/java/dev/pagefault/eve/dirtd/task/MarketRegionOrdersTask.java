@@ -72,7 +72,7 @@ public class MarketRegionOrdersTask extends DirtTask {
 		// get orders in structures in this region
 		doStructOrders();
 
-		log.info("Time spent e/t/l : " + eTime + "/" + tTime + "/" + lTime);
+		log.debug("Time spent e/t/l : " + eTime + "/" + tTime + "/" + lTime);
 
 		// update this as the latest set
 		try {
@@ -109,7 +109,7 @@ public class MarketRegionOrdersTask extends DirtTask {
 
 		// spawn L thread
 		Thread l = new Thread(new LWorkerThread(getDb(), queue));
-		l.setName("mrot-load-" + region);
+		l.setName("mrot-" + region + "-load");
 		l.start();
 
 		// spawn ET threads
@@ -121,7 +121,7 @@ public class MarketRegionOrdersTask extends DirtTask {
 			int s = p;
 			int e = Math.min(s + range, numPages);
 			Thread t = new Thread(new ETWorkerThread(setId, region, s, e, queue));
-			t.setName("mrot-extr-" + region + "-" + i);
+			t.setName("mrot-" + region + "-extr-" + i);
 			threads.add(t);
 			t.start();
 			p = e;
@@ -352,7 +352,7 @@ public class MarketRegionOrdersTask extends DirtTask {
 				}
 			}
 
-			log.info("Time spent e/t : " + eTime + "/" + tTime);
+			log.debug("Total time spent: " + eTime + "/" + tTime);
 		}
 	}
 
@@ -413,7 +413,7 @@ public class MarketRegionOrdersTask extends DirtTask {
 				lTime += System.currentTimeMillis() - lStart;
 			}
 
-			log.info("Time spent l : " + lTime);
+			log.debug("Total time spent: " + lTime);
 		}
 	}
 }
