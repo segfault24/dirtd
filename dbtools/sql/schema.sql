@@ -631,16 +631,27 @@ CREATE TABLE `dlocation` (
 
 -- -----------------------------------------------------------------------------
 
-CREATE VIEW vjitabestbuy AS SELECT typeId, MAX(price) AS best FROM marketorder
-    WHERE setId=(SELECT setId FROM latestset WHERE regionId=10000002)
-    AND locationId IN (60003760, 1028858195912) AND isBuyOrder=1 GROUP BY typeId;
-CREATE VIEW vjitabestsell AS SELECT typeId, MIN(price) AS best FROM marketorder
-    WHERE setId=(SELECT setId FROM latestset WHERE regionId=10000002)
-    AND locationId IN (60003760, 1028858195912) AND isBuyOrder=0 GROUP BY typeId;
-CREATE VIEW vamarrbestbuy AS SELECT typeId, MAX(price) AS best FROM marketorder
-    WHERE setId=(SELECT setId FROM latestset WHERE regionId=10000043)
-    AND locationId=60008494 AND isBuyOrder=1 GROUP BY typeId;
-CREATE VIEW vamarrbestsell AS SELECT typeId, MIN(price) AS best FROM marketorder
-    WHERE setId=(SELECT setId FROM latestset WHERE regionId=10000043)
-    AND locationId=60008494 AND isBuyOrder=0 GROUP BY typeId;
+CREATE TABLE `vjitabestsell` (
+	`typeId` INT UNSIGNED NOT NULL,
+	`best` DOUBLE NOT NULL,
+	PRIMARY KEY (`typeId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `vjitabestbuy` (
+	`typeId` INT UNSIGNED NOT NULL,
+	`best` DOUBLE NOT NULL,
+	PRIMARY KEY (`typeId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `vamarrbestsell` (
+	`typeId` INT UNSIGNED NOT NULL,
+	`best` DOUBLE NOT NULL,
+	PRIMARY KEY (`typeId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `vamarrbestbuy` (
+	`typeId` INT UNSIGNED NOT NULL,
+	`best` DOUBLE NOT NULL,
+	PRIMARY KEY (`typeId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

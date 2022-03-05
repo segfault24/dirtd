@@ -80,6 +80,22 @@ public class MarketRegionOrdersTask extends DirtTask {
 		} catch (SQLException e) {
 			log.error("Failed to update pointer to latest set for region " + region, e);
 		}
+
+		// update the materialized views for best pricing
+		if (region == 10000002) {
+			// jita + TTT
+			List<Long> locations = new ArrayList<>();
+			locations.add(60003760L);
+			locations.add(1028858195912L);
+			getExecutor().scheduleTask(new MaterializedPriceViewTask("vjitabestbuy", 10000002, locations, true));
+			getExecutor().scheduleTask(new MaterializedPriceViewTask("vjitabestsell", 10000002, locations, false));
+		} else if (region == 10000043) {
+			// amarr
+			List<Long> locations = new ArrayList<>();
+			locations.add(60008494L);
+			getExecutor().scheduleTask(new MaterializedPriceViewTask("vamarrbestbuy", 10000043, locations, true));
+			getExecutor().scheduleTask(new MaterializedPriceViewTask("vamarrbestsell", 10000043, locations, false));
+		}
 	}
 
 	private void doPublicOrders() {

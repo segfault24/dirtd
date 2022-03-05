@@ -2,10 +2,10 @@ USE eve;
 
 DROP TABLE IF EXISTS `dentity`;
 DROP TABLE IF EXISTS `dlocation`;
-DROP VIEW IF EXISTS `vamarrbestsell`;
-DROP VIEW IF EXISTS `vamarrbestbuy`;
-DROP VIEW IF EXISTS `vjitabestsell`;
-DROP VIEW IF EXISTS `vjitabestbuy`;
+DROP TABLE IF EXISTS `vamarrbestsell`;
+DROP TABLE IF EXISTS `vamarrbestbuy`;
+DROP TABLE IF EXISTS `vjitabestsell`;
+DROP TABLE IF EXISTS `vjitabestbuy`;
 DROP TABLE IF EXISTS `mersinkfaucet`;
 DROP TABLE IF EXISTS `merregstat`;
 DROP TABLE IF EXISTS `merproddestmine`;
