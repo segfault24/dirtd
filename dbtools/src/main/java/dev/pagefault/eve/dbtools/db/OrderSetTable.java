@@ -7,14 +7,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderSetTable {
 
     private static final String INSERT_SQL = "INSERT INTO orderset (`regionId`,`retrieved`) VALUES (?,?)";
     private static final String UPSERT_LATEST_SQL = "INSERT INTO latestset (`regionId`,`setId`) VALUES (?,?)" +
             " ON DUPLICATE KEY UPDATE `setId`=VALUES(`setId`)";
-    private static final String DELETE_OLD_SQL = "DELETE FROM orderset WHERE `retrieved`<? LIMIT 1";
+
+    private static final String SELECT_OLD_SET_SQL = "SELECT setId FROM orderset WHERE `retrieved`<?";
+    private static final String DELETE_SET_SQL = "DELETE FROM orderset WHERE `setId`=?";
 
     public static int buildNewSet(Connection db, int regionId) throws SQLException {
         PreparedStatement stmt = db.prepareStatement(INSERT_SQL, Statement.RETURN_GENERATED_KEYS);
@@ -35,9 +40,20 @@ public class OrderSetTable {
         stmt.executeUpdate();
     }
 
-    public static int deleteOneOldSet(Connection db, Timestamp olderThan) throws SQLException {
-        PreparedStatement stmt = db.prepareStatement(DELETE_OLD_SQL);
+    public static List<Integer> findOldSets(Connection db, Timestamp olderThan) throws SQLException {
+        PreparedStatement stmt = db.prepareStatement(SELECT_OLD_SET_SQL);
         stmt.setTimestamp(1, olderThan);
+        ArrayList<Integer> result = new ArrayList<>();
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            result.add(rs.getInt(1));
+        }
+        return result;
+    }
+
+    public static int deleteSet(Connection db, int setId) throws SQLException {
+        PreparedStatement stmt = db.prepareStatement(DELETE_SET_SQL);
+        stmt.setInt(1, setId);
         return stmt.executeUpdate();
     }
 

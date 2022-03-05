@@ -16,6 +16,8 @@ public class MarketOrderTable {
 			+ ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE "
 			+ "`volumeRemain`=VALUES(`volumeRemain`),`price`=VALUES(`price`),"
 			+ "`retrieved`=VALUES(`retrieved`),`issued`=VALUES(`issued`)";
+	private static final String DELETE_CHUNK_BY_SET_SQL = "DELETE FROM marketorder "
+			+ "WHERE `setId`=? LIMIT ?;";
 
 	private static final int BATCH_SIZE = 1000;
 
@@ -42,6 +44,13 @@ public class MarketOrderTable {
 			}
 		}
 		Utils.closeQuietly(stmt);
+	}
+
+	public static int deleteChunkOfSet(Connection db, int setId, long batchSize) throws SQLException {
+		PreparedStatement stmt = db.prepareStatement(DELETE_CHUNK_BY_SET_SQL);
+		stmt.setInt(1, setId);
+		stmt.setLong(2, batchSize);
+		return stmt.executeUpdate();
 	}
 
 }
