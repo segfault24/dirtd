@@ -2,9 +2,9 @@
 Description=DIRT Daemon Service
 
 [Service]
-WorkingDirectory=/opt/dirtd/dirt-scraper
-ExecStart=/usr/bin/java -Xms128m -Xmx1G \
-        -cp "dirtd.jar:lib/*" \
+WorkingDirectory=/opt/dirtd
+ExecStart=/usr/bin/java -Xms20m -Xmx200m \
+        -cp "dirt-scraper.jar:lib/*" \
         -Dconfig="cfg/db.ini" \
         -Dlog4j.configurationFile="cfg/log4j2.xml" \
         dev.pagefault.eve.dirtd.DirtDaemon
