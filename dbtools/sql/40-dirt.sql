@@ -1,10 +1,11 @@
 USE eve;
 
 DROP USER IF EXISTS 'dirt'@'localhost';
-DROP USER IF EXISTS 'dirt'@'DOMAINNAME';
+-- DROP USER IF EXISTS 'dirt'@'DOMAINNAME';
 CREATE USER 'dirt'@'localhost' IDENTIFIED BY 'DIRTDBPW';
-CREATE USER 'dirt'@'DOMAINNAME' IDENTIFIED BY 'DIRTDBPW';
-GRANT ALL ON eve.* TO 'dirt'@'localhost','dirt'@'DOMAINNAME';
+-- CREATE USER 'dirt'@'DOMAINNAME' IDENTIFIED BY 'DIRTDBPW';
+GRANT ALL ON eve.* TO 'dirt'@'localhost';
+-- GRANT ALL ON eve.* TO 'dirt'@'DOMAINNAME';
 FLUSH PRIVILEGES;
 
 -- -----------------------------------------------------------------------------

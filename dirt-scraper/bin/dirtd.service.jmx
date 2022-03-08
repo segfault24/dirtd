@@ -1,0 +1,25 @@
+[Unit]
+Description=DIRT Daemon Service
+
+[Service]
+WorkingDirectory=/opt/dirtd
+ExecStart=/usr/bin/java -Xms20m -Xmx200m \
+        -Dcom.sun.management.jmxremote \
+        -Dcom.sun.management.jmxremote.port=9010 \
+        -Dcom.sun.management.jmxremote.rmi.port=9010 \
+        -Djava.rmi.server.hostname=127.0.0.1 \
+        -Dcom.sun.management.jmxremote.authenticate=false \
+        -Dcom.sun.management.jmxremote.ssl=false \
+        -cp "dirt-scraper.jar:lib/*" \
+        -Dconfig="cfg/db.ini" \
+        -Dlog4j.configurationFile="cfg/log4j2.xml" \
+        dev.pagefault.eve.dirtd.DirtDaemon
+
+User=dirt
+Type=simple
+Restart=on-failure
+RestartSec=10
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

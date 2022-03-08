@@ -70,7 +70,7 @@ CREATE TABLE `invtype` (
 	PRIMARY KEY (`typeId`),
 	KEY `ix_invtype_groupId` (`groupId`),
 	KEY `ix_invtype_marketGroupId` (`marketGroupId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED;
 
 CREATE TABLE `marketgroup` (
 	`marketGroupId` int(11) NOT NULL,
@@ -238,7 +238,7 @@ CREATE TABLE `apireq` (
 	`apiReqName` VARCHAR(64) NOT NULL,
 	`etag` VARCHAR(64),
 	PRIMARY KEY (`apiReqName`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED;
 
 CREATE TABLE `walletjournal` (
 	`journalId` BIGINT,
@@ -398,7 +398,7 @@ CREATE TABLE `corpcontract` (
 		REFERENCES `contractstatus`(`id`),
 	FOREIGN KEY (`availability`)
 		REFERENCES `contractavailability`(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED;
 
 CREATE TABLE `corpcontractitem` (
 	`contractItemId` INT AUTO_INCREMENT,
@@ -413,7 +413,7 @@ CREATE TABLE `corpcontractitem` (
 		REFERENCES `corpcontract`(`contractId`)
 		ON DELETE CASCADE,
 	KEY `ix_corpcontractitem_contractId` (`contractId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED;
 
 CREATE TABLE `publiccontract` (
 	`contractId` INT NOT NULL,
@@ -440,7 +440,7 @@ CREATE TABLE `publiccontract` (
 		REFERENCES `contracttype`(`id`),
 	FOREIGN KEY (`status`)
 		REFERENCES `contractstatus`(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED;
 
 CREATE TABLE `publiccontractitem` (
 	`contractItemId` INT AUTO_INCREMENT,
@@ -459,7 +459,7 @@ CREATE TABLE `publiccontractitem` (
 		REFERENCES `publiccontract`(`contractId`)
 		ON DELETE CASCADE,
 	KEY `ix_publiccontractitem_contractId` (`contractId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED;
 
 -- -----------------------------------------------------------------------------
 
@@ -476,7 +476,7 @@ CREATE TABLE `markethistory` (
 	PRIMARY KEY (`histEntryId`),
 	UNIQUE KEY `ux_markethistory_typeId_regionId_date` (`typeId`,`regionId`,`date`),
 	KEY `ix_markethistory_typeId_regionId` (`typeId`, `regionId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED;
 
 CREATE TABLE `marketstat` (
 	`statId` INT AUTO_INCREMENT,

@@ -3,6 +3,12 @@
 These instructions are based on Ubuntu 20.04, MySQL 8.0.28 and are provided for example only.
 
 ## Database
+Disable swap `swapoff -a` and remove /etc/fstab entries.
+
+For VPS with smaller disk space, add to root crontab
+```
+0 8  *   *   *     journalctl --vacuum-size=200M
+```
 Configure `/etc/mysql/mysql.conf.d/mysqld.conf`
 ```properties
 [mysqld]
@@ -18,18 +24,19 @@ skip-log-bin
 ```
 Initialize schema
 ```shell
-mysql -u root < /opt/dirtd/cfg/schema.sql
-cp /opt/dirtd/cfg/dirt.sql.template /opt/dirtd/cfg/dirt.sql
-vi /opt/dirtd/cfg/dirt.sql
-mysql -u root < /opt/dirtd/cfg/dirt.sql
+vi /opt/dirtd/cfg/40-dirt.sql
+mysql -u root -e 'CREATE DATABASE eve;'
+mysql -u root eve < /opt/dirtd/sql/10-schema.sql
+mysql -u root eve < /opt/dirtd/sql/20-invTypeMaterials.sql
+mysql -u root eve < /opt/dirtd/sql/30-industryActivityProducts.sql
+mysql -u root eve < /opt/dirtd/sql/40-dirt.sql
 ```
-
-Allow access from VPC
+Allow access from VPC, if applicable
 ```shell
 ufw allow from 10.0.0.0/8 proto tcp to any port 3306
 ```
 ```mysql-sql
-GRANT ALL ON eve.* TO 'dirt'@'10.0.0.0/255.0.0.0' IDENTIFIED BY 'passwordhere';
+GRANT ALL ON eve.* TO 'dirt'@'10.0.0.0/255.0.0.0';
 ```
 
 ## ESI Scraper
@@ -39,17 +46,19 @@ useradd dirt
 tar xf dirt-scraper-1.0.0.tar.gz -C /opt
 mv /opt/dirt-scraper-1.0.0 /opt/dirtd
 mkdir /opt/dirtd/logs
+cp /opt/dirtd/cfg/db.ini.template /opt/dirtd/cfg/db.ini
+vi /opt/dirtd/cfg/db.ini
 chown -R dirt:dirt /opt/dirtd/
 ln -s /opt/dirtd/dirt-scraper-*.jar /opt/dirtd/dirt-scraper.jar
 cp -f /opt/dirtd/bin/dirtd.service /etc/systemd/system/
 systemctl daemon-reload
 systemctl enable dirtd
-cp /opt/dirtd/cfg/db.ini.template /opt/dirtd/cfg/db.ini
-vi /opt/dirtd/cfg/db.ini
 systemctl start dirtd
 ```
 
 ## WebUI
 ```shell
-
+apt install -y apache2 php
+ufw allow from any proto tcp to any port 80
+ufw allow from any proto tcp to any port 443
 ```
