@@ -49,15 +49,16 @@ public class MarketHistoryTask extends DirtTask {
 			log.debug(e);
 			return;
 		}
-		int s = types.size();
-		List<Integer> a = types.subList(0, s / 4);
-		List<Integer> b = types.subList(s / 4, s / 2);
-		List<Integer> c = types.subList(s / 2, 3 * s / 4);
-		List<Integer> d = types.subList(3 * s / 4, s);
-		getExecutor().scheduleTask(new HistorySubTask(region, a, 1));
-		getExecutor().scheduleTask(new HistorySubTask(region, b, 2));
-		getExecutor().scheduleTask(new HistorySubTask(region, c, 3));
-		getExecutor().scheduleTask(new HistorySubTask(region, d, 4));
+//		int s = types.size();
+//		List<Integer> a = types.subList(0, s / 4);
+//		List<Integer> b = types.subList(s / 4, s / 2);
+//		List<Integer> c = types.subList(s / 2, 3 * s / 4);
+//		List<Integer> d = types.subList(3 * s / 4, s);
+//		getExecutor().scheduleTask(new HistorySubTask(region, a, 1));
+//		getExecutor().scheduleTask(new HistorySubTask(region, b, 2));
+//		getExecutor().scheduleTask(new HistorySubTask(region, c, 3));
+//		getExecutor().scheduleTask(new HistorySubTask(region, d, 4));
+		getExecutor().scheduleTask(new HistorySubTask(region, types, 1));
 	}
 
 	private static class HistorySubTask extends DirtTask {
