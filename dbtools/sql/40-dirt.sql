@@ -31,7 +31,6 @@ INSERT INTO `property` (`propertyName`,`propertyValue`) VALUES ("scraperkeyid","
 INSERT INTO `property` (`propertyName`,`propertyValue`) VALUES ("scrapercorpid","1018389948");
 INSERT INTO `property` (`propertyName`,`propertyValue`) VALUES ("ssoclientid","APPCLIENTID");
 INSERT INTO `property` (`propertyName`,`propertyValue`) VALUES ("ssosecretkey","APPSECRETKEY");
-INSERT INTO `property` (`propertyName`,`propertyValue`) VALUES ("threads","4");
 INSERT INTO `property` (`propertyName`,`propertyValue`) VALUES ("marketorders.regions","10000002,10000043");
 INSERT INTO `property` (`propertyName`,`propertyValue`) VALUES ("marketorders.period","20");
 INSERT INTO `property` (`propertyName`,`propertyValue`) VALUES ("marketorders.maxage","120");

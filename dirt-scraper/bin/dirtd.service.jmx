@@ -11,6 +11,7 @@ ExecStart=/usr/bin/java -Xms20m -Xmx200m \
         -Dcom.sun.management.jmxremote.authenticate=false \
         -Dcom.sun.management.jmxremote.ssl=false \
         -cp "dirt-scraper.jar:lib/*" \
+        -Ddirtd.numWorkers=8 \
         -Dconfig="cfg/db.ini" \
         -Dlog4j.configurationFile="cfg/log4j2.xml" \
         dev.pagefault.eve.dirtd.DirtDaemon

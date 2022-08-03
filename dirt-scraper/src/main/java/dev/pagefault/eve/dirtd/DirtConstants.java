@@ -4,7 +4,6 @@ public interface DirtConstants {
 
 	public static final String PROPERTY_DOMAIN = "domain";
 	public static final String PROPERTY_ADMIN_EMAIL = "adminemail";
-	public static final String PROPERTY_NUM_THREADS = "threads";
 
 	public static final String PROPERTY_MARKET_ORDERS_REGIONS = "marketorders.regions";
 	public static final String PROPERTY_MARKET_ORDERS_PERIOD = "marketorders.period";

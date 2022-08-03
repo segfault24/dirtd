@@ -21,6 +21,8 @@ import java.util.concurrent.TimeUnit;
 public class TaskExecutor extends ScheduledThreadPoolExecutor implements Taskable {
 
 	private static final Logger log = LogManager.getLogger();
+	private static final String NUM_WORKERS_PROPERTY = "dirtd.numWorkers";
+	private static final int DEFAULT_NUM_WORKERS = 4;
 
 	private final long started = System.currentTimeMillis();
 	private final DbPool dbPool;
@@ -42,10 +44,20 @@ public class TaskExecutor extends ScheduledThreadPoolExecutor implements Taskabl
 
 	public void init() throws SQLException {
 		Connection db = dbPool.acquire();
-		int threads = Utils.getIntProperty(db, DirtConstants.PROPERTY_NUM_THREADS);
-		setCorePoolSize(threads);
-		dbPool.setMinPoolSize(threads);
-		log.info("Starting with " + threads + " worker threads");
+		int numWorkers = DEFAULT_NUM_WORKERS;
+		try {
+			String numWorkersStr = System.getProperty(NUM_WORKERS_PROPERTY);
+			if (numWorkersStr != null) {
+				numWorkers = Integer.parseInt(numWorkersStr);
+			} else {
+				log.warn("The " + NUM_WORKERS_PROPERTY + " property is not set, defaulting to " + DEFAULT_NUM_WORKERS);
+			}
+		} catch(NumberFormatException e) {
+			log.error("Failed to parse " + NUM_WORKERS_PROPERTY + " property, defaulting to " + DEFAULT_NUM_WORKERS);
+		}
+		setCorePoolSize(numWorkers);
+		dbPool.setMinPoolSize(numWorkers);
+		log.info("Starting with " + numWorkers + " worker threads");
 		dbPool.release(db);
 	}
 
