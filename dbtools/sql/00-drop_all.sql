@@ -22,6 +22,8 @@ DROP TABLE IF EXISTS `contractitem`;
 DROP TABLE IF EXISTS `contract`;
 DROP TABLE IF EXISTS `corpcontractitem`;
 DROP TABLE IF EXISTS `corpcontract`;
+DROP TABLE IF EXISTS `publiccontractitem`;
+DROP TABLE IF EXISTS `publiccontract`;
 DROP TABLE IF EXISTS `contractavailability`;
 DROP TABLE IF EXISTS `contractstatus`;
 DROP TABLE IF EXISTS `contracttype`;
