@@ -122,6 +122,15 @@ public class MarketHistoryTask extends DirtTask {
 					history = mapiw.getMarketsRegionIdHistory(regionId, typeId);
 					break;
 				} catch (ApiException e) {
+					if (e.getCode() == 404) {
+						// slow down since ESI counts 404s towards the error count... (even on valid items!)
+						try {
+							Thread.sleep(5000);
+						} catch (InterruptedException ie) {
+
+						}
+						break;
+					}
 					if (retry == 3) {
 						log.error("Failed to retrieve history for type " + typeId + " for region " + regionId + ": " + e.getLocalizedMessage());
 						log.debug(e);
