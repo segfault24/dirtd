@@ -3,8 +3,6 @@ package dev.pagefault.eve.dirtd;
 import dev.pagefault.eve.dbtools.util.DbInfo;
 import dev.pagefault.eve.dbtools.util.DbPool;
 import dev.pagefault.eve.dbtools.util.Utils;
-import dev.pagefault.eve.dirtd.daemon.DaemonControllerService;
-import dev.pagefault.eve.dirtd.daemon.TaskControllerService;
 import dev.pagefault.eve.dirtd.daemon.TaskExecutor;
 import dev.pagefault.eve.dirtd.task.CorpContractsItemRetryTask;
 import dev.pagefault.eve.dirtd.task.CorpContractsTask;
@@ -21,8 +19,6 @@ import dev.pagefault.eve.dirtd.task.OrderReaperTask;
 import dev.pagefault.eve.dirtd.task.PublicContractsTask;
 import dev.pagefault.eve.dirtd.task.PublicStructuresTask;
 import dev.pagefault.eve.dirtd.task.UnknownIdsTask;
-import io.grpc.Server;
-import io.grpc.ServerBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,7 +26,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author austin
@@ -42,16 +37,11 @@ public class DirtDaemon {
 	private boolean startWithPeriodicTasks = true;
 	private final DbPool dbPool;
 	private final TaskExecutor executor;
-	private final Server server;
 
 	public DirtDaemon(int port, boolean startWithPeriodicTasks) {
 		this.startWithPeriodicTasks = startWithPeriodicTasks;
 		dbPool = new DbPool(new DbInfo());
 		executor = new TaskExecutor(dbPool);
-		ServerBuilder<?> builder = ServerBuilder.forPort(port);
-		builder.addService(new TaskControllerService(executor));
-		builder.addService(new DaemonControllerService(dbPool, executor));
-		server = builder.build();
 	}
 
 	public void start() throws IOException, SQLException {
@@ -59,11 +49,6 @@ public class DirtDaemon {
 		log.warn("==  dirtd task executor starting up  ==");
 		log.info("=======================================");
 		executor.init();
-
-		log.info("=====================================");
-		log.warn("==  dirtd grpc server starting up  ==");
-		log.info("=====================================");
-		server.start();
 
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
@@ -84,17 +69,8 @@ public class DirtDaemon {
 	}
 
 	public void stop() throws InterruptedException {
-		if (server != null) {
-			server.shutdown().awaitTermination(30, TimeUnit.SECONDS);
-		}
 		if (executor != null) {
 			executor.stopAll();
-		}
-	}
-
-	public void blockUntilShutdown() throws InterruptedException {
-		if (server != null) {
-			server.awaitTermination();
 		}
 	}
 
@@ -189,7 +165,6 @@ public class DirtDaemon {
 
 		DirtDaemon d = new DirtDaemon(6524, !notasks);
 		d.start();
-		d.blockUntilShutdown();
 	}
 
 }

@@ -21,11 +21,6 @@
             <artifactId>dbtools</artifactId>
             <version>1.0.0</version>
         </dependency>
-        <dependency>
-            <groupId>dev.pagefault.eve</groupId>
-            <artifactId>dirt-grpc</artifactId>
-            <version>1.0.0</version>
-        </dependency>
     </dependencies>
 
     <properties>
