@@ -2,7 +2,7 @@
 
 cd `dirname "$0"`
 
-codegenver=2.4.9
+codegenver=2.4.27
 jar=swagger-codegen-cli-${codegenver}.jar
 url=https://esi.evetech.net/_latest/swagger.json?datasource=tranquility
 cfg=esi.swaggergen.config

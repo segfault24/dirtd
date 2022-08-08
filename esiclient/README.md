@@ -1,8 +1,8 @@
 # esiclient
 
 EVE Swagger Interface
-- API version: 1.10.1
-  - Build date: 2022-02-28T09:30:14.131-05:00
+- API version: 1.12
+  - Build date: 2022-08-07T20:58:31.116-04:00
 
 An OpenAPI for EVE Online
 
@@ -258,7 +258,6 @@ Class | Method | HTTP request | Description
 *PlanetaryInteractionApi* | [**getUniverseSchematicsSchematicId**](docs/PlanetaryInteractionApi.md#getUniverseSchematicsSchematicId) | **GET** /v1/universe/schematics/{schematic_id}/ | Get schematic information
 *RoutesApi* | [**getRouteOriginDestination**](docs/RoutesApi.md#getRouteOriginDestination) | **GET** /v1/route/{origin}/{destination}/ | Get route
 *SearchApi* | [**getCharactersCharacterIdSearch**](docs/SearchApi.md#getCharactersCharacterIdSearch) | **GET** /v3/characters/{character_id}/search/ | Search on a string
-*SearchApi* | [**getSearch**](docs/SearchApi.md#getSearch) | **GET** /v2/search/ | Search on a string
 *SkillsApi* | [**getCharactersCharacterIdAttributes**](docs/SkillsApi.md#getCharactersCharacterIdAttributes) | **GET** /v1/characters/{character_id}/attributes/ | Get character attributes
 *SkillsApi* | [**getCharactersCharacterIdSkillqueue**](docs/SkillsApi.md#getCharactersCharacterIdSkillqueue) | **GET** /v2/characters/{character_id}/skillqueue/ | Get character&#39;s skill queue
 *SkillsApi* | [**getCharactersCharacterIdSkills**](docs/SkillsApi.md#getCharactersCharacterIdSkills) | **GET** /v4/characters/{character_id}/skills/ | Get character skills
@@ -544,7 +543,6 @@ Class | Method | HTTP request | Description
  - [GetOpportunitiesGroupsGroupIdOk](docs/GetOpportunitiesGroupsGroupIdOk.md)
  - [GetOpportunitiesTasksTaskIdOk](docs/GetOpportunitiesTasksTaskIdOk.md)
  - [GetRouteOriginDestinationNotFound](docs/GetRouteOriginDestinationNotFound.md)
- - [GetSearchOk](docs/GetSearchOk.md)
  - [GetSovereigntyCampaigns200Ok](docs/GetSovereigntyCampaigns200Ok.md)
  - [GetSovereigntyCampaignsParticipant](docs/GetSovereigntyCampaignsParticipant.md)
  - [GetSovereigntyMap200Ok](docs/GetSovereigntyMap200Ok.md)
