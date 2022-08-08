@@ -140,7 +140,7 @@ public class MarketRegionOrdersTask extends DirtTask {
 			t.setName(threadName);
 			threads.add(t);
 			t.start();
-			System.out.println("Spawned E/T thread " + threadName + " covering pages " + startPage + "-" + endPage);
+			log.debug("Spawned E/T thread " + threadName + " covering pages " + startPage + "-" + endPage);
 			startPage = endPage + 1;
 			i++;
 		}
