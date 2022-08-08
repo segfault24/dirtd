@@ -28,7 +28,7 @@ import java.io.IOException;
  * Schematic not found
  */
 @ApiModel(description = "Schematic not found")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-08-07T20:58:31.116-04:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-08-07T21:44:42.543-04:00")
 public class GetUniverseSchematicsSchematicIdNotFound {
   @SerializedName("error")
   private String error = null;

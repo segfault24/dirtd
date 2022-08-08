@@ -28,7 +28,7 @@ import java.io.IOException;
  * The aggressor corporation or alliance that declared this war, only contains either corporation_id or alliance_id
  */
 @ApiModel(description = "The aggressor corporation or alliance that declared this war, only contains either corporation_id or alliance_id")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-08-07T20:58:31.116-04:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-08-07T21:44:42.543-04:00")
 public class GetWarsWarIdAggressor {
   @SerializedName("alliance_id")
   private Integer allianceId = null;

@@ -28,7 +28,7 @@ import java.io.IOException;
  * character_id and response of an attendee
  */
 @ApiModel(description = "character_id and response of an attendee")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-08-07T20:58:31.116-04:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-08-07T21:44:42.543-04:00")
 public class GetCharactersCharacterIdCalendarEventIdAttendees200Ok {
   @SerializedName("character_id")
   private Integer characterId = null;

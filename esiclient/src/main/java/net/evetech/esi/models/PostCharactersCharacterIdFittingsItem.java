@@ -28,7 +28,7 @@ import java.io.IOException;
  * item object
  */
 @ApiModel(description = "item object")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-08-07T20:58:31.116-04:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-08-07T21:44:42.543-04:00")
 public class PostCharactersCharacterIdFittingsItem {
   /**
    * Fitting location for the item. Entries placed in &#39;Invalid&#39; will be discarded. If this leaves the fitting with nothing, it will cause an error.

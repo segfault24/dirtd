@@ -28,7 +28,7 @@ import java.io.IOException;
  * Optional object that is returned if a bookmark was made on a planet or a random location in space.
  */
 @ApiModel(description = "Optional object that is returned if a bookmark was made on a planet or a random location in space.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-08-07T20:58:31.116-04:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-08-07T21:44:42.543-04:00")
 public class GetCharactersCharacterIdBookmarksCoordinates {
   @SerializedName("x")
   private Double x = null;

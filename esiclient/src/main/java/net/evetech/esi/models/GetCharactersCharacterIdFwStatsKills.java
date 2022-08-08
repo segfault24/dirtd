@@ -28,7 +28,7 @@ import java.io.IOException;
  * Summary of kills done by the given character against enemy factions
  */
 @ApiModel(description = "Summary of kills done by the given character against enemy factions")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-08-07T20:58:31.116-04:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-08-07T21:44:42.543-04:00")
 public class GetCharactersCharacterIdFwStatsKills {
   @SerializedName("last_week")
   private Integer lastWeek = null;
