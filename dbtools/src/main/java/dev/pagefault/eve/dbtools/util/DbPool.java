@@ -49,6 +49,7 @@ public class DbPool {
 			return;
 		}
 		if (!inuse.remove(c) || free.size() + inuse.size() > minSize) {
+			log.debug("Closing database connection");
 			Utils.closeQuietly(c);
 		} else {
 			free.add(c);

@@ -49,6 +49,10 @@ public class TaskExecutor extends ScheduledThreadPoolExecutor implements Taskabl
 			String numWorkersStr = System.getProperty(NUM_WORKERS_PROPERTY);
 			if (numWorkersStr != null) {
 				numWorkers = Integer.parseInt(numWorkersStr);
+				if (numWorkers < 1) {
+					log.warn("The " + NUM_WORKERS_PROPERTY + " property is <1, defaulting to " + DEFAULT_NUM_WORKERS);
+					numWorkers = DEFAULT_NUM_WORKERS;
+				}
 			} else {
 				log.warn("The " + NUM_WORKERS_PROPERTY + " property is not set, defaulting to " + DEFAULT_NUM_WORKERS);
 			}
@@ -56,7 +60,7 @@ public class TaskExecutor extends ScheduledThreadPoolExecutor implements Taskabl
 			log.error("Failed to parse " + NUM_WORKERS_PROPERTY + " property, defaulting to " + DEFAULT_NUM_WORKERS);
 		}
 		setCorePoolSize(numWorkers);
-		dbPool.setMinPoolSize(numWorkers);
+		dbPool.setMinPoolSize((int) (1.25 * numWorkers + 2)); // 25% buffer + 2
 		log.info("Starting with " + numWorkers + " worker threads");
 		dbPool.release(db);
 	}
