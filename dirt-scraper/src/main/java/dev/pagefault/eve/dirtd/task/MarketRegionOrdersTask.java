@@ -109,7 +109,7 @@ public class MarketRegionOrdersTask extends DirtTask {
 			ApiResponse<List<GetMarketsRegionIdOrders200Ok>> resp = mapiw.getMarketsRegionIdOrders(region, 1);
 			orders = resp.getData();
 			numPages = EsiUtils.extractNumPages(resp);
-			log.debug("detected " + numPages + " pages in header");
+			log.debug("Detected " + numPages + " pages in header for region " + region);
 		} catch (ApiException e) {
 			log.error("Failed to retrieve page 1 of orders for region " + region + ": " + e.getLocalizedMessage());
 			log.debug(e);
@@ -130,17 +130,18 @@ public class MarketRegionOrdersTask extends DirtTask {
 
 		// spawn ET threads
 		ArrayList<Thread> threads = new ArrayList<>(NUM_ET_THREADS);
-		int range = numPages / NUM_ET_THREADS;
-		int p = 2;
+		int pagesPerThread = Math.max((int) Math.ceil( ((double)numPages) / NUM_ET_THREADS ), 1);
+		int startPage = 2;
 		int i = 1;
-		while(p < numPages) {
-			int s = p;
-			int e = Math.min(s + range, numPages);
-			Thread t = new Thread(new ETWorkerThread(setId, region, s, e, queue));
-			t.setName("mrot-" + region + "-extr-" + i);
+		while(startPage <= numPages) {
+			int endPage = Math.min(startPage + pagesPerThread - 1, numPages);
+			String threadName = "mrot-" + region + "-extr-" + i;
+			Thread t = new Thread(new ETWorkerThread(setId, region, startPage, endPage, queue));
+			t.setName(threadName);
 			threads.add(t);
 			t.start();
-			p = e;
+			System.out.println("Spawned E/T thread " + threadName + " covering pages " + startPage + "-" + endPage);
+			startPage = endPage + 1;
 			i++;
 		}
 
